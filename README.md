@@ -24,10 +24,7 @@ This project was generated with Angular
 
 - Make sure you have [Docker](https://docs.docker.com/get-docker) installed
 
-- Run:
-  ```bash
-  docker-compose up
-  ```
+- Run `docker-compose up`
 
 - Navigate to [http://localhost:4200/](http://localhost:4200/)
 
@@ -35,6 +32,8 @@ This project was generated with Angular
 
 - Make sure you have [Node.js v18.12](https://nodejs.org/en/download/) installed
   - If you have [nvm - Node Version Manager](https://github.com/nvm-sh/nvm) installed, you could just run `nvm install` and it will install the correct version of Node.js based on file `.npmrc`
+
+- Run `npm install` for installing dependencies
 
 - Run `ng serve` for a dev server
 
