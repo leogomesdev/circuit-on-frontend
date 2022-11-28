@@ -1,5 +1,10 @@
 {
   "name": "propaganda-scheduler",
+  "description": "A system for advertisement management",
+  "author": "Leonardo Gomes da Silva",
+  "engines": {
+    "node": "~18.12"
+  },
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
