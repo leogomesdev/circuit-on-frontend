@@ -7,8 +7,8 @@ import { PropagandaViewerService } from '../services/propaganda-viewer.service';
   styleUrls: ['./propaganda-viewer.component.css'],
 })
 export class PropagandaViewerComponent implements OnInit, OnDestroy {
-  imageSource: string = 'assets/images/placeholder.jpg';
-  backgroundColor: string = 'white';
+  imageSource = 'assets/images/placeholder.jpg';
+  backgroundColor = 'white';
   private propagandaViewerServiceSubscription!: Subscription;
 
   constructor(private propagandaViewerService: PropagandaViewerService) {}
@@ -31,6 +31,8 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
   updatePropagandaOnDisplay(imageSource: string, backgroundColor: string) {
     console.log(`Replacing image with ${imageSource}`);
     this.imageSource = imageSource;
-    this.backgroundColor = backgroundColor;
+    if (backgroundColor !== '') {
+      this.backgroundColor = backgroundColor;
+    }
   }
 }
