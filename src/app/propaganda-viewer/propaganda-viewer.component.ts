@@ -3,7 +3,6 @@ import { Subscription } from 'rxjs';
 import { PropagandaViewerService } from '../services/propaganda-viewer.service';
 
 @Component({
-  selector: 'app-propaganda-viewer',
   templateUrl: './propaganda-viewer.component.html',
   styleUrls: ['./propaganda-viewer.component.css'],
 })
