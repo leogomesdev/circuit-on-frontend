@@ -14,22 +14,22 @@ export class PropagandaViewerService {
     {
       title: 'Sprite',
       type: 'IMG_SOURCE',
-      backgroundColor: 'green',
+      backgroundColor: '',
       data: 'https://www.msureporter.com/wp-content/uploads/2017/04/SpriteWEB.jpg',
-      scheduledTime: '2022-11-30T19:40:00.000Z',
+      scheduledTime: '2023-11-30T20:10:00.000Z',
     },
     {
       title: 'Coca Cola',
       type: 'IMG_SOURCE',
-      backgroundColor: 'black',
+      backgroundColor: '',
       data: 'http://cdn.differencebetween.net/wp-content/uploads/2019/03/Difference-Between-Advertisement-and-Propaganda--768x529.jpg',
-      scheduledTime: '2022-11-30T19:41:10.000Z',
+      scheduledTime: '2023-11-30T20:11:10.000Z',
     },
     {
       title: '7UP',
       type: 'IMG_SOURCE',
       data: 'https://grist.org/wp-content/uploads/2010/07/ad_7up175baby_463x310.jpg',
-      scheduledTime: '2022-11-30T19:42:01.000Z',
+      scheduledTime: '2023-11-30T20:12:01.000Z',
     },
   ];
 

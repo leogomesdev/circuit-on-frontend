@@ -8,7 +8,7 @@ import { PropagandaViewerService } from '../services/propaganda-viewer.service';
 })
 export class PropagandaViewerComponent implements OnInit, OnDestroy {
   imageSource = 'assets/images/placeholder.jpg';
-  backgroundColor = 'white';
+  backgroundColor = '#FFFFFF';
   private propagandaViewerServiceSubscription!: Subscription;
 
   constructor(private propagandaViewerService: PropagandaViewerService) {}
