@@ -1,0 +1,9 @@
+{
+  "trailingSlash": "auto",
+  "routes": [
+    {
+      "route": "/view*",
+      "allowedRoles": ["anonymous"]
+    }
+  ]
+}
