@@ -20,14 +20,14 @@ export class PropagandaViewerService {
       type: 'IMG_SOURCE',
       backgroundColor: '#ff00000',
       data: 'https://www.msureporter.com/wp-content/uploads/2017/04/SpriteWEB.jpg',
-      scheduledTime: '2022-12-01T19:55:00.000Z',
+      scheduledTime: '2022-12-01T21:25:00.000Z',
     },
     {
       title: 'Coca Cola',
       type: 'IMG_SOURCE',
       backgroundColor: '#00ff00',
       data: 'http://cdn.differencebetween.net/wp-content/uploads/2019/03/Difference-Between-Advertisement-and-Propaganda--768x529.jpg',
-      scheduledTime: '2022-12-01T19:59:10.000Z',
+      scheduledTime: '2022-12-01T21:29:10.000Z',
     },
     {
       title: '7UP',
@@ -46,12 +46,7 @@ export class PropagandaViewerService {
    * @returns void
    */
   scheduleChangesBasedOnAPI() {
-    if (
-      (typeof process !== 'undefined' &&
-        process?.env &&
-        process?.env['STAGE'] === 'build') ||
-      this.apiDataList.length === 0
-    ) {
+    if (this.apiDataList.length === 0) {
       console.log('Nothing on the schedule');
       return;
     }
@@ -62,8 +57,8 @@ export class PropagandaViewerService {
         currentValue.scheduledTime
       ).getTime();
       const timeout: number = targetTimestamp - currentTimestamp;
-       
-      if (timeout > this.msInSevenDays || timeout < (this.msInSevenDays * -1)) {
+
+      if (timeout > this.msInSevenDays || timeout < this.msInSevenDays * -1) {
         console.log(
           `Item is scheduled for > than 7 days, skipping it to fit into 32-bit signed integer. == image: ${currentValue.title}`
         );
