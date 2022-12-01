@@ -1,9 +1,9 @@
-import { remove, copy as _copy } from "fs-extra";
+const fs = require("fs-extra");
 
 (async () => {
     const src = "./dist";
     const copy = "./netlify/functions/dist";
 
-    await remove(copy);
-    await _copy(src, copy);
+    await fs.remove(copy);
+    await fs.copy(src, copy);
 })();

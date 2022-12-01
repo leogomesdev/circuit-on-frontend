@@ -1,4 +1,4 @@
-import serverless from "serverless-http";
-import { app } from "./dist/propaganda-scheduler/server/main";
+const serverless = require("serverless-http");
+const { app } = require("./dist/angular-firebase-todo/server/main");
 
-export const handler = serverless(app());
+exports.handler = serverless(app());
