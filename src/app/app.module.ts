@@ -8,7 +8,7 @@ import { PropagandaViewerService } from './services/propaganda-viewer.service';
 
 @NgModule({
   declarations: [AppComponent, PropagandaViewerComponent],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule.withServerTransition({ appId: 'serverApp' }), AppRoutingModule],
   providers: [PropagandaViewerService],
   bootstrap: [AppComponent],
 })

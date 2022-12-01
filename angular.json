@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/propaganda-scheduler",
+            "outputPath": "dist/propaganda-scheduler/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -100,6 +100,59 @@
               "src/**/*.html"
             ]
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/propaganda-scheduler/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media"
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "propaganda-scheduler:build:development",
+              "serverTarget": "propaganda-scheduler:server:development"
+            },
+            "production": {
+              "browserTarget": "propaganda-scheduler:build:production",
+              "serverTarget": "propaganda-scheduler:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "propaganda-scheduler:build:production",
+              "serverTarget": "propaganda-scheduler:server:production"
+            },
+            "development": {
+              "browserTarget": "propaganda-scheduler:build:development",
+              "serverTarget": "propaganda-scheduler:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }
