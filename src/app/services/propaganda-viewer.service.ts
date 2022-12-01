@@ -27,7 +27,7 @@ export class PropagandaViewerService {
       type: 'IMG_SOURCE',
       backgroundColor: '#00ff00',
       data: 'http://cdn.differencebetween.net/wp-content/uploads/2019/03/Difference-Between-Advertisement-and-Propaganda--768x529.jpg',
-      scheduledTime: '2022-12-01T19:56:10.000Z',
+      scheduledTime: '2022-12-01T19:59:10.000Z',
     },
     {
       title: '7UP',
@@ -46,7 +46,12 @@ export class PropagandaViewerService {
    * @returns void
    */
   scheduleChangesBasedOnAPI() {
-    if (process?.env['STAGE'] === 'build' || this.apiDataList.length === 0) {
+    if (
+      (typeof process !== 'undefined' &&
+        process?.env &&
+        process?.env['STAGE'] === 'build') ||
+      this.apiDataList.length === 0
+    ) {
       console.log('Nothing on the schedule');
       return;
     }
