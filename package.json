@@ -15,6 +15,7 @@
     "lint": "ng lint",
     "dev:ssr": "ng run propaganda-scheduler:serve-ssr",
     "serve:ssr": "node dist/propaganda-scheduler/server/main.js",
+    "copy:files": "node ./scripts/copyFiles.js",
     "build:ssr": "ng build && ng run propaganda-scheduler:server",
     "prerender": "ng run propaganda-scheduler:prerender"
   },
