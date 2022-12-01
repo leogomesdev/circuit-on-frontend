@@ -20,14 +20,14 @@ export class PropagandaViewerService {
       type: 'IMG_SOURCE',
       backgroundColor: '#ff00000',
       data: 'https://www.msureporter.com/wp-content/uploads/2017/04/SpriteWEB.jpg',
-      scheduledTime: '2022-12-01T19:30:00.000Z',
+      scheduledTime: '2022-12-01T19:45:00.000Z',
     },
     {
       title: 'Coca Cola',
       type: 'IMG_SOURCE',
       backgroundColor: '#00ff00',
       data: 'http://cdn.differencebetween.net/wp-content/uploads/2019/03/Difference-Between-Advertisement-and-Propaganda--768x529.jpg',
-      scheduledTime: '2022-12-01T19:35:10.000Z',
+      scheduledTime: '2022-12-01T19:49:10.000Z',
     },
     {
       title: '7UP',
@@ -46,7 +46,7 @@ export class PropagandaViewerService {
    * @returns void
    */
   scheduleChangesBasedOnAPI() {
-    if (this.isServer || this.apiDataList.length === 0) {
+    if (process.env['STAGE'] === 'build' || this.apiDataList.length === 0) {
       console.log('Nothing on the schedule');
       return;
     }
