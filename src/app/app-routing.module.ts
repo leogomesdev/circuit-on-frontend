@@ -7,6 +7,10 @@ const routes: Routes = [
     path: 'view',
     component: PropagandaViewerComponent,
   },
+  {
+    path: '**',
+    redirectTo: '',
+  },
 ];
 
 @NgModule({
