@@ -24,12 +24,12 @@ steps:
 - task: CopyFiles@2
   displayName: 'Copy dist browser folder to the root'
   inputs:
-    SourceFolder: '$(Build.SourcesDirectory)/dist/{AppName}/browser'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/dist/{AppName}/browser'
+    SourceFolder: '$(Build.SourcesDirectory)/dist/propaganda-scheduler/browser'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/dist/propaganda-scheduler/browser'
 - task: CopyFiles@2
   displayName: 'Copy main.js to the root'
   inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)/dist/{AppName}/server'
+    SourceFolder: '$(System.DefaultWorkingDirectory)/dist/propaganda-scheduler/server'
     Contents: main.js
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
