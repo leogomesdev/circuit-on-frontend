@@ -3,7 +3,7 @@
   "description": "A system for advertisement management",
   "author": "Leonardo Gomes da Silva",
   "engines": {
-    "node": "~18.12"
+    "node": "^16 || ^18"
   },
   "version": "0.0.0",
   "scripts": {
