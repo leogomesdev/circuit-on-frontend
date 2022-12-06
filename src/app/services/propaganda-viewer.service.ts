@@ -1,6 +1,5 @@
-import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { isPlatformServer } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -36,10 +35,6 @@ export class PropagandaViewerService {
       scheduledTime: '2023-12-01T15:54:31.000Z',
     },
   ];
-
-  constructor(@Inject(PLATFORM_ID) platformID: any) {
-    this.isServer = isPlatformServer(platformID);
-  }
 
   /**
    * Based on items from API, schedule the presentation of propaganda images
