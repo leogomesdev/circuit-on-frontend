@@ -15,8 +15,10 @@
     "lint": "ng lint",
     "dev:ssr": "ng run propaganda-scheduler:serve-ssr",
     "serve:ssr": "node dist/propaganda-scheduler/server/main.js",
+    "serve:ssr-prod": "node dist/propaganda-scheduler/server/main.js --configuration=production",
     "copy:files": "node ./scripts/copyFiles.js",
     "build:ssr": "ng build && ng run propaganda-scheduler:server",
+    "build:ssr-prod": "ng run propaganda-scheduler:collect-vars-prod && ng build --configuration=production && ng run propaganda-scheduler:server:production",
     "prerender": "ng run propaganda-scheduler:prerender"
   },
   "private": true,

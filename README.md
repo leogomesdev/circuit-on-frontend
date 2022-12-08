@@ -44,6 +44,28 @@ This project was generated with Angular
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
+## Deployment for Production Environment
+
+1) Declare env variables:
+````bash
+export PROPAGANDA_APP_BACKEND_BASE_URL="ENTER_YOUR_BACK_END_APP_URL"
+````
+
+2) Install libs:
+````bash
+npm install
+````
+
+3) Build:
+````bash
+npm run build:ssr-prod
+````
+
+4) Run:
+````bash
+npm run serve:ssr-prod
+````
+
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
