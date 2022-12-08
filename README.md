@@ -58,12 +58,12 @@ npm install
 
 3) Build:
 ````bash
-npm run build:ssr-prod
+npm run build:ssr
 ````
 
 4) Run:
 ````bash
-npm run serve:ssr-prod
+npm run serve:ssr
 ````
 
 ## Running unit tests
