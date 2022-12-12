@@ -1,4 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
+  Inject,
+  InjectionToken,
+} from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { CurrentSchedule } from '../interfaces/current-schedule';
 import { ApiClientService } from '../services/api-client.service';
@@ -8,14 +16,20 @@ import { ApiClientService } from '../services/api-client.service';
   styleUrls: ['./propaganda-viewer.component.css'],
 })
 export class PropagandaViewerComponent implements OnInit, OnDestroy {
-  imageSource = '';
-  backgroundColor = '';
+  private isBrowser = false;
+  imageSource = '/assets/images/placeholder.jpg';
+  backgroundColor = '#000000';
   // 86400 seconds in a day
   private msInSevenDays = 86400 * 1000 * 7;
 
   private apiClientServiceSubscription!: Subscription;
 
-  constructor(private apiClientService: ApiClientService) {}
+  constructor(
+    private apiClientService: ApiClientService,
+    @Inject(PLATFORM_ID) platformID: InjectionToken<unknown>
+  ) {
+    this.isBrowser = isPlatformBrowser(platformID);
+  }
 
   ngOnInit(): void {
     this.apiClientServiceSubscription = this.apiClientService
@@ -58,15 +72,17 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
       this.updatePropagandaOnDisplay(scheduleData);
       return;
     }
-    console.log(
-      `Scheduling for: ${scheduleData.scheduledTime} == within ${Math.round(
-        timeout / 1000 / 60
-      )} minutes == image: ${scheduleData.title}`
-    );
-    setTimeout(() => {
-      console.log(`Replacing image`);
-      this.updatePropagandaOnDisplay(scheduleData);
-    }, timeout);
+    if (this.isBrowser) {
+      console.log(
+        `Scheduling for: ${scheduleData.scheduledTime} == within ${Math.round(
+          timeout / 1000 / 60
+        )} minutes == image: ${scheduleData.title}`
+      );
+      setTimeout(() => {
+        console.log(`Replacing image`);
+        this.updatePropagandaOnDisplay(scheduleData);
+      }, timeout);
+    }
   }
 
   private updatePropagandaOnDisplay(scheduleData: CurrentSchedule) {
