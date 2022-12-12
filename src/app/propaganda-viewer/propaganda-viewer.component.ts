@@ -76,7 +76,6 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
 
   private defineNextItems(scheduleData: CurrentSchedule, timeout: number) {
     if (timeout <= 0) {
-      this.messageService.addMessage(`Replacing current image now`);
       this.updatePropagandaOnDisplay({
         ...scheduleData,
         timeout: 0,
@@ -104,7 +103,7 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.isBrowser) {
+    if (this.isBrowser && false) {
       this.messageService.addMessage(
         `It is running on browser. Setting timeouts now.`
       );
@@ -115,19 +114,24 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
       });
       return;
     }
+
     this.messageService.addMessage(
       `It is running on server. Setting timeouts using legacy scripts`
     );
     this.setNextSchedulesForOldBrowsers();
   }
 
+  /**
+   * It is required for running on old TVs browsers
+   * https://stackoverflow.com/questions/38088996/adding-script-tags-in-angular-component-template
+   */
   private setNextSchedulesForOldBrowsers() {
     const content: string = this.nextSchedules
       .map(
         (nextSchedule) => `setTimeout(() => {
           document.getElementById("current-propaganda-img").src = "${nextSchedule.data}";
           if("${nextSchedule.backgroundColor}" !== "") {
-            document.getElementById("current-propaganda-parent-div").background = "${nextSchedule.backgroundColor}";
+            document.getElementById("current-propaganda-parent-div").style.backgroundColor = "${nextSchedule.backgroundColor}";
           }
         },
           ${nextSchedule.timeout});`
