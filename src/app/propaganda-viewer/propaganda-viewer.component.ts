@@ -6,17 +6,18 @@ import {
   Inject,
   InjectionToken,
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformServer } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { CurrentSchedule } from '../interfaces/current-schedule';
 import { ApiClientService } from '../services/api-client.service';
+import { MessageService } from '../services/message.service';
 
 @Component({
   templateUrl: './propaganda-viewer.component.html',
   styleUrls: ['./propaganda-viewer.component.css'],
 })
 export class PropagandaViewerComponent implements OnInit, OnDestroy {
-  private isBrowser = false;
+  private isServer = false;
   imageSource = '/assets/images/placeholder.jpg';
   backgroundColor = '#000000';
   // 86400 seconds in a day
@@ -26,9 +27,10 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
 
   constructor(
     private apiClientService: ApiClientService,
-    @Inject(PLATFORM_ID) platformID: InjectionToken<unknown>
+    @Inject(PLATFORM_ID) platformID: InjectionToken<unknown>,
+    public messageService: MessageService
   ) {
-    this.isBrowser = isPlatformBrowser(platformID);
+    this.isServer = isPlatformServer(platformID);
   }
 
   ngOnInit(): void {
@@ -45,7 +47,7 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
 
   scheduleChangesBasedOnAPI(apiDataList: CurrentSchedule[]) {
     if (apiDataList.length === 0) {
-      console.log('Nothing on the schedule');
+      this.messageService.addMessage('Nothing on the schedule');
       return;
     }
     const currentTimestamp: number = new Date().getTime();
@@ -57,7 +59,7 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
       const timeout: number = targetTimestamp - currentTimestamp;
 
       if (timeout > this.msInSevenDays) {
-        console.log(
+        this.messageService.addMessage(
           `Item is scheduled for > than 7 days, skipping it to fit into 32-bit signed integer. == image: ${scheduleData.title}`
         );
       } else {
@@ -68,25 +70,30 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
 
   private scheduleItem(scheduleData: CurrentSchedule, timeout: number) {
     if (timeout <= 0) {
-      console.log(`Replacing current image now`);
+      this.messageService.addMessage(`Replacing current image now`);
       this.updatePropagandaOnDisplay(scheduleData);
       return;
     }
-    if (this.isBrowser) {
-      console.log(
-        `Scheduling for: ${scheduleData.scheduledTime} == within ${Math.round(
-          timeout / 1000 / 60
-        )} minutes == image: ${scheduleData.title}`
+    if (this.isServer) {
+      this.messageService.addMessage(
+        `It is running on server. Skipping, browser will render it.`
       );
-      setTimeout(() => {
-        console.log(`Replacing image`);
-        this.updatePropagandaOnDisplay(scheduleData);
-      }, timeout);
+      return;
     }
+
+    const minutes: number = Math.round(timeout / 1000 / 60);
+    this.messageService.addMessage(
+      `Scheduling for: ${scheduleData.scheduledTime} == within ${minutes} minutes == image: ${scheduleData.title}`
+    );
+    setTimeout(() => {
+      this.updatePropagandaOnDisplay(scheduleData);
+    }, timeout);
   }
 
   private updatePropagandaOnDisplay(scheduleData: CurrentSchedule) {
-    console.log(`Replacing image with ${scheduleData.title}`);
+    this.messageService.addMessage(
+      `Replacing image with ${scheduleData.title}`
+    );
     this.imageSource = scheduleData.data;
     if (scheduleData.backgroundColor && scheduleData.backgroundColor !== '') {
       this.backgroundColor = scheduleData.backgroundColor;
