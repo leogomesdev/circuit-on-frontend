@@ -6,20 +6,23 @@ import {
   Inject,
   InjectionToken,
 } from '@angular/core';
-import { isPlatformServer } from '@angular/common';
+import { isPlatformBrowser, DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { CurrentSchedule } from '../interfaces/current-schedule';
 import { ApiClientService } from '../services/api-client.service';
 import { MessageService } from '../services/message.service';
+import { NextSchedule } from '../interfaces/next-schedule';
 
 @Component({
   templateUrl: './propaganda-viewer.component.html',
   styleUrls: ['./propaganda-viewer.component.css'],
 })
 export class PropagandaViewerComponent implements OnInit, OnDestroy {
-  private isServer = false;
+  private isBrowser = true;
   imageSource = '/assets/images/placeholder.jpg';
   backgroundColor = '#000000';
+  public nextSchedules: NextSchedule[] = [];
+
   // 86400 seconds in a day
   private msInSevenDays = 86400 * 1000 * 7;
 
@@ -28,9 +31,10 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
   constructor(
     private apiClientService: ApiClientService,
     @Inject(PLATFORM_ID) platformID: InjectionToken<unknown>,
-    public messageService: MessageService
+    public messageService: MessageService,
+    @Inject(DOCUMENT) private document: Document
   ) {
-    this.isServer = isPlatformServer(platformID);
+    this.isBrowser = isPlatformBrowser(platformID);
   }
 
   ngOnInit(): void {
@@ -45,9 +49,9 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
     this.apiClientServiceSubscription.unsubscribe();
   }
 
-  scheduleChangesBasedOnAPI(apiDataList: CurrentSchedule[]) {
+  private scheduleChangesBasedOnAPI(apiDataList: CurrentSchedule[]) {
     if (apiDataList.length === 0) {
-      this.messageService.addMessage('Nothing on the schedule');
+      this.messageService.addMessage('Nothing on current or the schedule');
       return;
     }
     const currentTimestamp: number = new Date().getTime();
@@ -63,21 +67,21 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
           `Item is scheduled for > than 7 days, skipping it to fit into 32-bit signed integer. == image: ${scheduleData.title}`
         );
       } else {
-        this.scheduleItem(scheduleData, timeout);
+        this.defineNextItems(scheduleData, timeout);
       }
     });
+
+    this.scheduleNextItems();
   }
 
-  private scheduleItem(scheduleData: CurrentSchedule, timeout: number) {
+  private defineNextItems(scheduleData: CurrentSchedule, timeout: number) {
     if (timeout <= 0) {
       this.messageService.addMessage(`Replacing current image now`);
-      this.updatePropagandaOnDisplay(scheduleData);
-      return;
-    }
-    if (this.isServer) {
-      this.messageService.addMessage(
-        `It is running on server. Skipping, browser will render it.`
-      );
+      this.updatePropagandaOnDisplay({
+        ...scheduleData,
+        timeout: 0,
+        backgroundColor: scheduleData.backgroundColor || '',
+      });
       return;
     }
 
@@ -85,12 +89,58 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
     this.messageService.addMessage(
       `Scheduling for: ${scheduleData.scheduledTime} == within ${minutes} minutes == image: ${scheduleData.title}`
     );
-    setTimeout(() => {
-      this.updatePropagandaOnDisplay(scheduleData);
-    }, timeout);
+
+    this.nextSchedules.push({
+      data: scheduleData.data,
+      title: scheduleData.title,
+      backgroundColor: scheduleData.backgroundColor || '',
+      timeout,
+    });
   }
 
-  private updatePropagandaOnDisplay(scheduleData: CurrentSchedule) {
+  private scheduleNextItems() {
+    if (this.nextSchedules.length === 0) {
+      this.messageService.addMessage('Nothing on future schedule');
+      return;
+    }
+
+    if (this.isBrowser) {
+      this.messageService.addMessage(
+        `It is running on browser. Setting timeouts now.`
+      );
+      this.nextSchedules.map((nextSchedule) => {
+        setTimeout(() => {
+          this.updatePropagandaOnDisplay(nextSchedule);
+        }, nextSchedule.timeout);
+      });
+      return;
+    }
+    this.messageService.addMessage(
+      `It is running on server. Setting timeouts using legacy scripts`
+    );
+    this.setNextSchedulesForOldBrowsers();
+  }
+
+  private setNextSchedulesForOldBrowsers() {
+    const content: string = this.nextSchedules
+      .map(
+        (nextSchedule) => `setTimeout(() => {
+          document.getElementById("current-propaganda-img").src = "${nextSchedule.data}";
+          if("${nextSchedule.backgroundColor}" !== "") {
+            document.getElementById("current-propaganda-parent-div").background = "${nextSchedule.backgroundColor}";
+          }
+        },
+          ${nextSchedule.timeout});`
+      )
+      .join('\n\n');
+    const head: HTMLHeadElement = this.document.getElementsByTagName('head')[0];
+    const js: HTMLScriptElement = this.document.createElement('script');
+    js.type = 'text/javascript';
+    js.appendChild(this.document.createTextNode(content));
+    head.appendChild(js);
+  }
+
+  private updatePropagandaOnDisplay(scheduleData: NextSchedule) {
     this.messageService.addMessage(
       `Replacing image with ${scheduleData.title}`
     );
