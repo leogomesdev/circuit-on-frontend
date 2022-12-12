@@ -13,7 +13,7 @@ export class ApiClientService {
   constructor(private http: HttpClient) {}
 
   public getDataToDisplay(): Observable<CurrentSchedule[]> {
-    const path = '/schedules/current';
+    const path = '/v1/schedules/current';
 
     const headers = {
       'Content-Type': 'application/json',
