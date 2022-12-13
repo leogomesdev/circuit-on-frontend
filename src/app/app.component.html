@@ -1,3 +1,8 @@
-<h1>Propaganda Manager</h1>
-<a routerLink="/view">View</a>
+<!-- <h1>Propaganda Manager</h1>
+<a routerLink="/view">View</a> -->
 <router-outlet></router-outlet>
+<p>
+  <span *ngFor="let message of this.messageService.messages"
+    >{{ message }}<br
+  /></span>
+</p>

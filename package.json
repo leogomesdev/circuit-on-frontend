@@ -3,7 +3,7 @@
   "description": "A system for advertisement management",
   "author": "Leonardo Gomes da Silva",
   "engines": {
-    "node": "~18.12"
+    "node": "^16 || ^18"
   },
   "version": "0.0.0",
   "scripts": {
@@ -15,8 +15,9 @@
     "lint": "ng lint",
     "dev:ssr": "ng run propaganda-scheduler:serve-ssr",
     "serve:ssr": "node dist/propaganda-scheduler/server/main.js",
-    "copy:files": "node ./scripts/copyFiles.js",
+    "serve:ssr-prod": "node dist/propaganda-scheduler/server/main.js --configuration=production",
     "build:ssr": "ng build && ng run propaganda-scheduler:server",
+    "build:ssr-prod": "ng run propaganda-scheduler:collect-vars-prod && ng build --configuration=production && ng run propaganda-scheduler:server:production",
     "prerender": "ng run propaganda-scheduler:prerender"
   },
   "private": true,
@@ -32,6 +33,7 @@
     "@angular/router": "^15.0.0",
     "@nguniversal/express-engine": "^15.0.0",
     "express": "^4.15.2",
+    "ng-process-env": "^15.0.1",
     "rxjs": "~7.5.0",
     "serverless-http": "^3.1.0",
     "tslib": "^2.3.0",
