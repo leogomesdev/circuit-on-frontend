@@ -2,7 +2,7 @@
 <a routerLink="/view">View</a> -->
 <router-outlet></router-outlet>
 <p>
-  <span *ngFor="let message of this.messageService.messages"
+  <span *ngFor="let message of this.messageService.getMessages()"
     >{{ message }}<br
   /></span>
 </p>
