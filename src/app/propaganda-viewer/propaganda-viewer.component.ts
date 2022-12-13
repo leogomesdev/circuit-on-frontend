@@ -1,12 +1,5 @@
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  PLATFORM_ID,
-  Inject,
-  InjectionToken,
-} from '@angular/core';
-import { isPlatformBrowser, DOCUMENT } from '@angular/common';
+import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { CurrentSchedule } from '../interfaces/current-schedule';
 import { ApiClientService } from '../services/api-client.service';
@@ -18,10 +11,10 @@ import { NextSchedule } from '../interfaces/next-schedule';
   styleUrls: ['./propaganda-viewer.component.css'],
 })
 export class PropagandaViewerComponent implements OnInit, OnDestroy {
-  private isBrowser = true;
-  imageSource = '';
-  backgroundColor = '';
-  public nextSchedules: NextSchedule[] = [];
+  private injectScriptType = `text/javascript`;
+  private nextSchedules: NextSchedule[] = [];
+  public imageSource = '';
+  public backgroundColor = '';
 
   // 86400 seconds in a day
   private msInSevenDays = 86400 * 1000 * 7;
@@ -29,17 +22,14 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
   private apiClientServiceSubscription!: Subscription;
 
   constructor(
+    @Inject(DOCUMENT) private document: Document,
     private apiClientService: ApiClientService,
-    @Inject(PLATFORM_ID) platformID: InjectionToken<unknown>,
-    public messageService: MessageService,
-    @Inject(DOCUMENT) private document: Document
-  ) {
-    this.isBrowser = isPlatformBrowser(platformID);
-  }
+    public messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
     this.apiClientServiceSubscription = this.apiClientService
-      .getDataToDisplay()
+      .getCurrentSchedules()
       .subscribe((res: CurrentSchedule[]) => {
         this.scheduleChangesBasedOnAPI(res);
       });
@@ -49,11 +39,15 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
     this.apiClientServiceSubscription.unsubscribe();
   }
 
-  private scheduleChangesBasedOnAPI(apiDataList: CurrentSchedule[]) {
+  /**
+   * Based on API data, schedule the images transations
+   * @param apiDataList data from API
+   * @returns void
+   */
+  private scheduleChangesBasedOnAPI(apiDataList: CurrentSchedule[]): void {
     if (apiDataList.length === 0) {
-      this.imageSource = '/assets/images/placeholder.jpg';
-      this.backgroundColor = '#000000';
-      this.messageService.addMessage('Nothing on current or the schedule');
+      this.setDefaultPlaceholderBackgroundImage();
+      this.messageService.addMessage(`Nothing on current or future schedule`);
       return;
     }
     const currentTimestamp: number = new Date().getTime();
@@ -74,15 +68,39 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
     });
 
     this.scheduleNextItems();
+
+    if (this.imageSource === '') {
+      this.setDefaultPlaceholderBackgroundImage();
+    }
   }
 
-  private defineNextItems(scheduleData: CurrentSchedule, timeout: number) {
+  /**
+   * Used to show a placeholder image when there is nothing on schedule to show
+   * @returns void
+   */
+  private setDefaultPlaceholderBackgroundImage(): void {
+    this.imageSource = '/assets/images/placeholder.jpg';
+    this.backgroundColor = '#000000';
+  }
+
+  /**
+   * Calculate timeout and create a list of schedules
+   * @param scheduleData one item from list of items from API
+   * @param timeout calculated timeout based on current datetime ans scheduled datetime
+   * @returns void
+   */
+  private defineNextItems(
+    scheduleData: CurrentSchedule,
+    timeout: number
+  ): void {
     if (timeout <= 0) {
-      this.updatePropagandaOnDisplay({
-        ...scheduleData,
-        timeout: 0,
-        backgroundColor: scheduleData.backgroundColor || '',
-      });
+      this.messageService.addMessage(
+        `Replacing image with ${scheduleData.title}`
+      );
+      this.imageSource = scheduleData.data;
+      if (scheduleData.backgroundColor && scheduleData.backgroundColor !== '') {
+        this.backgroundColor = scheduleData.backgroundColor;
+      }
       return;
     }
 
@@ -99,35 +117,21 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
     });
   }
 
-  private scheduleNextItems() {
-    if (this.nextSchedules.length === 0) {
-      this.messageService.addMessage('Nothing on future schedule');
-      return;
-    }
-
-    if (this.isBrowser && false) {
-      this.messageService.addMessage(
-        `It is running on browser. Setting timeouts now.`
-      );
-      this.nextSchedules.map((nextSchedule) => {
-        setTimeout(() => {
-          this.updatePropagandaOnDisplay(nextSchedule);
-        }, nextSchedule.timeout);
-      });
-      return;
-    }
-
-    this.messageService.addMessage(
-      `It is running on server. Setting timeouts using legacy scripts`
-    );
-    this.setNextSchedulesForOldBrowsers();
-  }
-
   /**
-   * It is required for running on old TVs browsers
+   * Schedule next items for replacing background images
+   * It is required to manipulate document for running on old TVs browsers,
+   * in addition to Server-Side Rendering
    * https://stackoverflow.com/questions/38088996/adding-script-tags-in-angular-component-template
+   * @returns void
    */
-  private setNextSchedulesForOldBrowsers() {
+  private scheduleNextItems(): void {
+    if (this.nextSchedules.length === 0) {
+      this.messageService.addMessage(`Nothing on future schedule`);
+      return;
+    }
+
+    this.messageService.addMessage(`Setting timeouts by script injection`);
+
     const content: string = this.nextSchedules
       .map(
         (nextSchedule) => `setTimeout(() => {
@@ -141,18 +145,8 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
       .join('\n\n');
     const head: HTMLHeadElement = this.document.getElementsByTagName('head')[0];
     const js: HTMLScriptElement = this.document.createElement('script');
-    js.type = 'text/javascript';
+    js.type = this.injectScriptType;
     js.appendChild(this.document.createTextNode(content));
     head.appendChild(js);
-  }
-
-  private updatePropagandaOnDisplay(scheduleData: NextSchedule) {
-    this.messageService.addMessage(
-      `Replacing image with ${scheduleData.title}`
-    );
-    this.imageSource = scheduleData.data;
-    if (scheduleData.backgroundColor && scheduleData.backgroundColor !== '') {
-      this.backgroundColor = scheduleData.backgroundColor;
-    }
   }
 }
