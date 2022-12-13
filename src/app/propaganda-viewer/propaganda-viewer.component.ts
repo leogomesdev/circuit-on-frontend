@@ -19,8 +19,8 @@ import { NextSchedule } from '../interfaces/next-schedule';
 })
 export class PropagandaViewerComponent implements OnInit, OnDestroy {
   private isBrowser = true;
-  imageSource = '/assets/images/placeholder.jpg';
-  backgroundColor = '#000000';
+  imageSource = '';
+  backgroundColor = '';
   public nextSchedules: NextSchedule[] = [];
 
   // 86400 seconds in a day
@@ -51,6 +51,8 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
 
   private scheduleChangesBasedOnAPI(apiDataList: CurrentSchedule[]) {
     if (apiDataList.length === 0) {
+      this.imageSource = '/assets/images/placeholder.jpg';
+      this.backgroundColor = '#000000';
       this.messageService.addMessage('Nothing on current or the schedule');
       return;
     }
