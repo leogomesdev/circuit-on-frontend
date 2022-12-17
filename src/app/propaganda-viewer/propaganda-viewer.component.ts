@@ -54,7 +54,7 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
 
     apiDataList.map((scheduleData: CurrentSchedule) => {
       const targetTimestamp: number = new Date(
-        scheduleData.scheduledTime
+        scheduleData.scheduledAt
       ).getTime();
       const timeout: number = targetTimestamp - currentTimestamp;
 
@@ -106,12 +106,14 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
 
     const minutes: number = Math.round(timeout / 1000 / 60);
     this.messageService.addMessage(
-      `Scheduling for: ${scheduleData.scheduledTime} == within ${minutes} minutes == image: ${scheduleData.title}`
+      `Scheduling at ${scheduleData.scheduledAt}, within ${minutes} minutes` +
+        `, category ${scheduleData.category}, image ${scheduleData.title}`
     );
 
     this.nextSchedules.push({
       data: scheduleData.data,
       title: scheduleData.title,
+      category: scheduleData.category,
       backgroundColor: scheduleData.backgroundColor || '',
       timeout,
     });
