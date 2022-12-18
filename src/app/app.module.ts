@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PropagandaViewerComponent } from './propaganda-viewer/propaganda-viewer.component';
 import { ApiClientService } from './services/api-client.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent, PropagandaViewerComponent],
@@ -13,6 +14,7 @@ import { ApiClientService } from './services/api-client.service';
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     HttpClientModule,
+    BrowserAnimationsModule,
   ],
   providers: [ApiClientService],
   bootstrap: [AppComponent],
