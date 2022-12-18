@@ -10,7 +10,7 @@ import { MessageService } from './message.service';
 })
 export class ApiClientService {
   private backendBaseUrl = environment.envVar.PROPAGANDA_APP_BACKEND_BASE_URL;
-  private pathCurrentSchedules = '/v1/schedules/current';
+  private pathCurrentSchedules = '/v1/current-schedules';
   private headers = {
     'Content-Type': 'application/json',
   };
