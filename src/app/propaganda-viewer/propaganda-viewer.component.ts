@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { CurrentSchedule } from '../interfaces/current-schedule';
-import { ApiClientService } from '../services/api-client.service';
+import { ApiClientService } from '../services/api/api-client.service';
 import { MessageService } from '../services/message.service';
 import { NextSchedule } from '../interfaces/next-schedule';
 
@@ -24,7 +24,7 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private apiClientService: ApiClientService,
-    public messageService: MessageService
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
