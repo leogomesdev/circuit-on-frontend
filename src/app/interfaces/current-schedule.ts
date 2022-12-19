@@ -1,8 +1,9 @@
 export interface CurrentSchedule {
-  _id: string;
+  scheduleId: string;
+  imageId: string;
   title: string;
-  type: string;
+  category: string;
   backgroundColor?: string;
-  scheduledTime: Date;
+  scheduledAt: string;
   data: string;
 }

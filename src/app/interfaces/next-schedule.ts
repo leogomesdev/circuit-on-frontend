@@ -3,4 +3,5 @@ export interface NextSchedule {
   data: string;
   timeout: number;
   title: string;
+  category: string;
 }
