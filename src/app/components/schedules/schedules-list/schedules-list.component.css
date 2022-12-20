@@ -1,18 +1,22 @@
-table {
-  width: 100%;
-}
-
 .mat-mdc-form-field {
   font-size: 14px;
   width: 100%;
 }
 
-td,
-th {
-  width: 25%;
-}
-
 .container {
   max-width: 1200px;
   margin: 0 auto;
+}
+
+@media screen and (min-width: 992px) {
+  .mat-column-backgroundColor {
+    flex: 0 0 10%;
+  }
+  .mat-column-action {
+    flex: 0 0 10%;
+  }
+}
+
+.add-item-button {
+  margin: 0 0 16px 16px;
 }

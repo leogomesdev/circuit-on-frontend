@@ -32,9 +32,6 @@ export class ApiClientService {
         headers: this.headers,
       })
       .pipe(
-        tap(() =>
-          this.messageService.addMessage('Connected to API successfully')
-        ),
         catchError(
           this.errorHandling.handle<CurrentSchedule[]>(
             'getCurrentSchedules',

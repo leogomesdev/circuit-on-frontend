@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { DatePipe, DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { CurrentSchedule } from '../interfaces/current-schedule';
 import { ApiClientService } from '../services/api/api-client.service';
@@ -13,6 +13,7 @@ import { NextSchedule } from '../interfaces/next-schedule';
 export class PropagandaViewerComponent implements OnInit, OnDestroy {
   private injectScriptType = `text/javascript`;
   private nextSchedules: NextSchedule[] = [];
+  private SHORT_DATETIME_FORMAT = 'EEE, MMM d HH:mm';
   public imageSource = '';
   public backgroundColor = '';
 
@@ -24,7 +25,8 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private apiClientService: ApiClientService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit(): void {
@@ -47,7 +49,7 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
   private scheduleChangesBasedOnAPI(apiDataList: CurrentSchedule[]): void {
     if (apiDataList.length === 0) {
       this.setDefaultPlaceholderBackgroundImage();
-      this.messageService.addMessage(`Nothing on current or future schedule`);
+      this.messageService.showSuccess(`Nothing on current or future schedule`);
       return;
     }
     const currentTimestamp: number = new Date().getTime();
@@ -72,6 +74,7 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
     if (this.imageSource === '') {
       this.setDefaultPlaceholderBackgroundImage();
     }
+    this.messageService.displayAllMessagesAndClear(15);
   }
 
   /**
@@ -94,9 +97,6 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
     timeout: number
   ): void {
     if (timeout <= 0) {
-      this.messageService.addMessage(
-        `Replacing image with ${scheduleData.title}`
-      );
       this.imageSource = scheduleData.data;
       if (scheduleData.backgroundColor && scheduleData.backgroundColor !== '') {
         this.backgroundColor = scheduleData.backgroundColor;
@@ -104,10 +104,12 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const minutes: number = Math.round(timeout / 1000 / 60);
+    const formattedDate = this.datePipe.transform(
+      scheduleData.scheduledAt,
+      this.SHORT_DATETIME_FORMAT
+    );
     this.messageService.addMessage(
-      `Scheduling at ${scheduleData.scheduledAt}, within ${minutes} minutes` +
-        `, category ${scheduleData.category}, image ${scheduleData.title}`
+      `At ${formattedDate}: ${scheduleData.category}: ${scheduleData.title}`
     );
 
     this.nextSchedules.push({
@@ -131,8 +133,6 @@ export class PropagandaViewerComponent implements OnInit, OnDestroy {
       this.messageService.addMessage(`Nothing on future schedule`);
       return;
     }
-
-    this.messageService.addMessage(`Setting timeouts by script injection`);
 
     const content: string = this.nextSchedules
       .map(
