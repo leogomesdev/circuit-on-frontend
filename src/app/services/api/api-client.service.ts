@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, tap } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
 import { CurrentSchedule } from '../../interfaces/current-schedule';
 import { environment } from '../../../environments/environment';
 import { MessageService } from '../message.service';
