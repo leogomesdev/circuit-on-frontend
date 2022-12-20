@@ -1,7 +1,9 @@
 export class CreateScheduleDto {
-  scheduledAt: string;
+  scheduledAt!: string;
 
   constructor(scheduledAt: Date, public imageId: string) {
-    this.scheduledAt = scheduledAt.toISOString();
+    if (scheduledAt) {
+      this.scheduledAt = scheduledAt.toISOString();
+    }
   }
 }

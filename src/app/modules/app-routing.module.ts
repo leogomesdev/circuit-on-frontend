@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PropagandaViewerComponent } from './propaganda-viewer/propaganda-viewer.component';
-import { SchedulesListComponent } from './components/schedules/schedules-list/schedules-list.component';
+import { PropagandaViewerComponent } from '../propaganda-viewer/propaganda-viewer.component';
+import { SchedulesListComponent } from '../components/schedules/schedules-list/schedules-list.component';
 
 const routes: Routes = [
   {

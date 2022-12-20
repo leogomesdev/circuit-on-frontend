@@ -6,6 +6,7 @@ import { Schedule } from '../../../interfaces/schedule';
 import { Image } from 'src/app/interfaces/image';
 import { ImagesApiService } from 'src/app/services/api/images-api.service';
 import { SchedulesApiService } from 'src/app/services/api/schedules-api.service';
+import { MessageService } from '../../../services/message.service';
 
 @Component({
   selector: 'app-dialog-schedule',
@@ -14,11 +15,11 @@ import { SchedulesApiService } from 'src/app/services/api/schedules-api.service'
 })
 export class DialogScheduleComponent implements OnInit {
   public minDate: Date = this.yesterday();
-  public defaultTime = [5, 45, 0];
+  public defaultTime = [5, 50, 0];
   public enableMeridian = true;
   public touchUi = true;
   actionButtonName = 'Save';
-  @ViewChild('picker') picker: any;
+  @ViewChild('picker') picker!: string;
 
   scheduleForm!: FormGroup;
 
@@ -29,7 +30,8 @@ export class DialogScheduleComponent implements OnInit {
     private formBuilder: FormBuilder,
     private scheduleApiService: SchedulesApiService,
     private imagesApiService: ImagesApiService,
-    private dialogRef: MatDialogRef<DialogScheduleComponent>
+    private dialogRef: MatDialogRef<DialogScheduleComponent>,
+    private messageService: MessageService
   ) {}
 
   ngOnInit() {
@@ -67,55 +69,67 @@ export class DialogScheduleComponent implements OnInit {
   }
 
   addSchedule(closeFormAfterSaving: boolean) {
-    if (this.scheduleForm.valid) {
-      const scheduleData = new CreateScheduleDto(
-        this.scheduleForm.value['scheduledAt'],
-        this.scheduleForm.value['imageId']
+    if (!this.scheduleForm.valid) {
+      this.messageService.showError(
+        'Please fill all the required fields',
+        [],
+        5
       );
-      this.scheduleApiService.create(scheduleData).subscribe({
-        next: () => {
-          alert('Schedule created successfully');
-          this.scheduleForm.reset();
-          if (closeFormAfterSaving) {
-            this.dialogRef.close('SAVE');
-          }
-        },
-        error: (error) => {
-          if (error.status === 400) {
-            alert(error.error.message);
-          } else {
-            alert('Error while creating schedule');
-          }
-        },
-      });
+      return;
     }
+    const scheduleData = new CreateScheduleDto(
+      this.scheduleForm.value['scheduledAt'],
+      this.scheduleForm.value['imageId']
+    );
+    this.scheduleApiService.create(scheduleData).subscribe({
+      next: () => {
+        this.messageService.showSuccess('Schedule created successfully', 5);
+        this.scheduleForm.controls['scheduledAt'].reset();
+        if (closeFormAfterSaving) {
+          this.dialogRef.close('SAVE');
+        }
+      },
+      error: (error) => {
+        const errorMessage: string[] = error?.error?.message || error.message;
+        this.messageService.showError(
+          'Error while creating schedule',
+          errorMessage,
+          10
+        );
+      },
+    });
   }
 
   updateSchedule(closeFormAfterSaving: boolean) {
-    if (this.scheduleForm.valid) {
-      const scheduleData = new CreateScheduleDto(
-        this.scheduleForm.value['scheduledAt'],
-        this.scheduleForm.value['imageId']
+    if (!this.scheduleForm.valid) {
+      this.messageService.showError(
+        'Please fill all the required fields',
+        [],
+        5
       );
-      this.scheduleApiService
-        .update(scheduleData, this.editData._id)
-        .subscribe({
-          next: () => {
-            alert('Schedule updated successfully');
-            this.scheduleForm.reset();
-            if (closeFormAfterSaving) {
-              this.dialogRef.close('UPDATE');
-            }
-          },
-          error: (error) => {
-            if (error.status === 400) {
-              alert(error.error.message);
-            } else {
-              alert('Error while updating schedule');
-            }
-          },
-        });
+      return;
     }
+    const scheduleData = new CreateScheduleDto(
+      this.scheduleForm.value['scheduledAt'],
+      this.scheduleForm.value['imageId']
+    );
+    this.scheduleApiService.update(scheduleData, this.editData._id).subscribe({
+      next: () => {
+        this.messageService.showSuccess('Schedule updated successfully', 5);
+        this.scheduleForm.reset();
+        if (closeFormAfterSaving) {
+          this.dialogRef.close('UPDATE');
+        }
+      },
+      error: (error) => {
+        const errorMessage: string[] = error?.error?.message || [error.message];
+        this.messageService.showError(
+          'Error while updating schedule',
+          errorMessage,
+          10
+        );
+      },
+    });
   }
 
   yesterday() {
