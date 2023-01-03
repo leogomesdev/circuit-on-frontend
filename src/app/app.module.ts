@@ -5,11 +5,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { AngularMaterialModule } from './modules/angular-material.module';
-import { ApiClientService } from './services/api/api-client.service';
+import { CurrentSchedulesApiService } from './services/api/current-schedules-api.service';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './modules/app-routing.module';
 import { DialogScheduleComponent } from './components/schedules/dialog-schedule/dialog-schedule.component';
-import { PropagandaViewerComponent } from './propaganda-viewer/propaganda-viewer.component';
+import { CurrentScheduleViewerComponent } from './components/current-schedules/current-schedule-viewer/current-schedule-viewer.component';
 import { SchedulesListComponent } from './components/schedules/schedules-list/schedules-list.component';
 import { SnackbarMessageComponent } from './components/snackbar-message/snackbar-message.component';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
@@ -18,7 +18,7 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
   declarations: [
     AppComponent,
     DialogScheduleComponent,
-    PropagandaViewerComponent,
+    CurrentScheduleViewerComponent,
     SchedulesListComponent,
     SnackbarMessageComponent,
     SafeHtmlPipe,
@@ -30,7 +30,7 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     HttpClientModule,
   ],
-  providers: [ApiClientService, DatePipe],
+  providers: [CurrentSchedulesApiService, DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

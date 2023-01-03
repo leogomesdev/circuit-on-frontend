@@ -1,44 +1,44 @@
 import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
 import { DatePipe, DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { CurrentSchedule } from '../interfaces/current-schedule';
-import { ApiClientService } from '../services/api/api-client.service';
-import { MessageService } from '../services/message.service';
-import { NextSchedule } from '../interfaces/next-schedule';
+import { CurrentSchedule } from '../../../interfaces/current-schedule';
+import { CurrentSchedulesApiService } from '../../../services/api/current-schedules-api.service';
+import { MessageService } from '../../../services/message.service';
+import { NextSchedule } from '../../../interfaces/next-schedule';
 
 @Component({
-  templateUrl: './propaganda-viewer.component.html',
-  styleUrls: ['./propaganda-viewer.component.css'],
+  templateUrl: './current-schedule-viewer.component.html',
+  styleUrls: ['./current-schedule-viewer.component.css'],
 })
-export class PropagandaViewerComponent implements OnInit, OnDestroy {
+export class CurrentScheduleViewerComponent implements OnInit, OnDestroy {
   private injectScriptType = `text/javascript`;
   private nextSchedules: NextSchedule[] = [];
   private SHORT_DATETIME_FORMAT = 'EEE, MMM d HH:mm';
+  // 86400 seconds in a day
+  private msInSevenDays = 86400 * 1000 * 7;
+  private currentSchedulesApiServiceSubscription!: Subscription;
+
   public imageSource = '';
   public backgroundColor = '';
 
-  // 86400 seconds in a day
-  private msInSevenDays = 86400 * 1000 * 7;
-
-  private apiClientServiceSubscription!: Subscription;
-
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    private apiClientService: ApiClientService,
+    private CurrentSchedulesApiService: CurrentSchedulesApiService,
     private messageService: MessageService,
     private datePipe: DatePipe
   ) {}
 
   ngOnInit(): void {
-    this.apiClientServiceSubscription = this.apiClientService
-      .getCurrentSchedules()
-      .subscribe((res: CurrentSchedule[]) => {
-        this.scheduleChangesBasedOnAPI(res);
-      });
+    this.currentSchedulesApiServiceSubscription =
+      this.CurrentSchedulesApiService.getCurrentSchedules().subscribe(
+        (res: CurrentSchedule[]) => {
+          this.scheduleChangesBasedOnAPI(res);
+        }
+      );
   }
 
   ngOnDestroy(): void {
-    this.apiClientServiceSubscription.unsubscribe();
+    this.currentSchedulesApiServiceSubscription.unsubscribe();
   }
 
   /**

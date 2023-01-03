@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { catchError, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { MessageService } from '../message.service';
-import { Schedule } from '../../interfaces/schedule';
 import { Image } from '../../interfaces/image';
 import { ErrorHandling } from '../error-handling';
 
@@ -13,7 +12,7 @@ import { ErrorHandling } from '../error-handling';
 export class ImagesApiService {
   private backendBaseUrl = environment.envVar.PROPAGANDA_APP_BACKEND_BASE_URL;
   private path = '/v1/images';
-  httpOptions = {
+  private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
     }),
@@ -25,6 +24,10 @@ export class ImagesApiService {
     private errorHandling: ErrorHandling
   ) {}
 
+  /**
+   * Get all items from API
+   * @returns Observable<Image[]>
+   */
   getAll(): Observable<Image[]> {
     return this.httpClient
       .get<Image[]>(`${this.backendBaseUrl}${this.path}`, this.httpOptions)
@@ -39,9 +42,26 @@ export class ImagesApiService {
       );
   }
 
-  delete(_id: string) {
+  /**
+   * Get an Image from API
+   * @returns Observable<Image>
+   */
+  get(_id: string): Observable<Image> {
     return this.httpClient
-      .delete<Schedule>(
+      .get<Image>(`${this.backendBaseUrl}${this.path}/${_id}`, this.httpOptions)
+      .pipe(
+        catchError(this.errorHandling.handle<Image>('ImagesApiService:get'))
+      );
+  }
+
+  /**
+   * Deletes an item
+   * @param _id - reference to item that is going to be deleted
+   * @returns Observable<void>
+   */
+  delete(_id: string): Observable<void> {
+    return this.httpClient
+      .delete<void>(
         `${this.backendBaseUrl}${this.path}/${_id}`,
         this.httpOptions
       )

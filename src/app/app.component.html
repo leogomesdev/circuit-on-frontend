@@ -3,15 +3,15 @@
     <mat-icon>menu</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item routerLink="/view" routerLinkActive="active-link">
-      <mat-icon>pageview</mat-icon> View
-    </button>
     <button
       mat-menu-item
-      routerLink="/schedules-list"
+      routerLink="/schedules"
       routerLinkActive="active-link"
     >
       <mat-icon>calendar_today</mat-icon> Manage Schedules
+    </button>
+    <button mat-menu-item routerLink="/view" routerLinkActive="active-link">
+      <mat-icon>pageview</mat-icon> View
     </button>
   </mat-menu>
   <span>Propaganda Manager</span>

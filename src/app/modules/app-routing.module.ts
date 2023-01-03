@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PropagandaViewerComponent } from '../propaganda-viewer/propaganda-viewer.component';
+import { CurrentScheduleViewerComponent } from '../components/current-schedules/current-schedule-viewer/current-schedule-viewer.component';
 import { SchedulesListComponent } from '../components/schedules/schedules-list/schedules-list.component';
 
 const routes: Routes = [
   {
     path: 'view',
-    component: PropagandaViewerComponent,
+    component: CurrentScheduleViewerComponent,
   },
-  { path: 'schedules-list', component: SchedulesListComponent },
+  { path: 'schedules', component: SchedulesListComponent },
   {
     path: '**',
     redirectTo: '',

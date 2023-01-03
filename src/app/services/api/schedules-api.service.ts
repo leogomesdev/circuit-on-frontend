@@ -12,7 +12,7 @@ import { ErrorHandling } from '../error-handling';
 export class SchedulesApiService {
   private backendBaseUrl = environment.envVar.PROPAGANDA_APP_BACKEND_BASE_URL;
   private path = '/v1/schedules';
-  httpOptions = {
+  private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
     }),
@@ -23,6 +23,11 @@ export class SchedulesApiService {
     private errorHandling: ErrorHandling
   ) {}
 
+  /**
+   * Creates an item
+   * @param scheduleData - data for sending on the API call
+   * @returns Observable<Schedule>
+   */
   create(scheduleData: CreateScheduleDto): Observable<Schedule> {
     return this.httpClient
       .post<Schedule>(
@@ -37,6 +42,12 @@ export class SchedulesApiService {
       );
   }
 
+  /**
+   * Updates an item
+   * @param scheduleData - data for sending on the API call
+   * @param _id - reference to item that is going to be updated
+   * @returns Observable<Schedule>
+   */
   update(scheduleData: CreateScheduleDto, _id: string): Observable<Schedule> {
     return this.httpClient
       .put<Schedule>(
@@ -51,6 +62,10 @@ export class SchedulesApiService {
       );
   }
 
+  /**
+   * Get all items from API
+   * @returns Observable<Schedule[]>
+   */
   getAll(): Observable<Schedule[]> {
     return this.httpClient
       .get<Schedule[]>(`${this.backendBaseUrl}${this.path}`)
@@ -64,7 +79,10 @@ export class SchedulesApiService {
         )
       );
   }
-
+  /**
+   * Get all items from API with scheduledAt bigger than or equal NOW
+   * @returns Observable<Schedule[]>
+   */
   getAllFuture(): Observable<Schedule[]> {
     return this.httpClient
       .get<Schedule[]>(
@@ -82,9 +100,14 @@ export class SchedulesApiService {
       );
   }
 
-  delete(_id: string) {
+  /**
+   * Deletes an item
+   * @param _id - reference to item that is going to be deleted
+   * @returns Observable<void>
+   */
+  delete(_id: string): Observable<void> {
     return this.httpClient
-      .delete<Schedule>(
+      .delete<void>(
         `${this.backendBaseUrl}${this.path}/${_id}`,
         this.httpOptions
       )

@@ -41,7 +41,7 @@
         <!-- Scheduled At Column -->
         <ng-container matColumnDef="scheduledAt">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Scheduled At
+            {{ isSmallScreen ? "At" : "Scheduled At" }}
           </mat-header-cell>
           <mat-cell *matCellDef="let row">
             {{ row.scheduledAt | date : dateTimeFormat }}
@@ -66,7 +66,9 @@
 
         <!-- Background Color Column -->
         <ng-container matColumnDef="image.backgroundColor">
-          <mat-header-cell *matHeaderCellDef>BG Color</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>
+            {{ isSmallScreen ? "Color" : "BG Color" }}</mat-header-cell
+          >
           <mat-cell *matCellDef="let row">
             <mat-icon
               *ngIf="row.image.backgroundColor"
@@ -87,6 +89,14 @@
             <button
               mat-icon-button
               color="warn"
+              (click)="openDialogShowImage(row._id)"
+              title="Show image"
+            >
+              <mat-icon>eye</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="warn"
               (click)="deleteSchedule(row._id)"
               title="Delete item"
             >
@@ -100,8 +110,12 @@
 
         <!-- Row shown when there is no matching data. -->
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="4">
-            No data matching the filter "{{ input.value }}"
+          <td class="mat-cell" colspan="5">
+            {{
+              dataSource.data.length > 0
+                ? "No data matching the filter"
+                : "No data to display"
+            }}
           </td>
         </tr>
       </mat-table>
@@ -109,7 +123,7 @@
       <mat-paginator
         [pageSize]="pageSize"
         [pageSizeOptions]="[5, 10, 25, 50, 100]"
-        aria-label="Select page of users"
+        aria-label="Select page"
       ></mat-paginator>
     </div>
   </div>
