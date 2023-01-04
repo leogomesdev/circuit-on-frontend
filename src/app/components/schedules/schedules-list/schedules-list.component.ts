@@ -5,17 +5,17 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, MatSortable } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { DatePipe } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { SchedulesApiService } from 'src/app/services/api/schedules-api.service';
-import { Schedule } from 'src/app/interfaces/schedule';
+import { DialogImageViewComponent } from '../../shared/dialog-image-view/dialog-image-view.component';
 import { DialogScheduleComponent } from '../dialog-schedule/dialog-schedule.component';
 import { MessageService } from 'src/app/services/message.service';
-import { DialogImageViewComponent } from '../../shared/dialog-image-view/dialog-image-view.component';
+import { Schedule } from 'src/app/interfaces/schedule';
+import { SchedulesApiService } from 'src/app/services/api/schedules-api.service';
 
 @Component({
   selector: 'app-schedules-list',
@@ -92,7 +92,7 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
       this.schedulesApiServiceListSubscription.unsubscribe();
     }
     this.schedulesApiServiceListSubscription = this.schedulesApiService
-      .getAllFuture()
+      .getAll()
       .subscribe((data: Schedule[]) => {
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.paginator = this.paginator;

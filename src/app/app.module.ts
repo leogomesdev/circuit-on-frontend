@@ -5,23 +5,25 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { AngularMaterialModule } from './modules/angular-material.module';
-import { CurrentSchedulesApiService } from './services/api/current-schedules-api.service';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './modules/app-routing.module';
-import { DialogScheduleComponent } from './components/schedules/dialog-schedule/dialog-schedule.component';
+import { CurrentSchedulesApiService } from './services/api/current-schedules-api.service';
 import { CurrentScheduleViewerComponent } from './components/current-schedules/current-schedule-viewer/current-schedule-viewer.component';
+import { DialogImageViewComponent } from './components/shared/dialog-image-view/dialog-image-view.component';
+import { DialogScheduleComponent } from './components/schedules/dialog-schedule/dialog-schedule.component';
+import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { SchedulesListComponent } from './components/schedules/schedules-list/schedules-list.component';
 import { SnackbarMessageComponent } from './components/snackbar-message/snackbar-message.component';
-import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DialogScheduleComponent,
     CurrentScheduleViewerComponent,
+    DialogImageViewComponent,
+    DialogScheduleComponent,
+    SafeHtmlPipe,
     SchedulesListComponent,
     SnackbarMessageComponent,
-    SafeHtmlPipe,
   ],
   imports: [
     AngularMaterialModule,
