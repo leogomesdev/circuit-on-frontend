@@ -1,10 +1,10 @@
+import { catchError, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { Schedule } from '../../interfaces/schedule';
 import { CreateScheduleDto } from '../../components/schedules/dto/create-schedule.dto';
+import { environment } from '../../../environments/environment';
 import { ErrorHandling } from '../error-handling';
+import { Schedule } from '../../interfaces/schedule';
 
 @Injectable({
   providedIn: 'root',

@@ -3,6 +3,9 @@
     <mat-icon>menu</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/images" routerLinkActive="active-link">
+      <mat-icon>photo_camera</mat-icon> Manage Images
+    </button>
     <button
       mat-menu-item
       routerLink="/schedules"
@@ -18,3 +21,4 @@
   <span class="example-spacer"></span>
 </mat-toolbar>
 <router-outlet></router-outlet>
+<app-spinner></app-spinner>

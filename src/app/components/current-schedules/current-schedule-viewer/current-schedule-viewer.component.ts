@@ -38,7 +38,9 @@ export class CurrentScheduleViewerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.currentSchedulesApiServiceSubscription.unsubscribe();
+    if (this.currentSchedulesApiServiceSubscription) {
+      this.currentSchedulesApiServiceSubscription.unsubscribe();
+    }
   }
 
   /**

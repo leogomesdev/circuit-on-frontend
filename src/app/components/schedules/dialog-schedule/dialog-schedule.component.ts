@@ -16,11 +16,14 @@ import { MessageService } from 'src/app/services/message.service';
 })
 export class DialogScheduleComponent implements OnInit, OnDestroy {
   private imagesApiServiceSubscription!: Subscription;
+  datetimePickerOptions = {
+    minDate: this.yesterday(),
+    defaultTime: [5, 50, 0],
+    enableMeridian: true,
+    touchUi: true,
+    stepMinute: 5,
+  };
 
-  minDate: Date = this.yesterday();
-  defaultTime = [5, 50, 0];
-  enableMeridian = true;
-  touchUi = true;
   actionButtonName = 'Save';
   @ViewChild('picker') picker!: string;
 
@@ -55,7 +58,9 @@ export class DialogScheduleComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.imagesApiServiceSubscription.unsubscribe();
+    if (this.imagesApiServiceSubscription) {
+      this.imagesApiServiceSubscription.unsubscribe();
+    }
   }
 
   /**

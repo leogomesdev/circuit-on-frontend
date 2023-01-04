@@ -27,7 +27,9 @@ export class DialogImageViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.imagesApiServiceSubscription.unsubscribe();
+    if (this.imagesApiServiceSubscription) {
+      this.imagesApiServiceSubscription.unsubscribe();
+    }
   }
 
   /**
