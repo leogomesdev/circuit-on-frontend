@@ -12,44 +12,43 @@ import { MatSort, MatSortable } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { DialogImageViewComponent } from '../../shared/dialog-image-view/dialog-image-view.component';
-import { DialogScheduleComponent } from '../dialog-schedule/dialog-schedule.component';
+import { DialogImageComponent } from '../dialog-image/dialog-image.component';
 import { MessageService } from 'src/app/services/message.service';
-import { Schedule } from 'src/app/interfaces/schedule';
-import { SchedulesApiService } from 'src/app/services/api/schedules-api.service';
+import { Image } from 'src/app/interfaces/image';
+import { ImagesApiService } from 'src/app/services/api/images-api.service';
 
 @Component({
-  selector: 'app-schedules-list',
-  templateUrl: './schedules-list.component.html',
-  styleUrls: ['./schedules-list.component.css'],
+  selector: 'app-images-list',
+  templateUrl: './images-list.component.html',
+  styleUrls: ['./images-list.component.css'],
 })
-export class SchedulesListComponent implements OnInit, OnDestroy {
+export class ImagesListComponent implements OnInit, OnDestroy {
   private LONG_DATETIME_FORMAT = 'EEE, MMM d, y h:mm a z';
   private SHORT_DATETIME_FORMAT = 'EEE, MMM d HH:mm';
 
-  private schedulesApiServiceListSubscription!: Subscription;
-  private schedulesApiServiceDeleteSubscription!: Subscription;
+  private imagesApiServiceListSubscription!: Subscription;
+  private imagesApiServiceDeleteSubscription!: Subscription;
 
   displayedColumns: string[] = [
-    'scheduledAt',
-    'image.title',
-    'image.category',
-    'image.backgroundColor',
+    'category',
+    'title',
+    'backgroundColor',
+    'updatedAt',
     'action',
   ];
-  pageSize = 25;
+  pageSize = 10;
   screenWidth = 0;
   screenHeight = 0;
   filter = '';
   dateTimeFormat = this.LONG_DATETIME_FORMAT;
   isSmallScreen = false;
-  displayOnlyFutureSchedules = true;
-  dataSource!: MatTableDataSource<Schedule>;
+  dataSource!: MatTableDataSource<Image>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
-    private schedulesApiService: SchedulesApiService,
+    private imagesApiService: ImagesApiService,
     private dialog: MatDialog,
     private datePipe: DatePipe,
     private messageService: MessageService
@@ -57,15 +56,15 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.checkWindowSize();
-    this.updateListOfSchedules();
+    this.updateListOfImages();
   }
 
   ngOnDestroy(): void {
-    if (this.schedulesApiServiceListSubscription) {
-      this.schedulesApiServiceListSubscription.unsubscribe();
+    if (this.imagesApiServiceListSubscription) {
+      this.imagesApiServiceListSubscription.unsubscribe();
     }
-    if (this.schedulesApiServiceDeleteSubscription) {
-      this.schedulesApiServiceDeleteSubscription.unsubscribe();
+    if (this.imagesApiServiceDeleteSubscription) {
+      this.imagesApiServiceDeleteSubscription.unsubscribe();
     }
   }
 
@@ -88,13 +87,24 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
         : this.LONG_DATETIME_FORMAT;
   }
 
-  private onApiListSubscribe(data: Schedule[]) {
-    this.dataSource = new MatTableDataSource(data);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.filter = '';
-    this.filter = '';
-    this.defineCustomSort();
-    this.defineCustomFilter();
+  /**
+   * Fetch API to get images[]
+   * @returns void
+   */
+  private updateListOfImages(): void {
+    if (this.imagesApiServiceListSubscription) {
+      this.imagesApiServiceListSubscription.unsubscribe();
+    }
+    this.imagesApiServiceListSubscription = this.imagesApiService
+      .getAll()
+      .subscribe((data: Image[]) => {
+        this.dataSource = new MatTableDataSource(data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.filter = '';
+        this.filter = '';
+        this.defineCustomSort();
+        this.defineCustomFilter();
+      });
   }
 
   /**
@@ -104,17 +114,9 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
    */
   private defineCustomSort(): void {
     if (this.sort && !this.sort.active) {
-      this.sort.sort({ id: 'scheduledAt', start: 'asc' } as MatSortable);
+      this.sort.sort({ id: 'updatedAt', start: 'desc' } as MatSortable);
     }
     this.dataSource.sort = this.sort;
-    this.dataSource.sortingDataAccessor = (
-      row: Schedule,
-      columnName: string
-    ): string => {
-      if (columnName == 'image.title') return row.image.title;
-      if (columnName == 'image.category') return row.image.category;
-      return row[columnName as keyof Schedule] as string;
-    };
   }
 
   /**
@@ -122,34 +124,15 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
    * @returns void
    */
   private defineCustomFilter(): void {
-    this.dataSource.filterPredicate = (record: Schedule, filter: string) => {
+    this.dataSource.filterPredicate = (record: Image, filter: string) => {
       const formattedDate = this.datePipe.transform(
-        record.scheduledAt,
+        record.updatedAt,
         this.dateTimeFormat
       );
       const data =
-        `${record.image.category}${record.image.title}${record.scheduledAt}${formattedDate}`.toLowerCase();
+        `${record.category}${record.title}${record.updatedAt}${formattedDate}`.toLowerCase();
       return data.includes(filter);
     };
-  }
-
-  /**
-   * Fetch API to get schedules[]
-   * @returns void
-   */
-  updateListOfSchedules(): void {
-    if (this.schedulesApiServiceListSubscription) {
-      this.schedulesApiServiceListSubscription.unsubscribe();
-    }
-    if (this.displayOnlyFutureSchedules) {
-      this.schedulesApiServiceListSubscription = this.schedulesApiService
-        .getAllFuture()
-        .subscribe((data: Schedule[]) => this.onApiListSubscribe(data));
-      return;
-    }
-    this.schedulesApiServiceListSubscription = this.schedulesApiService
-      .getAll()
-      .subscribe((data: Schedule[]) => this.onApiListSubscribe(data));
   }
 
   /**
@@ -167,57 +150,56 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Open modal for creating a Schedule
+   * Open modal for creating a Image
    * @returns void
    */
   openDialog() {
     this.dialog
-      .open(DialogScheduleComponent, {
+      .open(DialogImageComponent, {
         width: '60%',
       })
       .afterClosed()
       .subscribe(() => {
-        this.updateListOfSchedules();
+        this.updateListOfImages();
       });
   }
 
   /**
-   * Open modal for updating a Schedule
+   * Open modal for updating a Image
    * @returns void
    */
-  editSchedule(row: Schedule): void {
+  editImage(row: Image): void {
     this.dialog
-      .open(DialogScheduleComponent, {
+      .open(DialogImageComponent, {
         data: row,
         width: '60%',
       })
       .afterClosed()
       .subscribe((value) => {
         if (value === 'UPDATE') {
-          this.updateListOfSchedules();
+          this.updateListOfImages();
         }
       });
   }
-
   /**
-   * Deletes a schedule
+   * Deletes a image
    * @returns void
    */
-  deleteSchedule(_id: string): void {
-    if (this.schedulesApiServiceDeleteSubscription) {
-      this.schedulesApiServiceDeleteSubscription.unsubscribe();
+  deleteImage(_id: string): void {
+    if (this.imagesApiServiceDeleteSubscription) {
+      this.imagesApiServiceDeleteSubscription.unsubscribe();
     }
-    this.schedulesApiServiceDeleteSubscription = this.schedulesApiService
+    this.imagesApiServiceDeleteSubscription = this.imagesApiService
       .delete(_id)
       .subscribe({
         next: () => {
-          this.messageService.showSuccess('Schedule deleted successfully', 5);
-          this.updateListOfSchedules();
+          this.messageService.showSuccess('Image deleted successfully', 5);
+          this.updateListOfImages();
         },
         error: (error) => {
           const errorMessage: string[] = error?.error?.message || error.message;
           this.messageService.showError(
-            'Error while deleting schedule',
+            'Error while deleting image',
             errorMessage,
             10
           );
@@ -229,9 +211,9 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
    * Open modal for displaying an image
    * @returns void
    */
-  openDialogShowImage(imageId: string) {
+  openDialogShowImage(image: Image) {
     this.dialog.open(DialogImageViewComponent, {
-      data: { _id: imageId },
+      data: image,
       width: '80%',
     });
   }

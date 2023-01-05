@@ -1,29 +1,35 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { CreateScheduleDto } from '../dto/create-schedule.dto';
-import { Schedule } from '../../../interfaces/schedule';
-import { Image } from 'src/app/interfaces/image';
 import { ImagesApiService } from 'src/app/services/api/images-api.service';
+import { ImagesByCategory } from 'src/app/interfaces/images-by-category';
+import { MessageService } from 'src/app/services/message.service';
+import { Schedule } from '../../../interfaces/schedule';
 import { SchedulesApiService } from 'src/app/services/api/schedules-api.service';
-import { MessageService } from '../../../services/message.service';
 
 @Component({
   selector: 'app-dialog-schedule',
   templateUrl: './dialog-schedule.component.html',
   styleUrls: ['./dialog-schedule.component.css'],
 })
-export class DialogScheduleComponent implements OnInit {
-  public minDate: Date = this.yesterday();
-  public defaultTime = [5, 50, 0];
-  public enableMeridian = true;
-  public touchUi = true;
+export class DialogScheduleComponent implements OnInit, OnDestroy {
+  private imagesApiServiceSubscription!: Subscription;
+  datetimePickerOptions = {
+    minDate: this.yesterday(),
+    defaultTime: [5, 50, 0],
+    enableMeridian: true,
+    touchUi: true,
+    stepMinute: 5,
+  };
+
   actionButtonName = 'Save';
   @ViewChild('picker') picker!: string;
 
   scheduleForm!: FormGroup;
 
-  imagesList: Image[] = [];
+  imagesByCategoryList: ImagesByCategory[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public editData: Schedule,
@@ -34,7 +40,7 @@ export class DialogScheduleComponent implements OnInit {
     private messageService: MessageService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.scheduleForm = this.formBuilder.group({
       scheduledAt: ['', Validators.required],
       imageId: ['', Validators.required],
@@ -51,24 +57,18 @@ export class DialogScheduleComponent implements OnInit {
     this.getImagesForSelect();
   }
 
-  getImagesForSelect() {
-    // @TODO drop subscriptions on destroying
-    this.imagesApiService.getAll().subscribe((data: Image[]) => {
-      this.imagesList = data.sort((a, b) =>
-        a.createdAt > b.createdAt ? -1 : 1
-      );
-    });
-  }
-
-  addOrUpdateSchedule(closeFormAfterSaving = true) {
-    if (this.editData?._id?.length > 0) {
-      return this.updateSchedule(closeFormAfterSaving);
+  ngOnDestroy(): void {
+    if (this.imagesApiServiceSubscription) {
+      this.imagesApiServiceSubscription.unsubscribe();
     }
-
-    return this.addSchedule(closeFormAfterSaving);
   }
 
-  addSchedule(closeFormAfterSaving: boolean) {
+  /**
+   * Send data through API to add a new Schedule
+   * @param closeFormAfterSaving if should close modal after operation is done
+   * @returns void
+   */
+  private addSchedule(closeFormAfterSaving: boolean): void {
     if (!this.scheduleForm.valid) {
       this.messageService.showError(
         'Please fill all the required fields',
@@ -100,7 +100,12 @@ export class DialogScheduleComponent implements OnInit {
     });
   }
 
-  updateSchedule(closeFormAfterSaving: boolean) {
+  /**
+   * Send data through API to update an existing Schedule
+   * @param closeFormAfterSaving if should close modal after operation is done
+   * @returns void
+   */
+  private updateSchedule(closeFormAfterSaving: boolean): void {
     if (!this.scheduleForm.valid) {
       this.messageService.showError(
         'Please fill all the required fields',
@@ -132,10 +137,39 @@ export class DialogScheduleComponent implements OnInit {
     });
   }
 
-  yesterday() {
+  /**
+   * Get Yesterday date based on current date
+   * @returns Date
+   */
+  private yesterday(): Date {
     const date = new Date();
     date.setDate(date.getDate() - 1);
 
     return date;
+  }
+
+  /**
+   * Connect to API to get list of images to show on the imageId field selector
+   * @returns void
+   */
+  getImagesForSelect(): void {
+    this.imagesApiServiceSubscription = this.imagesApiService
+      .getGroupedByCategory()
+      .subscribe((data: ImagesByCategory[]) => {
+        this.imagesByCategoryList = data;
+      });
+  }
+
+  /**
+   * Use form data to add or update a Schedule
+   * @param closeFormAfterSaving boolean
+   * @returns void
+   */
+  addOrUpdateSchedule(closeFormAfterSaving = true): void {
+    if (this.editData?._id?.length > 0) {
+      return this.updateSchedule(closeFormAfterSaving);
+    }
+
+    return this.addSchedule(closeFormAfterSaving);
   }
 }

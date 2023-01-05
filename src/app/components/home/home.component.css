@@ -1,0 +1,18 @@
+.main-container {
+  padding: 30px;
+}
+
+.inner-container {
+  padding: 24px;
+}
+
+.page-info {
+  padding-left: 24px;
+  margin: 0px;
+  color: #0009;
+}
+
+.align-items {
+  display: flex;
+  align-items: center;
+}

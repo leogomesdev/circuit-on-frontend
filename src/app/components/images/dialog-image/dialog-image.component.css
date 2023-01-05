@@ -1,0 +1,25 @@
+mat-form-field {
+  width: 100%;
+}
+
+.buttons-row {
+  margin: 8px 8px 8px 0;
+}
+
+.file-input {
+  display: none;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+}
+
+.inline-margin-5 {
+  display: inline-block;
+  margin: 5px;
+}
+
+.warn {
+  color: var(--mdc-theme-error, #f44336);
+}

@@ -1,7 +1,7 @@
 <section class="container">
   <mat-grid-list cols="1" rowHeight="100px">
     <mat-grid-tile [colspan]="1" [rowspan]="1">
-      <h1>Schedules</h1>
+      <h1>Images</h1>
       <button
         mat-raised-button
         color="primary"
@@ -13,22 +13,15 @@
       </button>
     </mat-grid-tile>
   </mat-grid-list>
-
-  <mat-slide-toggle
-    class="slide-toggle"
-    color="primary"
-    [(ngModel)]="displayOnlyFutureSchedules"
-    (change)="updateListOfSchedules()"
-  >
-    Only future schedules
-  </mat-slide-toggle>
 </section>
 
 <section class="container">
   <p class="page-info align-items">
     <mat-icon class="info-icon">info</mat-icon>
-    &nbsp; When deleting a schedule, it does not delete the related image
+    &nbsp; When deleting an image, it automatically removes any schedule related
+    to the image
   </p>
+
   <div>
     <mat-form-field>
       <mat-label> <mat-icon matPrefix>search</mat-icon> Filter</mat-label>
@@ -51,44 +44,44 @@
         matSort
         class="mat-elevation-z8"
       >
-        <!-- Scheduled At Column -->
-        <ng-container matColumnDef="scheduledAt">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ isSmallScreen ? "At" : "Scheduled At" }}
-          </mat-header-cell>
-          <mat-cell *matCellDef="let row">
-            {{ row.scheduledAt | date : dateTimeFormat }}
-          </mat-cell>
-        </ng-container>
-
         <!-- Category Column -->
-        <ng-container matColumnDef="image.category">
+        <ng-container matColumnDef="category">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
             Category
           </mat-header-cell>
-          <mat-cell *matCellDef="let row">{{ row.image.category }}</mat-cell>
+          <mat-cell *matCellDef="let row">{{ row.category }}</mat-cell>
         </ng-container>
 
         <!-- Title Column -->
-        <ng-container matColumnDef="image.title">
+        <ng-container matColumnDef="title">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
             Title
           </mat-header-cell>
-          <mat-cell *matCellDef="let row">{{ row.image.title }}</mat-cell>
+          <mat-cell *matCellDef="let row">{{ row.title }}</mat-cell>
         </ng-container>
 
         <!-- Background Color Column -->
-        <ng-container matColumnDef="image.backgroundColor">
+        <ng-container matColumnDef="backgroundColor">
           <mat-header-cell *matHeaderCellDef>
-            {{ isSmallScreen ? "BG" : "BG Color" }}
+            {{ isSmallScreen ? "Color" : "BG Color" }}
           </mat-header-cell>
           <mat-cell *matCellDef="let row">
             <mat-icon
-              *ngIf="row.image.backgroundColor"
-              [ngStyle]="{ background: row.image.backgroundColor }"
+              *ngIf="row.backgroundColor"
+              [ngStyle]="{ background: row.backgroundColor }"
             >
               colorize
             </mat-icon>
+          </mat-cell>
+        </ng-container>
+
+        <!-- Modified At Column -->
+        <ng-container matColumnDef="updatedAt">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ isSmallScreen ? "At" : "Modified At" }}
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            {{ row.updatedAt | date : dateTimeFormat }}
           </mat-cell>
         </ng-container>
 
@@ -96,23 +89,22 @@
         <ng-container matColumnDef="action">
           <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
           <mat-cell *matCellDef="let row">
-            <!-- <button mat-icon-button color="primary" (click)="editSchedule(row)">
+            <!-- <button mat-icon-button color="primary" (click)="editImage(row)">
               <mat-icon>edit</mat-icon>
             </button> -->
             <button
               mat-icon-button
               color="primary"
-              (click)="openDialogShowImage(row.image._id)"
+              (click)="openDialogShowImage(row)"
               title="Show image"
             >
               <mat-icon>pageview</mat-icon>
             </button>
-
             <button
               mat-icon-button
               color="warn"
-              (click)="deleteSchedule(row._id)"
-              title="Delete schedule"
+              (click)="deleteImage(row._id)"
+              title="Delete item"
             >
               <mat-icon>delete</mat-icon>
             </button>

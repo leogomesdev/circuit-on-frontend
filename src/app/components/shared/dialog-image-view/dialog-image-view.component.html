@@ -1,0 +1,37 @@
+<h1 mat-dialog-title>Image details</h1>
+<div mat-dialog-content>
+  <div *ngIf="image">
+    <p>
+      <mat-icon class="top-vertical-align">font_download</mat-icon>
+      <mat-label>Category: </mat-label>
+      {{ image.category }}
+      &nbsp;<strong>|</strong>&nbsp;
+      <mat-label>Title: </mat-label> {{ image.title }}
+      <br *ngIf="image.createdAt" />
+      <mat-icon *ngIf="image.createdAt" class="top-vertical-align">
+        calendar_today
+      </mat-icon>
+      <mat-label *ngIf="image.createdAt">Created At: </mat-label>
+      {{ image.createdAt | date : LONG_DATETIME_FORMAT }}
+      <span *ngIf="image.createdAt !== image.updatedAt">
+        &nbsp;<strong>|</strong>&nbsp;
+        <mat-label>Updated At: </mat-label>
+        {{ image.updatedAt | date : LONG_DATETIME_FORMAT }}
+      </span>
+      <br />
+      <mat-icon class="top-vertical-align">info</mat-icon>
+      <mat-label>Id: </mat-label>
+      {{ image._id }}
+    </p>
+    <div
+      [ngStyle]="{ background: image.backgroundColor }"
+      id="current-propaganda-parent-div"
+    >
+      <img src="{{ image.data }}" class="center width-50" />
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions [align]="'end'" class="buttons-row">
+  <button mat-stroked-button mat-dialog-close>Close</button>
+</div>

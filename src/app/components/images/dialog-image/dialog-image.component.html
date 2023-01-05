@@ -1,0 +1,73 @@
+<h1 mat-dialog-title>Add a new image</h1>
+<div mat-dialog-content>
+  <form [formGroup]="imageForm">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Category</mat-label>
+      <input
+        type="text"
+        placeholder="Select from list or type a new one"
+        aria-label="Category"
+        matInput
+        formControlName="category"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of categoryOptions" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title" />
+    </mat-form-field>
+
+    <div class="flex-center">
+      <mat-label>File<span class="warn">*</span>:</mat-label>
+      &nbsp;
+      <input
+        type="file"
+        class="file-input"
+        (change)="onFileSelected($event)"
+        #fileUpload
+        matInput
+        formControlName="fileName"
+      />
+      <div class="file-upload flex-center">
+        {{ imageForm.value["fileName"] || "No file uploaded yet." }}
+        &nbsp;
+        <button
+          mat-mini-fab
+          color="primary"
+          class="upload-btn"
+          (click)="fileUpload.click()"
+          title="Select file"
+        >
+          <mat-icon>attach_file</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="flex-center">
+      <mat-label>Background Color:</mat-label>
+      <ngx-colors
+        ngx-colors-trigger
+        class="inline-margin-5"
+        formControlName="backgroundColor"
+      >
+      </ngx-colors>
+    </div>
+  </form>
+</div>
+
+<div mat-dialog-actions [align]="'end'" class="buttons-row">
+  <button mat-stroked-button mat-dialog-close>Close</button>
+  <button mat-raised-button color="primary" (click)="addOrUpdateImage(false)">
+    <mat-icon>save</mat-icon> {{ actionButtonName }}
+  </button>
+
+  <button mat-raised-button color="primary" (click)="addOrUpdateImage()">
+    <mat-icon>save_alt</mat-icon> {{ actionButtonName }} and Close
+  </button>
+</div>
