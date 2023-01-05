@@ -17,6 +17,7 @@ import { DialogScheduleComponent } from './components/schedules/dialog-schedule/
 import { HomeComponent } from './components/home/home.component';
 import { ImagesListComponent } from './components/images/images-list/images-list.component';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
+import { NavbarComponent } from './components/navbar/navbar.component';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { SchedulesListComponent } from './components/schedules/schedules-list/schedules-list.component';
 import { SnackbarMessageComponent } from './components/shared/snackbar-message/snackbar-message.component';
@@ -25,17 +26,18 @@ import { SpinnerComponent } from './components/shared/spinner/spinner.component'
 @NgModule({
   declarations: [
     AppComponent,
+    CurrentScheduleListComponent,
     CurrentScheduleViewerComponent,
     DialogImageComponent,
     DialogImageViewComponent,
     DialogScheduleComponent,
+    HomeComponent,
     ImagesListComponent,
+    NavbarComponent,
     SafeHtmlPipe,
     SchedulesListComponent,
     SnackbarMessageComponent,
     SpinnerComponent,
-    CurrentScheduleListComponent,
-    HomeComponent,
   ],
   imports: [
     AngularMaterialModule,
@@ -46,7 +48,6 @@ import { SpinnerComponent } from './components/shared/spinner/spinner.component'
     NgxColorsModule,
   ],
   providers: [
-    CurrentSchedulesApiService,
     DatePipe,
     {
       provide: HTTP_INTERCEPTORS,

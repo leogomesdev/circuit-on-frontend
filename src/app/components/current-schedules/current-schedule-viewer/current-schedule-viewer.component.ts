@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
 import { DatePipe, DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { CurrentSchedule } from '../../../interfaces/current-schedule';
-import { CurrentSchedulesApiService } from '../../../services/api/current-schedules-api.service';
-import { MessageService } from '../../../services/message.service';
-import { NextSchedule } from '../../../interfaces/next-schedule';
+import { CurrentSchedule } from 'src/app/interfaces/current-schedule';
+import { CurrentSchedulesApiService } from 'src/app/services/api/current-schedules-api.service';
+import { MessageService } from 'src/app/services/message.service';
+import { NavbarService } from 'src/app/services/navbar.service';
+import { NextSchedule } from 'src/app/interfaces/next-schedule';
 
 @Component({
   templateUrl: './current-schedule-viewer.component.html',
@@ -25,10 +26,12 @@ export class CurrentScheduleViewerComponent implements OnInit, OnDestroy {
     @Inject(DOCUMENT) private document: Document,
     private CurrentSchedulesApiService: CurrentSchedulesApiService,
     private messageService: MessageService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private nav: NavbarService
   ) {}
 
   ngOnInit(): void {
+    this.nav.hide();
     this.currentSchedulesApiServiceSubscription =
       this.CurrentSchedulesApiService.getAll().subscribe(
         (res: CurrentSchedule[]) => {
@@ -38,6 +41,7 @@ export class CurrentScheduleViewerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.nav.show();
     if (this.currentSchedulesApiServiceSubscription) {
       this.currentSchedulesApiServiceSubscription.unsubscribe();
     }

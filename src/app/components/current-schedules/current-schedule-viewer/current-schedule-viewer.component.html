@@ -3,6 +3,17 @@
   [ngStyle]="{ background: backgroundColor }"
   id="current-propaganda-parent-div"
 >
+  <div class="home-link">
+    <button
+      mat-mini-fab
+      color="primary"
+      routerLink="/"
+      routerLinkActive="active-link"
+      class="home-button"
+    >
+      <mat-icon>home</mat-icon>
+    </button>
+  </div>
   <img
     src="{{ imageSource }}"
     class="center height100"
