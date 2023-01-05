@@ -10,12 +10,18 @@
       >
         <mat-icon>add</mat-icon>
         Add item
-      </button></mat-grid-tile
-    >
+      </button>
+    </mat-grid-tile>
   </mat-grid-list>
 </section>
 
 <section class="container">
+  <p class="page-info align-items">
+    <mat-icon class="info-icon">info</mat-icon>
+    &nbsp; When deleting an image, it automatically removes any schedule related
+    to the image
+  </p>
+
   <div>
     <mat-form-field>
       <mat-label> <mat-icon matPrefix>search</mat-icon> Filter</mat-label>
@@ -69,13 +75,13 @@
           </mat-cell>
         </ng-container>
 
-        <!-- Created At Column -->
-        <ng-container matColumnDef="createdAt">
+        <!-- Modified At Column -->
+        <ng-container matColumnDef="updatedAt">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ isSmallScreen ? "At" : "Created At" }}
+            {{ isSmallScreen ? "At" : "Modified At" }}
           </mat-header-cell>
           <mat-cell *matCellDef="let row">
-            {{ row.createdAt | date : dateTimeFormat }}
+            {{ row.updatedAt | date : dateTimeFormat }}
           </mat-cell>
         </ng-container>
 

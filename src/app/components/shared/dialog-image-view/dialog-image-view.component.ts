@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { Image } from 'src/app/interfaces/image';
 import { ImagesApiService } from 'src/app/services/api/images-api.service';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MessageService } from 'src/app/services/message.service';
 import { Subscription } from 'rxjs';
 
@@ -18,7 +18,6 @@ export class DialogImageViewComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(MAT_DIALOG_DATA) public imageRef: Image,
     private imagesApiService: ImagesApiService,
-    private dialogRef: MatDialogRef<DialogImageViewComponent>,
     private messageService: MessageService
   ) {}
 

@@ -19,6 +19,7 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { SchedulesListComponent } from './components/schedules/schedules-list/schedules-list.component';
 import { SnackbarMessageComponent } from './components/shared/snackbar-message/snackbar-message.component';
 import { SpinnerComponent } from './components/shared/spinner/spinner.component';
+import { CurrentScheduleListComponent } from './components/current-schedules/current-schedule-list/current-schedule-list.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { SpinnerComponent } from './components/shared/spinner/spinner.component'
     SchedulesListComponent,
     SnackbarMessageComponent,
     SpinnerComponent,
+    CurrentScheduleListComponent,
   ],
   imports: [
     AngularMaterialModule,

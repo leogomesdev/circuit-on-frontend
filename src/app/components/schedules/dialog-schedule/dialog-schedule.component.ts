@@ -3,11 +3,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { CreateScheduleDto } from '../dto/create-schedule.dto';
-import { Schedule } from '../../../interfaces/schedule';
-import { Image } from 'src/app/interfaces/image';
 import { ImagesApiService } from 'src/app/services/api/images-api.service';
-import { SchedulesApiService } from 'src/app/services/api/schedules-api.service';
+import { ImagesByCategory } from 'src/app/interfaces/images-by-category';
 import { MessageService } from 'src/app/services/message.service';
+import { Schedule } from '../../../interfaces/schedule';
+import { SchedulesApiService } from 'src/app/services/api/schedules-api.service';
 
 @Component({
   selector: 'app-dialog-schedule',
@@ -29,7 +29,7 @@ export class DialogScheduleComponent implements OnInit, OnDestroy {
 
   scheduleForm!: FormGroup;
 
-  imagesList: Image[] = [];
+  imagesByCategoryList: ImagesByCategory[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public editData: Schedule,
@@ -154,11 +154,9 @@ export class DialogScheduleComponent implements OnInit, OnDestroy {
    */
   getImagesForSelect(): void {
     this.imagesApiServiceSubscription = this.imagesApiService
-      .getAll()
-      .subscribe((data: Image[]) => {
-        this.imagesList = data.sort((a, b) =>
-          a.createdAt > b.createdAt ? -1 : 1
-        );
+      .getGroupedByCategory()
+      .subscribe((data: ImagesByCategory[]) => {
+        this.imagesByCategoryList = data;
       });
   }
 

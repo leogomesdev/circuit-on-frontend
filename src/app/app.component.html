@@ -2,10 +2,12 @@
   <button mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>menu</mat-icon>
   </button>
+
   <mat-menu #menu="matMenu">
     <button mat-menu-item routerLink="/images" routerLinkActive="active-link">
       <mat-icon>photo_camera</mat-icon> Manage Images
     </button>
+
     <button
       mat-menu-item
       routerLink="/schedules"
@@ -13,12 +15,20 @@
     >
       <mat-icon>calendar_today</mat-icon> Manage Schedules
     </button>
+
     <button mat-menu-item routerLink="/view" routerLinkActive="active-link">
-      <mat-icon>pageview</mat-icon> View
+      <mat-icon>tv</mat-icon> View
+    </button>
+
+    <button mat-menu-item routerLink="/current-schedule" routerLinkActive="active-link">
+      <mat-icon>horizontal_split</mat-icon> Current Schedule
     </button>
   </mat-menu>
+
   <span>Propaganda Manager</span>
   <span class="example-spacer"></span>
 </mat-toolbar>
+
 <router-outlet></router-outlet>
+
 <app-spinner></app-spinner>

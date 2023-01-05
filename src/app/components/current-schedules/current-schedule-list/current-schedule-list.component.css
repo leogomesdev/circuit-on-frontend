@@ -1,0 +1,70 @@
+@media screen and (max-width: 800px) {
+  .info-icon {
+    padding-right: 10px;
+  }
+}
+
+.example-card {
+  max-width: 400px;
+  margin-bottom: 8px;
+}
+
+.cards-container {
+  padding: 30px;
+}
+
+.list-cards {
+  padding: 24px;
+}
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.add-item-button {
+  margin: 0 0 16px 16px;
+}
+
+.padding-5 {
+  padding: 5px;
+}
+
+.page-info {
+  padding-left: 24px;
+  margin: 0px;
+  color: #0009;
+}
+
+.align-items {
+  display: flex;
+  align-items: center;
+}
+
+.flex-container {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.flex-item {
+  padding: 5px;
+}
+
+.margin-0 {
+  margin: 0 auto;
+}
+
+.no-padding-right {
+  padding-right: 0px;
+}

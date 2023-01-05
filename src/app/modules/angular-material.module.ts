@@ -1,5 +1,6 @@
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -28,6 +29,7 @@ import {
     FormsModule,
     MatAutocompleteModule,
     MatButtonModule,
+    MatCardModule,
     MatDatepickerModule,
     MatDialogModule,
     MatDialogModule,
@@ -49,9 +51,10 @@ import {
     ReactiveFormsModule,
   ],
   exports: [
-    MatAutocompleteModule,
     FormsModule,
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCardModule,
     MatDatepickerModule,
     MatDialogModule,
     MatDialogModule,

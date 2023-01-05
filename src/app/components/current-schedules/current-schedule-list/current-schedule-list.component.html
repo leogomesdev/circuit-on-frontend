@@ -1,0 +1,97 @@
+<section class="container">
+  <mat-grid-list cols="1" rowHeight="100px">
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+      <h1>Current Schedule</h1>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="openDialog()"
+        class="add-item-button"
+      >
+        <mat-icon>add</mat-icon>
+        Add item
+      </button>
+    </mat-grid-tile>
+  </mat-grid-list>
+</section>
+
+<p class="page-info align-items">
+  <mat-icon class="info-icon">info</mat-icon>
+  &nbsp;This page shows the latest image on schedule and the subsequent pictures
+  on schedule
+</p>
+
+<p class="page-info align-items">
+  <mat-icon class="info-icon">info</mat-icon>
+  &nbsp;This page is limited to displaying 8 items. Use the Manage Schedules
+  page to view all schedules
+</p>
+
+<section class="cards-container">
+  <div class="mat-elevation-z8 list-cards">
+    <mat-grid-list cols="{{ isSmallScreen ? 1 : 4 }}" rowHeight="1:1">
+      <mat-grid-tile
+        *ngFor="let currentSchedule of currentScheduleList; let index = index"
+      >
+        <mat-card class="example-card mat-elevation-z8">
+          <mat-card-header>
+            <mat-card-title-group>
+              <mat-card-title>
+                {{ index + 1 }}: &nbsp;
+                {{ currentSchedule.category.toUpperCase() }}
+                &nbsp;
+              </mat-card-title>
+              <img
+                mat-card-lg-image
+                src="{{ currentSchedule.data }}"
+                class="padding-5"
+                [ngStyle]="{ background: currentSchedule.backgroundColor }"
+              />
+            </mat-card-title-group>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="flex-container space-between">
+              <div class="flex-item">
+                <p class="align-items margin-0">
+                  <mat-icon title="Scheduled at">tv</mat-icon>:
+                  {{ currentSchedule.scheduledAt | date : dateTimeFormat }}
+                </p>
+              </div>
+              <div class="flex-item align-items no-padding-right">
+                <mat-icon
+                  *ngIf="currentSchedule.backgroundColor"
+                  title="Background Color"
+                  [ngStyle]="{ background: currentSchedule.backgroundColor }"
+                  title="This image contains a background color"
+                >
+                  colorize
+                </mat-icon>
+              </div>
+            </div>
+            <p class="padding-5">
+              {{ currentSchedule.title }}
+            </p>
+          </mat-card-content>
+          <mat-card-actions [align]="'end'">
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="deleteSchedule(currentSchedule.scheduleId)"
+              title="Delete schedule"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="primary"
+              (click)="openDialogShowImage(currentSchedule)"
+              title="Show image"
+            >
+              <mat-icon>pageview</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+</section>

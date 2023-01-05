@@ -57,11 +57,16 @@ export class DialogImageComponent implements OnInit, OnDestroy {
       this.imagesApiServiceSubscription.unsubscribe();
     }
   }
-
+  /**
+   * When a file is selected for upload, check its filetype
+   * @param event
+   * @returns void
+   */
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   onFileSelected(event: any): void {
-    if (event.target.files && event.target.files[0]) {
+    if (event?.target?.files && event?.target?.files[0]) {
       const file: File = event.target.files[0];
-      const regex: RegExp = new RegExp('image/jpeg|image/png');
+      const regex = new RegExp('image/jpeg|image/png');
       if (!regex.test(file.type)) {
         this.messageService.showError(
           'Please upload a JPEG or PNG image',
@@ -94,7 +99,7 @@ export class DialogImageComponent implements OnInit, OnDestroy {
     const imageData = new CreateImageDto(
       this.imageForm.value['category'].trim(),
       this.imageForm.value['title'].trim(),
-      this.imageForm.value['backgroundColor'].trim()
+      this.imageForm.value['backgroundColor']
     );
     this.imagesApiService.create(this.currentFile, imageData).subscribe({
       next: () => {

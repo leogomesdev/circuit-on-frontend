@@ -17,10 +17,25 @@
   }
 }
 
+@media screen and (max-width: 800px) {
+  .info-icon {
+    padding-right: 10px;
+  }
+}
+
 .add-item-button {
   margin: 0 0 16px 16px;
 }
 
 .slide-toggle {
   margin-bottom: 20px;
+}
+
+.align-items {
+  display: flex;
+  align-items: center;
+}
+
+.page-info {
+  color: #0009;
 }

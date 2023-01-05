@@ -21,7 +21,7 @@ export class CurrentSchedulesApiService {
    * Connect with API for fetching data
    * @returns Promise of a result
    */
-  public getCurrentSchedules(): Observable<CurrentSchedule[]> {
+  public getAll(): Observable<CurrentSchedule[]> {
     return this.http
       .get<CurrentSchedule[]>(this.backendBaseUrl + this.path, {
         headers: this.headers,
@@ -29,7 +29,7 @@ export class CurrentSchedulesApiService {
       .pipe(
         catchError(
           this.errorHandling.handle<CurrentSchedule[]>(
-            'getCurrentSchedules',
+            'CurrentSchedulesApiService:getAll',
             true,
             []
           )

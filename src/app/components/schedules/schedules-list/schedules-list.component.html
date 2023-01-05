@@ -10,21 +10,25 @@
       >
         <mat-icon>add</mat-icon>
         Add item
-      </button></mat-grid-tile
-    >
+      </button>
+    </mat-grid-tile>
   </mat-grid-list>
 
   <mat-slide-toggle
     class="slide-toggle"
     color="primary"
     [(ngModel)]="displayOnlyFutureSchedules"
-    (change)="refreshListOfSchedules()"
+    (change)="updateListOfSchedules()"
   >
     Only future schedules
   </mat-slide-toggle>
 </section>
 
 <section class="container">
+  <p class="page-info align-items">
+    <mat-icon class="info-icon">info</mat-icon>
+    &nbsp; When deleting a schedule, it does not delete the related image
+  </p>
   <div>
     <mat-form-field>
       <mat-label> <mat-icon matPrefix>search</mat-icon> Filter</mat-label>
@@ -108,7 +112,7 @@
               mat-icon-button
               color="warn"
               (click)="deleteSchedule(row._id)"
-              title="Delete item"
+              title="Delete schedule"
             >
               <mat-icon>delete</mat-icon>
             </button>

@@ -36,7 +36,7 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
     'image.backgroundColor',
     'action',
   ];
-  pageSize = 10;
+  pageSize = 25;
   screenWidth = 0;
   screenHeight = 0;
   filter = '';
@@ -88,25 +88,6 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
         : this.LONG_DATETIME_FORMAT;
   }
 
-  /**
-   * Fetch API to get schedules[]
-   * @returns void
-   */
-  private updateListOfSchedules(): void {
-    if (this.schedulesApiServiceListSubscription) {
-      this.schedulesApiServiceListSubscription.unsubscribe();
-    }
-    if (this.displayOnlyFutureSchedules) {
-      this.schedulesApiServiceListSubscription = this.schedulesApiService
-        .getAllFuture()
-        .subscribe((data: Schedule[]) => this.onApiListSubscribe(data));
-      return;
-    }
-    this.schedulesApiServiceListSubscription = this.schedulesApiService
-      .getAll()
-      .subscribe((data: Schedule[]) => this.onApiListSubscribe(data));
-  }
-
   private onApiListSubscribe(data: Schedule[]) {
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
@@ -150,6 +131,25 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
         `${record.image.category}${record.image.title}${record.scheduledAt}${formattedDate}`.toLowerCase();
       return data.includes(filter);
     };
+  }
+
+  /**
+   * Fetch API to get schedules[]
+   * @returns void
+   */
+  updateListOfSchedules(): void {
+    if (this.schedulesApiServiceListSubscription) {
+      this.schedulesApiServiceListSubscription.unsubscribe();
+    }
+    if (this.displayOnlyFutureSchedules) {
+      this.schedulesApiServiceListSubscription = this.schedulesApiService
+        .getAllFuture()
+        .subscribe((data: Schedule[]) => this.onApiListSubscribe(data));
+      return;
+    }
+    this.schedulesApiServiceListSubscription = this.schedulesApiService
+      .getAll()
+      .subscribe((data: Schedule[]) => this.onApiListSubscribe(data));
   }
 
   /**
@@ -198,6 +198,7 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
         }
       });
   }
+
   /**
    * Deletes a schedule
    * @returns void
@@ -233,9 +234,5 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
       data: { _id: imageId },
       width: '80%',
     });
-  }
-
-  refreshListOfSchedules() {
-    this.updateListOfSchedules();
   }
 }

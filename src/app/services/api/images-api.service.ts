@@ -5,6 +5,7 @@ import { CreateImageDto } from 'src/app/components/images/dto/create-image.dto';
 import { environment } from '../../../environments/environment';
 import { ErrorHandling } from '../error-handling';
 import { Image } from '../../interfaces/image';
+import { ImagesByCategory } from 'src/app/interfaces/images-by-category';
 import { MessageService } from '../message.service';
 
 @Injectable({
@@ -90,6 +91,27 @@ export class ImagesApiService {
       .get<Image>(`${this.backendBaseUrl}${this.path}/${_id}`, this.httpOptions)
       .pipe(
         catchError(this.errorHandling.handle<Image>('ImagesApiService:get'))
+      );
+  }
+
+  /**
+   * Get all items from API
+   * @returns Observable<ImagesByCategory[]>
+   */
+  getGroupedByCategory(): Observable<ImagesByCategory[]> {
+    return this.httpClient
+      .get<ImagesByCategory[]>(
+        `${this.backendBaseUrl}${this.path}/grouped-by-category`,
+        this.httpOptions
+      )
+      .pipe(
+        catchError(
+          this.errorHandling.handle<ImagesByCategory[]>(
+            'ImagesApiService: getGroupedByCategory',
+            true,
+            []
+          )
+        )
       );
   }
 

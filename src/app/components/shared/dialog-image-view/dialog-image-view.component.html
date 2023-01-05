@@ -7,9 +7,11 @@
       {{ image.category }}
       &nbsp;<strong>|</strong>&nbsp;
       <mat-label>Title: </mat-label> {{ image.title }}
-      <br />
-      <mat-icon class="top-vertical-align">calendar_today</mat-icon>
-      <mat-label>Created At: </mat-label>
+      <br *ngIf="image.createdAt" />
+      <mat-icon *ngIf="image.createdAt" class="top-vertical-align">
+        calendar_today
+      </mat-icon>
+      <mat-label *ngIf="image.createdAt">Created At: </mat-label>
       {{ image.createdAt | date : LONG_DATETIME_FORMAT }}
       <span *ngIf="image.createdAt !== image.updatedAt">
         &nbsp;<strong>|</strong>&nbsp;

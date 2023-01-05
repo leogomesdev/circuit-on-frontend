@@ -33,7 +33,7 @@ export class ImagesListComponent implements OnInit, OnDestroy {
     'category',
     'title',
     'backgroundColor',
-    'createdAt',
+    'updatedAt',
     'action',
   ];
   pageSize = 10;
@@ -114,7 +114,7 @@ export class ImagesListComponent implements OnInit, OnDestroy {
    */
   private defineCustomSort(): void {
     if (this.sort && !this.sort.active) {
-      this.sort.sort({ id: 'createdAt', start: 'desc' } as MatSortable);
+      this.sort.sort({ id: 'updatedAt', start: 'desc' } as MatSortable);
     }
     this.dataSource.sort = this.sort;
   }
@@ -126,11 +126,11 @@ export class ImagesListComponent implements OnInit, OnDestroy {
   private defineCustomFilter(): void {
     this.dataSource.filterPredicate = (record: Image, filter: string) => {
       const formattedDate = this.datePipe.transform(
-        record.createdAt,
+        record.updatedAt,
         this.dateTimeFormat
       );
       const data =
-        `${record.category}${record.title}${record.createdAt}${formattedDate}`.toLowerCase();
+        `${record.category}${record.title}${record.updatedAt}${formattedDate}`.toLowerCase();
       return data.includes(filter);
     };
   }

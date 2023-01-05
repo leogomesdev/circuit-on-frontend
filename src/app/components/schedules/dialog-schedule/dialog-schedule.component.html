@@ -23,14 +23,22 @@
       </ngx-mat-datetime-picker>
     </mat-form-field>
 
-    <ng-container *ngIf="imagesList">
+    <ng-container *ngIf="imagesByCategoryList">
       <mat-form-field appearance="fill">
         <mat-label>Image</mat-label>
         <mat-select formControlName="imageId">
-          <mat-option *ngFor="let image of imagesList" [value]="image._id">
-            {{ image.category }}: {{ image.title }}, created at
-            {{ image.createdAt | date : "EEE, MMM d z" }}
-          </mat-option>
+          <mat-optgroup
+            *ngFor="let imagesByCategory of imagesByCategoryList"
+            [label]="imagesByCategory.category.toUpperCase()"
+          >
+            <mat-option
+              *ngFor="let image of imagesByCategory.images"
+              [value]="image._id"
+            >
+              {{ image.title }}, Modified At:
+              {{ image.updatedAt | date : "EEE, MMM d z" }}
+            </mat-option>
+          </mat-optgroup>
         </mat-select>
       </mat-form-field>
     </ng-container>
