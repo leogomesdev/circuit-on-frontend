@@ -84,8 +84,8 @@ export class DialogScheduleComponent implements OnInit, OnDestroy {
     this.scheduleApiService.create(scheduleData).subscribe({
       next: () => {
         this.messageService.showSuccess('Schedule created successfully', 5);
-        this.scheduleForm.controls['scheduledAt'].reset();
         if (closeFormAfterSaving) {
+          this.scheduleForm.reset();
           this.dialogRef.close('SAVE');
         }
       },

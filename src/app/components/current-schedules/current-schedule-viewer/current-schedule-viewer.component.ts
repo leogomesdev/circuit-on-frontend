@@ -3,6 +3,7 @@ import { DatePipe, DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { CurrentSchedule } from 'src/app/interfaces/current-schedule';
 import { CurrentSchedulesApiService } from 'src/app/services/api/current-schedules-api.service';
+import { environment } from 'src/environments/environment';
 import { MessageService } from 'src/app/services/message.service';
 import { NavbarService } from 'src/app/services/navbar.service';
 import { NextSchedule } from 'src/app/interfaces/next-schedule';
@@ -19,8 +20,9 @@ export class CurrentScheduleViewerComponent implements OnInit, OnDestroy {
   private msInSevenDays = 86400 * 1000 * 7;
   private currentSchedulesApiServiceSubscription!: Subscription;
 
-  public imageSource = '';
-  public backgroundColor = '';
+  maxFutureItems = Number(environment.envVar.NG_APP_VIEW_PAGE_FUTURE_ITEMS);
+  imageSource = '';
+  backgroundColor = '';
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -33,7 +35,7 @@ export class CurrentScheduleViewerComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.nav.hide();
     this.currentSchedulesApiServiceSubscription =
-      this.CurrentSchedulesApiService.getAll().subscribe(
+      this.CurrentSchedulesApiService.getAll(this.maxFutureItems).subscribe(
         (res: CurrentSchedule[]) => {
           this.scheduleChangesBasedOnAPI(res);
         }

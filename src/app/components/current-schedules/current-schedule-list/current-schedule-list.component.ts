@@ -1,11 +1,11 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { CurrentSchedule } from '../../../interfaces/current-schedule';
+import { CurrentSchedule } from 'src/app/interfaces/current-schedule';
 import { CurrentSchedulesApiService } from 'src/app/services/api/current-schedules-api.service';
-import { DialogImageViewComponent } from '../../shared/dialog-image-view/dialog-image-view.component';
-import { DialogScheduleComponent } from '../../schedules/dialog-schedule/dialog-schedule.component';
+import { DialogImageViewComponent } from 'src/app/components/shared/dialog-image-view/dialog-image-view.component';
+import { DialogScheduleComponent } from 'src/app/components//schedules/dialog-schedule/dialog-schedule.component';
+import { environment } from 'src/environments/environment';
 import { MessageService } from 'src/app/services/message.service';
 import { SchedulesApiService } from 'src/app/services/api/schedules-api.service';
 
@@ -20,10 +20,13 @@ export class CurrentScheduleListComponent implements OnInit, OnDestroy {
 
   private currentSchedulesApiServiceListSubscription!: Subscription;
   private schedulesApiServiceDeleteSubscription!: Subscription;
+
+  maxFutureItems = Number(environment.envVar.NG_APP_LIST_PAGE_FUTURE_ITEMS);
   screenWidth = 0;
   screenHeight = 0;
   dateTimeFormat = this.LONG_DATETIME_FORMAT;
   isSmallScreen = false;
+  isMediumScreen = false;
 
   currentScheduleList: CurrentSchedule[] = [];
 
@@ -31,7 +34,6 @@ export class CurrentScheduleListComponent implements OnInit, OnDestroy {
     private schedulesApiService: SchedulesApiService,
     private currentSchedulesApiService: CurrentSchedulesApiService,
     private dialog: MatDialog,
-    private datePipe: DatePipe,
     private messageService: MessageService
   ) {}
 
@@ -61,9 +63,10 @@ export class CurrentScheduleListComponent implements OnInit, OnDestroy {
   private checkWindowSize(): void {
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
-    this.isSmallScreen = this.screenWidth < 800;
+    this.isSmallScreen = this.screenWidth <= 800;
+    this.isMediumScreen = this.screenWidth > 800 && this.screenWidth < 1200;
     this.dateTimeFormat =
-      this.screenWidth < 800
+      this.isSmallScreen || this.isMediumScreen
         ? this.SHORT_DATETIME_FORMAT
         : this.LONG_DATETIME_FORMAT;
   }
@@ -78,7 +81,7 @@ export class CurrentScheduleListComponent implements OnInit, OnDestroy {
     }
     this.currentSchedulesApiServiceListSubscription =
       this.currentSchedulesApiService
-        .getAll()
+        .getAll(this.maxFutureItems)
         .subscribe((data: CurrentSchedule[]) => {
           this.currentScheduleList = data;
         });

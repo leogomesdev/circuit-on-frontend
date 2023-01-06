@@ -81,11 +81,10 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
   private checkWindowSize(): void {
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
-    this.isSmallScreen = this.screenWidth < 800;
-    this.dateTimeFormat =
-      this.screenWidth < 800
-        ? this.SHORT_DATETIME_FORMAT
-        : this.LONG_DATETIME_FORMAT;
+    this.isSmallScreen = this.screenWidth <= 800;
+    this.dateTimeFormat = this.isSmallScreen
+      ? this.SHORT_DATETIME_FORMAT
+      : this.LONG_DATETIME_FORMAT;
   }
 
   private onApiListSubscribe(data: Schedule[]) {
