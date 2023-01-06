@@ -16,6 +16,7 @@ import { DialogScheduleComponent } from '../dialog-schedule/dialog-schedule.comp
 import { MessageService } from 'src/app/services/message.service';
 import { Schedule } from 'src/app/interfaces/schedule';
 import { SchedulesApiService } from 'src/app/services/api/schedules-api.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-schedules-list',
@@ -42,7 +43,9 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
   filter = '';
   dateTimeFormat = this.LONG_DATETIME_FORMAT;
   isSmallScreen = false;
-  displayOnlyFutureSchedules = true;
+  displayOnlyFutureSchedules =
+    String(environment.envVar.NG_APP_SCHEDULES_LIST_DISPLAY_ONLY_FUTURE) ===
+    'true';
   dataSource!: MatTableDataSource<Schedule>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
