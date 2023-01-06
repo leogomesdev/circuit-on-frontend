@@ -27,6 +27,11 @@
   Manage Schedules page to view all schedules
 </p>
 
+<p class="page-info align-items">
+  <mat-icon class="info-icon">info</mat-icon>
+  When deleting a schedule, it does not delete the related image
+</p>
+
 <section class="cards-container">
   <div class="mat-elevation-z8 list-cards">
     <mat-grid-list
@@ -47,8 +52,10 @@
               <img
                 mat-card-lg-image
                 src="{{ currentSchedule.data }}"
-                class="padding-5"
+                class="padding-5 cursor-pointer"
                 [ngStyle]="{ background: currentSchedule.backgroundColor }"
+                title="View image"
+                (click)="openDialogShowImage(currentSchedule)"
               />
             </mat-card-title-group>
           </mat-card-header>
@@ -68,6 +75,13 @@
                   title="This image contains a background color"
                 >
                   colorize
+                </mat-icon>
+                <mat-icon
+                  *ngIf="!currentSchedule.backgroundColor"
+                  title="Background Color"
+                  title="This image does not contain a background color"
+                >
+                  format_color_reset
                 </mat-icon>
               </div>
             </div>

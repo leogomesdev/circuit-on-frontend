@@ -7,17 +7,31 @@
       {{ image.category }}
       &nbsp;<strong>|</strong>&nbsp;
       <mat-label>Title: </mat-label> {{ image.title }}
-      <br *ngIf="image.createdAt" />
-      <mat-icon *ngIf="image.createdAt" class="top-vertical-align">
-        calendar_today
-      </mat-icon>
-      <mat-label *ngIf="image.createdAt">Created At: </mat-label>
-      {{ image.createdAt | date : LONG_DATETIME_FORMAT }}
-      <span *ngIf="image.createdAt !== image.updatedAt">
-        &nbsp;<strong>|</strong>&nbsp;
-        <mat-label>Updated At: </mat-label>
-        {{ image.updatedAt | date : LONG_DATETIME_FORMAT }}
+
+      <span *ngIf="image.createdAt">
+        <br />
+        <mat-icon class="top-vertical-align"> calendar_today </mat-icon>
+        <mat-label *ngIf="image.createdAt">Created At: </mat-label>
+        {{ image.createdAt | date : LONG_DATETIME_FORMAT }}
+        <span *ngIf="image.createdAt !== image.updatedAt">
+          &nbsp;<strong>|</strong>&nbsp;
+          <mat-label>Updated At: </mat-label>
+          {{ image.updatedAt | date : LONG_DATETIME_FORMAT }}
+        </span>
       </span>
+
+      <span *ngIf="image.backgroundColor">
+        <br />
+        <mat-icon class="top-vertical-align">color_lens</mat-icon>
+        <mat-label>Background Color: </mat-label>
+        <mat-icon
+          class="top-vertical-align"
+          [ngStyle]="{ background: image.backgroundColor }"
+        >
+          colorize
+        </mat-icon>
+      </span>
+
       <br />
       <mat-icon class="top-vertical-align">info</mat-icon>
       <mat-label>Id: </mat-label>
