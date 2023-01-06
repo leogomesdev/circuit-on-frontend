@@ -1,5 +1,9 @@
 <mat-toolbar color="primary" *ngIf="nav.visible">
-  <button mat-icon-button [matMenuTriggerFor]="menu">
+  <button
+    *ngIf="(isAuthenticated$ | async) && username"
+    mat-icon-button
+    [matMenuTriggerFor]="menu"
+  >
     <mat-icon>menu</mat-icon>
   </button>
 
@@ -31,4 +35,12 @@
 
   <span>Propaganda Manager</span>
   <span class="example-spacer"></span>
+  <div *ngIf="(isAuthenticated$ | async) && username" class="align-items">
+    <span class="username">
+      {{ username }}
+    </span>
+    <button mat-mini-fab color="primary" title="Logout" (click)="signOut()">
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
+  </div>
 </mat-toolbar>

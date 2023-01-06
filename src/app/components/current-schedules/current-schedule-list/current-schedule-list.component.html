@@ -17,19 +17,22 @@
 
 <p class="page-info align-items">
   <mat-icon class="info-icon">info</mat-icon>
-  &nbsp;This page shows the latest image on schedule and the subsequent pictures
-  on schedule
+  This page shows the latest image on schedule and the subsequent
+  {{ maxFutureItems }} pictures on schedule
 </p>
 
 <p class="page-info align-items">
   <mat-icon class="info-icon">info</mat-icon>
-  &nbsp;This page is limited to displaying 8 items. Use the Manage Schedules
-  page to view all schedules
+  This page is limited to displaying {{ maxFutureItems + 1 }} items. Use the
+  Manage Schedules page to view all schedules
 </p>
 
 <section class="cards-container">
   <div class="mat-elevation-z8 list-cards">
-    <mat-grid-list cols="{{ isSmallScreen ? 1 : 4 }}" rowHeight="1:1">
+    <mat-grid-list
+      cols="{{ isSmallScreen ? 1 : isMediumScreen ? 2 : 4 }}"
+      rowHeight="350px"
+    >
       <mat-grid-tile
         *ngFor="let currentSchedule of currentScheduleList; let index = index"
       >

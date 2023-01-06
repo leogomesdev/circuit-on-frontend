@@ -1,6 +1,8 @@
 import { catchError, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
+import OktaAuth from '@okta/okta-auth-js';
+import { OKTA_AUTH } from '@okta/okta-angular';
 import { CreateScheduleDto } from '../../components/schedules/dto/create-schedule.dto';
 import { environment } from '../../../environments/environment';
 import { ErrorHandling } from '../error-handling';
@@ -10,18 +12,24 @@ import { Schedule } from '../../interfaces/schedule';
   providedIn: 'root',
 })
 export class SchedulesApiService {
-  private backendBaseUrl = environment.envVar.PROPAGANDA_APP_BACKEND_BASE_URL;
+  private backendBaseUrl =
+    environment.envVar.NG_APP_PROPAGANDA_APP_BACKEND_BASE_URL;
   private path = '/v1/schedules';
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-    }),
-  };
+  private httpOptions;
 
   constructor(
     private httpClient: HttpClient,
-    private errorHandling: ErrorHandling
-  ) {}
+    private errorHandling: ErrorHandling,
+    @Inject(OKTA_AUTH) private oktaAuth: OktaAuth
+  ) {
+    const token = this.oktaAuth.getAccessToken();
+    this.httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      }),
+    };
+  }
 
   /**
    * Creates an item

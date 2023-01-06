@@ -27,7 +27,7 @@
 <section class="container">
   <p class="page-info align-items">
     <mat-icon class="info-icon">info</mat-icon>
-    &nbsp; When deleting a schedule, it does not delete the related image
+    When deleting a schedule, it does not delete the related image
   </p>
   <div>
     <mat-form-field>
@@ -79,10 +79,10 @@
 
         <!-- Background Color Column -->
         <ng-container matColumnDef="image.backgroundColor">
-          <mat-header-cell *matHeaderCellDef>
+          <mat-header-cell *matHeaderCellDef class="xs-hidden">
             {{ isSmallScreen ? "BG" : "BG Color" }}
           </mat-header-cell>
-          <mat-cell *matCellDef="let row">
+          <mat-cell *matCellDef="let row" class="xs-hidden">
             <mat-icon
               *ngIf="row.image.backgroundColor"
               [ngStyle]="{ background: row.image.backgroundColor }"

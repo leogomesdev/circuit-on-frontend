@@ -9,7 +9,8 @@ import { ErrorHandling } from '../error-handling';
   providedIn: 'root',
 })
 export class CurrentSchedulesApiService {
-  private backendBaseUrl = environment.envVar.PROPAGANDA_APP_BACKEND_BASE_URL;
+  private backendBaseUrl =
+    environment.envVar.NG_APP_PROPAGANDA_APP_BACKEND_BASE_URL;
   private path = '/v1/current-schedules';
   private headers = {
     'Content-Type': 'application/json',
@@ -21,11 +22,14 @@ export class CurrentSchedulesApiService {
    * Connect with API for fetching data
    * @returns Promise of a result
    */
-  public getAll(): Observable<CurrentSchedule[]> {
+  public getAll(maxFutureItems: number): Observable<CurrentSchedule[]> {
     return this.http
-      .get<CurrentSchedule[]>(this.backendBaseUrl + this.path, {
-        headers: this.headers,
-      })
+      .get<CurrentSchedule[]>(
+        `${this.backendBaseUrl}${this.path}?maxFutureItems=${maxFutureItems}`,
+        {
+          headers: this.headers,
+        }
+      )
       .pipe(
         catchError(
           this.errorHandling.handle<CurrentSchedule[]>(

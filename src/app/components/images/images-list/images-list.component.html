@@ -18,8 +18,8 @@
 <section class="container">
   <p class="page-info align-items">
     <mat-icon class="info-icon">info</mat-icon>
-    &nbsp; When deleting an image, it automatically removes any schedule related
-    to the image
+    When deleting an image, it automatically removes any schedule related to the
+    image
   </p>
 
   <div>
@@ -62,10 +62,10 @@
 
         <!-- Background Color Column -->
         <ng-container matColumnDef="backgroundColor">
-          <mat-header-cell *matHeaderCellDef>
+          <mat-header-cell *matHeaderCellDef class="xs-hidden">
             {{ isSmallScreen ? "Color" : "BG Color" }}
           </mat-header-cell>
-          <mat-cell *matCellDef="let row">
+          <mat-cell *matCellDef="let row" class="xs-hidden">
             <mat-icon
               *ngIf="row.backgroundColor"
               [ngStyle]="{ background: row.backgroundColor }"
@@ -78,7 +78,7 @@
         <!-- Modified At Column -->
         <ng-container matColumnDef="updatedAt">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ isSmallScreen ? "At" : "Modified At" }}
+            Modified At
           </mat-header-cell>
           <mat-cell *matCellDef="let row">
             {{ row.updatedAt | date : dateTimeFormat }}
