@@ -117,7 +117,9 @@ export class CurrentScheduleViewerComponent implements OnInit, OnDestroy {
       this.SHORT_DATETIME_FORMAT
     );
     this.messageService.addMessage(
-      `At ${formattedDate}: ${scheduleData.category}: ${scheduleData.title}`
+      `At ${formattedDate}: ${scheduleData.category.toUpperCase()}: ${
+        scheduleData.title
+      }`
     );
 
     this.nextSchedules.push({
