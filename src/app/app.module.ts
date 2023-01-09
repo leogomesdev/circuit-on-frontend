@@ -30,6 +30,7 @@ const config = {
   clientId: environment.envVar.NG_APP_OKTA_CLIENT_ID,
   redirectUri: environment.envVar.NG_APP_OKTA_REDIRECT_URI,
 };
+console.log('okta config: ' + JSON.stringify(config));
 const oktaAuth = new OktaAuth(config);
 
 @NgModule({
