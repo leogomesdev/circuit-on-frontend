@@ -9,8 +9,7 @@ import { ErrorHandling } from '../error-handling';
   providedIn: 'root',
 })
 export class CurrentSchedulesApiService {
-  private backendBaseUrl =
-    environment.envVar.NG_APP_PROPAGANDA_APP_BACKEND_BASE_URL;
+  private backendBaseUrl = environment.envVar.NG_APP_BACKEND_BASE_URL;
   private path = '/v1/current-schedules';
   private headers = {
     'Content-Type': 'application/json',

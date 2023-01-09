@@ -14,8 +14,7 @@ import { MessageService } from '../message.service';
   providedIn: 'root',
 })
 export class ImagesApiService {
-  private backendBaseUrl =
-    environment.envVar.NG_APP_PROPAGANDA_APP_BACKEND_BASE_URL;
+  private backendBaseUrl = environment.envVar.NG_APP_BACKEND_BASE_URL;
   private path = '/v1/images';
   private httpOptions;
   private token;

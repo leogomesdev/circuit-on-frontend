@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "propaganda-scheduler": {
+    "circuit-on": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/propaganda-scheduler/browser",
+            "outputPath": "dist/circuit-on/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -74,10 +74,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "propaganda-scheduler:build:production"
+              "browserTarget": "circuit-on:build:production"
             },
             "development": {
-              "browserTarget": "propaganda-scheduler:build:development"
+              "browserTarget": "circuit-on:build:development"
             }
           },
           "defaultConfiguration": "production"
@@ -85,7 +85,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "propaganda-scheduler:build"
+            "browserTarget": "circuit-on:build"
           }
         },
         "test": {
@@ -110,7 +110,7 @@
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "outputPath": "dist/propaganda-scheduler/server",
+            "outputPath": "dist/circuit-on/server",
             "main": "server.ts",
             "tsConfig": "tsconfig.server.json"
           },
@@ -131,12 +131,12 @@
           "builder": "@nguniversal/builders:ssr-dev-server",
           "configurations": {
             "development": {
-              "browserTarget": "propaganda-scheduler:build:development",
-              "serverTarget": "propaganda-scheduler:server:development"
+              "browserTarget": "circuit-on:build:development",
+              "serverTarget": "circuit-on:server:development"
             },
             "production": {
-              "browserTarget": "propaganda-scheduler:build:production",
-              "serverTarget": "propaganda-scheduler:server:production"
+              "browserTarget": "circuit-on:build:production",
+              "serverTarget": "circuit-on:server:production"
             }
           },
           "defaultConfiguration": "production"
@@ -148,12 +148,12 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "propaganda-scheduler:build:production",
-              "serverTarget": "propaganda-scheduler:server:production"
+              "browserTarget": "circuit-on:build:production",
+              "serverTarget": "circuit-on:server:production"
             },
             "development": {
-              "browserTarget": "propaganda-scheduler:build:development",
-              "serverTarget": "propaganda-scheduler:server:development"
+              "browserTarget": "circuit-on:build:development",
+              "serverTarget": "circuit-on:server:development"
             }
           },
           "defaultConfiguration": "production"

@@ -7,7 +7,7 @@ import { MessageService } from './services/message.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'propaganda-scheduler';
+  title = 'circuit-on';
 
   constructor(public messageService: MessageService) {}
 }

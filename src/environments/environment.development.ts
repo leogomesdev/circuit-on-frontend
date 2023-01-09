@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
   envVar: {
-    NG_APP_PROPAGANDA_APP_BACKEND_BASE_URL: 'http://localhost:3000',
+    NG_APP_BACKEND_BASE_URL: 'http://localhost:3000',
     NG_APP_IMAGE_CATEGORIES:
       'CrossFit,Zumba,Glute Camp,HIIT Fitness,Sweat -40,CrossFit Kids,Private Session,Other',
     NG_APP_OKTA_ISSUER: 'https://dev-38659822.okta.com/oauth2/default',

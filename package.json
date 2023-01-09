@@ -1,5 +1,5 @@
 {
-  "name": "propaganda-scheduler",
+  "name": "circuit-on",
   "description": "A system for advertisement management",
   "author": "Leonardo Gomes da Silva",
   "engines": {
@@ -13,12 +13,12 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "dev:ssr": "ng run propaganda-scheduler:serve-ssr",
-    "serve:ssr": "node dist/propaganda-scheduler/server/main.js",
-    "serve:ssr-prod": "node dist/propaganda-scheduler/server/main.js --configuration=production",
-    "build:ssr": "ng build && ng run propaganda-scheduler:server",
-    "build:ssr-prod": "ng run propaganda-scheduler:collect-vars-prod && ng build --configuration=production && ng run propaganda-scheduler:server:production",
-    "prerender": "ng run propaganda-scheduler:prerender"
+    "dev:ssr": "ng run circuit-on:serve-ssr",
+    "serve:ssr": "node dist/circuit-on/server/main.js",
+    "serve:ssr-prod": "node dist/circuit-on/server/main.js --configuration=production",
+    "build:ssr": "ng build && ng run circuit-on:server",
+    "build:ssr-prod": "ng run circuit-on:collect-vars-prod && ng build --configuration=production && ng run circuit-on:server:production",
+    "prerender": "ng run circuit-on:prerender"
   },
   "private": true,
   "dependencies": {

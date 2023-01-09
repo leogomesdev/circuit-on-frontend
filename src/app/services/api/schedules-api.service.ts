@@ -12,8 +12,7 @@ import { Schedule } from '../../interfaces/schedule';
   providedIn: 'root',
 })
 export class SchedulesApiService {
-  private backendBaseUrl =
-    environment.envVar.NG_APP_PROPAGANDA_APP_BACKEND_BASE_URL;
+  private backendBaseUrl = environment.envVar.NG_APP_BACKEND_BASE_URL;
   private path = '/v1/schedules';
   private httpOptions;
   private token;
