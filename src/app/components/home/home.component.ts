@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
 
   public isAuthenticated$!: Observable<boolean>;
 
-  public testEnv = environment.envVar.NG_APP_PROPAGANDA_APP_BACKEND_BASE_URL;
+  public testEnv = environment.envVar.NG_APP_BACKEND_BASE_URL;
 
   constructor(
     private router: Router,
