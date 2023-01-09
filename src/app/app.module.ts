@@ -29,10 +29,6 @@ const config = {
   issuer: environment.envVar.NG_APP_OKTA_ISSUER,
   clientId: environment.envVar.NG_APP_OKTA_CLIENT_ID,
   redirectUri: environment.envVar.NG_APP_OKTA_REDIRECT_URI,
-  features: {
-    rememberMe: true,
-    registration: true,
-  },
 };
 const oktaAuth = new OktaAuth(config);
 
