@@ -8,7 +8,6 @@ import {
 } from '@okta/okta-auth-js';
 import { Router } from '@angular/router';
 import { filter, map, Observable } from 'rxjs';
-import { environment } from '../../../environments/environment.production';
 
 @Component({
   selector: 'app-home',
@@ -19,8 +18,6 @@ export class HomeComponent implements OnInit {
   username!: string | undefined;
 
   public isAuthenticated$!: Observable<boolean>;
-
-  public testEnv = environment.envVar.NG_APP_BACKEND_BASE_URL;
 
   constructor(
     private router: Router,
