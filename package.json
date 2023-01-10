@@ -15,10 +15,10 @@
     "lint": "ng lint",
     "dev:ssr": "ng run circuit-on:serve-ssr",
     "serve:ssr": "node dist/circuit-on/server/main.js",
-    "config": "node ./scripts/setenv.ts",
-    "serve:ssr-prod": "node dist/circuit-on/server/main.js --configuration=production",
+    "config-envs": "node ./scripts/setenv.ts",
+    "serve:ssr-prod": "npm run config-envs -- --environment=production && node dist/circuit-on/server/main.js",
     "build:ssr": "ng build && ng run circuit-on:server",
-    "build:ssr-prod": "ng run circuit-on:collect-vars-prod && ng build --configuration=production && ng run circuit-on:server:production",
+    "build:ssr-prod": "npm run config-envs -- --environment=production && ng build && ng run circuit-on:server",
     "prerender": "ng run circuit-on:prerender"
   },
   "private": true,

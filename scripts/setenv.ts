@@ -1,8 +1,7 @@
-const { writeFile } = require('fs');
-const fs = require('fs');
+const { writeFile, existsSync } = require('fs');
 const { argv } = require('yargs');
 
-if (fs.existsSync('.env')) {
+if (existsSync('.env')) {
   console.log('Reading variables from .env file');
   // read environment variables from .env file
   require('dotenv').config();
