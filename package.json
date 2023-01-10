@@ -15,8 +15,6 @@
     "lint": "ng lint",
     "dev:ssr": "ng run circuit-on:serve-ssr",
     "serve:ssr": "node dist/circuit-on/server/main.js",
-    "config": "node scripts/setenv.js",
-    "config-envs": "node ./scripts/setenv.ts",
     "serve:ssr-prod": "node dist/circuit-on/server/main.js",
     "build:ssr": "ng build && ng run circuit-on:server",
     "build:ssr-prod": "ng build && ng run circuit-on:server",
@@ -24,9 +22,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-material-components/color-picker": "^9.0.0",
     "@angular-material-components/datetime-picker": "^9.0.0",
-    "@angular-material-components/file-input": "^9.0.0",
     "@angular/animations": "^15.0.0",
     "@angular/cdk": "^15.0.3",
     "@angular/common": "^15.0.0",
@@ -67,7 +63,6 @@
     "@typescript-eslint/eslint-plugin": "5.44.0",
     "@typescript-eslint/parser": "5.44.0",
     "cz-conventional-changelog": "^3.3.0",
-    "dotenv": "^16.0.3",
     "eslint": "^8.28.0",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
@@ -75,7 +70,6 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
-    "typescript": "~4.8.2",
-    "yargs": "^17.6.2"
+    "typescript": "~4.8.2"
   }
 }
