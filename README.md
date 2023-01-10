@@ -1,4 +1,4 @@
-# PropagandaScheduler
+# CIRCUIT ON
 
 This project was generated with Angular
 
@@ -48,7 +48,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 1) Declare env variables:
 ````bash
-export NG_APP_PROPAGANDA_APP_BACKEND_BASE_URL="ENTER_YOUR_BACK_END_APP_URL"
+export NG_APP_BACKEND_BASE_URL="ENTER_YOUR_BACK_END_APP_URL"
 ````
 
 2) Install libs:

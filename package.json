@@ -1,5 +1,5 @@
 {
-  "name": "propaganda-scheduler",
+  "name": "circuit-on",
   "description": "A system for advertisement management",
   "author": "Leonardo Gomes da Silva",
   "engines": {
@@ -13,18 +13,16 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "dev:ssr": "ng run propaganda-scheduler:serve-ssr",
-    "serve:ssr": "node dist/propaganda-scheduler/server/main.js",
-    "serve:ssr-prod": "node dist/propaganda-scheduler/server/main.js --configuration=production",
-    "build:ssr": "ng build && ng run propaganda-scheduler:server",
-    "build:ssr-prod": "ng run propaganda-scheduler:collect-vars-prod && ng build --configuration=production && ng run propaganda-scheduler:server:production",
-    "prerender": "ng run propaganda-scheduler:prerender"
+    "dev:ssr": "ng run circuit-on:serve-ssr",
+    "serve:ssr": "node dist/circuit-on/server/main.js",
+    "serve:ssr-prod": "node dist/circuit-on/server/main.js",
+    "build:ssr": "ng build && ng run circuit-on:server",
+    "build:ssr-prod": "ng build && ng run circuit-on:server",
+    "prerender": "ng run circuit-on:prerender"
   },
   "private": true,
   "dependencies": {
-    "@angular-material-components/color-picker": "^9.0.0",
     "@angular-material-components/datetime-picker": "^9.0.0",
-    "@angular-material-components/file-input": "^9.0.0",
     "@angular/animations": "^15.0.0",
     "@angular/cdk": "^15.0.3",
     "@angular/common": "^15.0.0",
@@ -57,9 +55,11 @@
     "@angular/cli": "~15.0.1",
     "@angular/compiler-cli": "^15.0.0",
     "@nguniversal/builders": "^15.0.0",
+    "@ngx-env/builder": "^15.0.1",
     "@types/express": "^4.17.0",
     "@types/jasmine": "~4.3.0",
     "@types/node": "^14.15.0",
+    "@types/yargs": "^17.0.19",
     "@typescript-eslint/eslint-plugin": "5.44.0",
     "@typescript-eslint/parser": "5.44.0",
     "cz-conventional-changelog": "^3.3.0",

@@ -16,9 +16,12 @@ import { environment } from 'src/environments/environment';
 export class DialogImageComponent implements OnInit, OnDestroy {
   private imagesApiServiceSubscription!: Subscription;
   actionButtonName = 'Save';
+  hideTextInput = true;
   categoryOptions: string[] = environment.envVar.NG_APP_IMAGE_CATEGORIES.split(
     ','
-  ).map((_) => _.trim());
+  )
+    .map((_) => _.trim())
+    .sort();
 
   imageForm!: FormGroup;
 

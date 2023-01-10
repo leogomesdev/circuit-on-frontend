@@ -12,21 +12,21 @@ import { Schedule } from '../../interfaces/schedule';
   providedIn: 'root',
 })
 export class SchedulesApiService {
-  private backendBaseUrl =
-    environment.envVar.NG_APP_PROPAGANDA_APP_BACKEND_BASE_URL;
+  private backendBaseUrl = environment.envVar.NG_APP_BACKEND_BASE_URL;
   private path = '/v1/schedules';
   private httpOptions;
+  private token;
 
   constructor(
     private httpClient: HttpClient,
     private errorHandling: ErrorHandling,
     @Inject(OKTA_AUTH) private oktaAuth: OktaAuth
   ) {
-    const token = this.oktaAuth.getAccessToken();
+    this.token = this.oktaAuth.getAccessToken();
     this.httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${this.token}`,
       }),
     };
   }
@@ -76,7 +76,7 @@ export class SchedulesApiService {
    */
   getAll(): Observable<Schedule[]> {
     return this.httpClient
-      .get<Schedule[]>(`${this.backendBaseUrl}${this.path}`)
+      .get<Schedule[]>(`${this.backendBaseUrl}${this.path}`, this.httpOptions)
       .pipe(
         catchError(
           this.errorHandling.handle<Schedule[]>(

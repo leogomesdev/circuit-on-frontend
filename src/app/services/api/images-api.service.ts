@@ -14,10 +14,10 @@ import { MessageService } from '../message.service';
   providedIn: 'root',
 })
 export class ImagesApiService {
-  private backendBaseUrl =
-    environment.envVar.NG_APP_PROPAGANDA_APP_BACKEND_BASE_URL;
+  private backendBaseUrl = environment.envVar.NG_APP_BACKEND_BASE_URL;
   private path = '/v1/images';
   private httpOptions;
+  private token;
 
   constructor(
     private httpClient: HttpClient,
@@ -25,11 +25,11 @@ export class ImagesApiService {
     private errorHandling: ErrorHandling,
     @Inject(OKTA_AUTH) private oktaAuth: OktaAuth
   ) {
-    const token = this.oktaAuth.getAccessToken();
+    this.token = this.oktaAuth.getAccessToken();
     this.httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${this.token}`,
       }),
     };
   }
@@ -40,6 +40,11 @@ export class ImagesApiService {
    * @returns Observable<Image>
    */
   create(file: File, imageData: CreateImageDto): Observable<Image> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${this.token}`,
+      }),
+    };
     const formData = new FormData();
     formData.append('file', file);
     formData.append('category', imageData.category);
@@ -48,7 +53,7 @@ export class ImagesApiService {
       formData.append('backgroundColor', imageData.backgroundColor);
     }
     return this.httpClient
-      .post<Image>(`${this.backendBaseUrl}${this.path}`, formData)
+      .post<Image>(`${this.backendBaseUrl}${this.path}`, formData, httpOptions)
       .pipe(
         catchError(this.errorHandling.handle<Image>('ImagesApiService: create'))
       );

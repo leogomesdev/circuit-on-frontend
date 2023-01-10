@@ -117,7 +117,9 @@ export class CurrentScheduleViewerComponent implements OnInit, OnDestroy {
       this.SHORT_DATETIME_FORMAT
     );
     this.messageService.addMessage(
-      `At ${formattedDate}: ${scheduleData.category}: ${scheduleData.title}`
+      `At ${formattedDate}: ${scheduleData.category.toUpperCase()}: ${
+        scheduleData.title
+      }`
     );
 
     this.nextSchedules.push({
@@ -145,9 +147,9 @@ export class CurrentScheduleViewerComponent implements OnInit, OnDestroy {
     const content: string = this.nextSchedules
       .map(
         (nextSchedule) => `setTimeout(() => {
-          document.getElementById("current-propaganda-img").src = "${nextSchedule.data}";
+          document.getElementById("current-image-img").src = "${nextSchedule.data}";
           if("${nextSchedule.backgroundColor}" !== "") {
-            document.getElementById("current-propaganda-parent-div").style.backgroundColor = "${nextSchedule.backgroundColor}";
+            document.getElementById("current-image-parent-div").style.backgroundColor = "${nextSchedule.backgroundColor}";
           }
         },
           ${nextSchedule.timeout});`

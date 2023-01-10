@@ -49,7 +49,9 @@
           <mat-header-cell *matHeaderCellDef mat-sort-header>
             Category
           </mat-header-cell>
-          <mat-cell *matCellDef="let row">{{ row.category }}</mat-cell>
+          <mat-cell *matCellDef="let row">
+            {{ row.category.toUpperCase() }}
+          </mat-cell>
         </ng-container>
 
         <!-- Title Column -->
