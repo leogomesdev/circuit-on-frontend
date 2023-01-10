@@ -4,7 +4,7 @@ const { argv } = require('yargs');
 if (existsSync('.env')) {
   console.log('Reading variables from .env file');
   // read environment variables from .env file
-  require('dotenv').config();
+  //require('dotenv').config();
 }
 
 // read the command line arguments passed with yargs
