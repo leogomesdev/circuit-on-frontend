@@ -1,4 +1,4 @@
-# 🌐 CIRCUIT ON
+# 🌐 CIRCUIT ON (Frontend)
 
 See application structure on the image below:
 
