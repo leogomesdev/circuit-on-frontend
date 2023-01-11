@@ -16,15 +16,10 @@
 </section>
 
 <p class="page-info align-items">
-  <mat-icon class="info-icon">info</mat-icon>
-  This page shows the latest image on schedule and the subsequent
-  {{ maxFutureItems }} pictures on schedule
-</p>
-
-<p class="page-info align-items">
-  <mat-icon class="info-icon">info</mat-icon>
-  This page is limited to displaying {{ maxFutureItems + 1 }} items. Use the
-  Manage Schedules page to view all schedules
+  <mat-icon class="info-icon first-info-icon">info</mat-icon>
+  This page shows the latest image and the subsequent
+  {{ maxFutureItems }} pictures on schedule. Use the Manage Schedules page to
+  view all
 </p>
 
 <p class="page-info align-items">
@@ -53,7 +48,6 @@
                 mat-card-lg-image
                 src="{{ currentSchedule.data }}"
                 class="padding-5 cursor-pointer"
-                [ngStyle]="{ background: currentSchedule.backgroundColor }"
                 title="View image"
                 (click)="openDialogShowImage(currentSchedule)"
               />

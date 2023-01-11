@@ -94,7 +94,8 @@ export class CurrentScheduleListComponent implements OnInit, OnDestroy {
   openDialog() {
     this.dialog
       .open(DialogScheduleComponent, {
-        width: '60%',
+        width: this.isSmallScreen ? '98%' : '60%',
+        maxWidth: '98vw',
       })
       .afterClosed()
       .subscribe(() => {
@@ -141,7 +142,8 @@ export class CurrentScheduleListComponent implements OnInit, OnDestroy {
         backgroundColor: currentSchedule.backgroundColor,
         data: currentSchedule.data,
       },
-      width: '80%',
+      width: this.isSmallScreen ? '98%' : '80%',
+      maxWidth: '98vw',
     });
   }
 }
