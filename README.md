@@ -16,8 +16,6 @@ The idea for this app is to save time: it would not be required to manually swit
 ## 📲 Main technologies used
 
 - [Angular CLI](https://github.com/angular/angular-cli) version 15.0.1
-- [Commitizen command line tool](https://github.com/commitizen/cz-cli)
-- [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/)
 - [OKTA](https://developer.okta.com) for Authentication
 - [Commitizen command line tool](https://github.com/commitizen/cz-cli)
 - [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/)
