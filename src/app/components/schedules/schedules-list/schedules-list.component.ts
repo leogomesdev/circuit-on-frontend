@@ -175,7 +175,8 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
   openDialog() {
     this.dialog
       .open(DialogScheduleComponent, {
-        width: '60%',
+        width: this.isSmallScreen ? '98%' : '60%',
+        maxWidth: '98vw',
       })
       .afterClosed()
       .subscribe(() => {
@@ -191,7 +192,8 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
     this.dialog
       .open(DialogScheduleComponent, {
         data: row,
-        width: '60%',
+        width: this.isSmallScreen ? '98%' : '60%',
+        maxWidth: '98vw',
       })
       .afterClosed()
       .subscribe((value) => {
@@ -234,7 +236,8 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
   openDialogShowImage(imageId: string) {
     this.dialog.open(DialogImageViewComponent, {
       data: { _id: imageId },
-      width: '80%',
+      width: this.isSmallScreen ? '98%' : '80%',
+      maxWidth: '98vw',
     });
   }
 }

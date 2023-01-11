@@ -65,10 +65,10 @@
 <div mat-dialog-actions [align]="'end'" class="buttons-row">
   <button mat-stroked-button mat-dialog-close>Close</button>
   <button mat-raised-button color="primary" (click)="addOrUpdateImage(false)">
-    <mat-icon>save</mat-icon> {{ actionButtonName }}
+    {{ actionButtonName }}
   </button>
 
   <button mat-raised-button color="primary" (click)="addOrUpdateImage()">
-    <mat-icon>save_alt</mat-icon> {{ actionButtonName }} and Close
+    <mat-icon>save_alt</mat-icon> {{ actionButtonName }} & Close
   </button>
 </div>
