@@ -1,75 +1,92 @@
-# CIRCUIT ON
+# 🌐 CIRCUIT ON
 
-This project was generated with Angular
+See application structure on the image below:
 
-## Main technologies used
+![System tiers](docs/images/others/tiers.png)
+
+This is the Frontend application. This project depends on APIs provided by the Backend application.
+For Backend application, please go to [https://github.com/leogomesdev/circuit-on-backend](https://github.com/leogomesdev/circuit-on-backend)
+
+## 📚 Description
+
+CIRCUIT ON allows you to manage images for displaying on TV based on a schedule. This is super useful for Gyms that need to display different images simultaneously on multiple TVs.
+
+The idea for this app is to save time: it would not be required to manually switch the pictures on different TVs. Instead, use this app to upload the images and set a schedule. On the TV, open the view page on the native Internet Browser. The image on the view page will be automatically replaced by the next images at the specified date and time.
+
+## 📲 Main technologies used
 
 - [Angular CLI](https://github.com/angular/angular-cli) version 15.0.1
 - [Commitizen command line tool](https://github.com/commitizen/cz-cli)
 - [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/)
+- [OKTA](https://developer.okta.com) for Authentication
+- [Commitizen command line tool](https://github.com/commitizen/cz-cli)
+- [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/)
 
-## Requirements
+## 💡 Requirements
 
-### For local usage:
+You must create an OKTA Application (for Authentication). Follow [this doc for instructions](docs/okta.md), to get your **Client Id** and **Domain/Issuer**
 
-- [Node.js](https://nodejs.org) (v18.12)
+### 💻 For local usage:
 
-### For local usage with Docker:
+- [Node.js](https://nodejs.org) (v16 or v18)
+- [npm](https://www.npmjs.com)
 
-- [Docker Engine](https://docs.docker.com/install)
+## 🚀 Running
 
-## Running
+### 💻 Locally
 
-### With Docker
+- Be sure to install the [requirements](#requirements)
 
-- Make sure you have [Docker](https://docs.docker.com/get-docker) installed
+  - If you have [nvm - Node Version Manager](https://github.com/nvm-sh/nvm) installed, you could just run `nvm install` and it will install the correct version of Node.js based on file `.nvmrc`
 
-- Run `docker-compose up`
+- Create enviroment variables.
 
-- Navigate to [http://localhost:4200/](http://localhost:4200/)
+  - If using unix (Linux/MacOS), scripts below are helpful for creating those:
+    - Copy sh file:
+      ```bash
+        cp -v docs/scripts/create-local-envs-unix.example.sh create-local-envs-unix.sh
+      ```
+    - Add permisson for execution:
+      ```bash
+        chmod +x create-local-envs-unix.sh
+      ```
+    - Edit values for variables at create-local-envs-unix.sh
+    - Execute script
+      ```bash
+        ./create-local-envs-unix.sh
+      ```
 
-### Without Docker (Development server)
+- Install dependencies:
 
-- Make sure you have [Node.js v18.12](https://nodejs.org/en/download/) installed
-  - If you have [nvm - Node Version Manager](https://github.com/nvm-sh/nvm) installed, you could just run `nvm install` and it will install the correct version of Node.js based on file `.npmrc`
+  ```bash
+    npm install
+  ```
 
-- Run `npm install` for installing dependencies
+- Start the application:
 
-- Run `ng serve` for a dev server
+  ```bash
+    ng serve
+  ```
 
-- Navigate to [http://localhost:4200/](http://localhost:4200/)
-  - The application will automatically reload if you change any of the source files
+### ☁ Production Environment
 
-## Build
+For compatibility with TV browsers, which are very limited, it is required to deploy this app using Server Side Rendering instead of Client Side Rendering.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Follow [this doc for instructions](docs/deploy-aws-runner.md)
 
-## Deployment for Production Environment
+## 🔗 Usage
 
-1) Declare env variables:
-````bash
-export NG_APP_BACKEND_BASE_URL="ENTER_YOUR_BACK_END_APP_URL"
-````
+After signing in using an okta valid user, the usage of the website is pretty simple:
 
-2) Install libs:
-````bash
-npm install
-````
+1. Upload images
+2. Set a schedule for desired images
+3. Preview on the Current Schedule page
+4. Open view page on TV native Internet/Browser
 
-3) Build:
-````bash
-npm run build:ssr
-````
+![Screenshots](docs/images/others/frontend-app-screenshots.png)
 
-4) Run:
-````bash
-npm run serve:ssr
-````
+Please refer to the [user manual for all instructions](docs/user-manual-v1.pdf)
 
-## Running unit tests
+### 👀 TL;DR
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+1. Navigate to Home Page, sign using Okta, and follow instructions on screen
