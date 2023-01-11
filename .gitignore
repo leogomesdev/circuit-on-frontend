@@ -42,3 +42,4 @@ testem.log
 Thumbs.db
 
 .env
+create-local-envs-unix.sh
