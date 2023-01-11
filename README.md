@@ -39,19 +39,15 @@ You must create an OKTA Application (for Authentication). Follow [this doc for i
 
 - Create enviroment variables.
 
-  - If using unix (Linux/MacOS), scripts below are helpful for creating those:
+  - If using unix (Linux/MacOS), file below is helpful for creating those:
     - Copy sh file:
       ```bash
         cp -v docs/scripts/create-local-envs-unix.example.sh create-local-envs-unix.sh
       ```
-    - Add permisson for execution:
-      ```bash
-        chmod +x create-local-envs-unix.sh
-      ```
     - Edit values for variables at create-local-envs-unix.sh
     - Execute script
       ```bash
-        ./create-local-envs-unix.sh
+        source create-local-envs-unix.sh
       ```
 
 - Install dependencies:
