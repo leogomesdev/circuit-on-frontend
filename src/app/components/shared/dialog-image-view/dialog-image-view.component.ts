@@ -1,9 +1,10 @@
 import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
-import { Image } from 'src/app/interfaces/image';
+import { Subscription } from 'rxjs';
+import { AppPropertiesService } from 'src/app/services/app-properties.service';
+import { Image } from 'src/app/interfaces/api-responses/images/image.interface';
 import { ImagesApiService } from 'src/app/services/api/images-api.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MessageService } from 'src/app/services/message.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dialog-image-view',
@@ -12,13 +13,13 @@ import { Subscription } from 'rxjs';
 })
 export class DialogImageViewComponent implements OnInit, OnDestroy {
   private imagesApiServiceSubscription!: Subscription;
-  LONG_DATETIME_FORMAT = 'EEE, MMM d, y h:mm a z';
   image!: Image;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public imageRef: Image,
     private imagesApiService: ImagesApiService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    public app: AppPropertiesService
   ) {}
 
   ngOnInit(): void {

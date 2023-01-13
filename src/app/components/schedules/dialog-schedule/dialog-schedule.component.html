@@ -36,7 +36,7 @@
               [value]="image._id"
             >
               {{ image.title }}, Modified At:
-              {{ image.updatedAt | date : "EEE, MMM d z" }}
+              {{ image.updatedAt | date : datetimeFormatOnSelectOption }}
             </mat-option>
           </mat-optgroup>
         </mat-select>

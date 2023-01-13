@@ -1,4 +1,4 @@
-interface ScheduleNestedImage {
+export interface ScheduleNestedImage {
   _id: string;
   title: string;
   category: string;

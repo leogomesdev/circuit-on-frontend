@@ -1,22 +1,17 @@
-import {
-  Component,
-  HostListener,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, MatSortable } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
+import { AppPropertiesService } from 'src/app/services/app-properties.service';
 import { DialogImageViewComponent } from '../../shared/dialog-image-view/dialog-image-view.component';
 import { DialogScheduleComponent } from '../dialog-schedule/dialog-schedule.component';
-import { MessageService } from 'src/app/services/message.service';
-import { Schedule } from 'src/app/interfaces/api-responses/schedule.interface';
-import { SchedulesApiService } from 'src/app/services/api/schedules-api.service';
 import { environment } from 'src/environments/environment';
+import { MessageService } from 'src/app/services/message.service';
+import { Schedule } from 'src/app/interfaces/api-responses/schedules/schedule.interface';
+import { SchedulesApiService } from 'src/app/services/api/schedules-api.service';
 
 @Component({
   selector: 'app-schedules-list',
@@ -24,9 +19,6 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./schedules-list.component.css'],
 })
 export class SchedulesListComponent implements OnInit, OnDestroy {
-  private LONG_DATETIME_FORMAT = 'EEE, MMM d, y h:mm a z';
-  private SHORT_DATETIME_FORMAT = 'EEE, MMM d HH:mm';
-
   private schedulesApiServiceListSubscription!: Subscription;
   private schedulesApiServiceDeleteSubscription!: Subscription;
 
@@ -38,11 +30,7 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
     'action',
   ];
   pageSize = 25;
-  screenWidth = 0;
-  screenHeight = 0;
   filter = '';
-  dateTimeFormat = this.LONG_DATETIME_FORMAT;
-  isSmallScreen = false;
   displayOnlyFutureSchedules =
     String(environment.envVar.NG_APP_SCHEDULES_LIST_DISPLAY_ONLY_FUTURE) ===
     'true';
@@ -55,11 +43,11 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
     private schedulesApiService: SchedulesApiService,
     private dialog: MatDialog,
     private datePipe: DatePipe,
-    private messageService: MessageService
+    private messageService: MessageService,
+    public app: AppPropertiesService
   ) {}
 
   ngOnInit(): void {
-    this.checkWindowSize();
     this.updateListOfSchedules();
   }
 
@@ -70,24 +58,6 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
     if (this.schedulesApiServiceDeleteSubscription) {
       this.schedulesApiServiceDeleteSubscription.unsubscribe();
     }
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onWindowResize(): void {
-    this.checkWindowSize();
-  }
-
-  /**
-   * If screen is small, this info is useful for formating datetime fields
-   * @returns void
-   */
-  private checkWindowSize(): void {
-    this.screenWidth = window.innerWidth;
-    this.screenHeight = window.innerHeight;
-    this.isSmallScreen = this.screenWidth <= 800;
-    this.dateTimeFormat = this.isSmallScreen
-      ? this.SHORT_DATETIME_FORMAT
-      : this.LONG_DATETIME_FORMAT;
   }
 
   private onApiListSubscribe(data: Schedule[]) {
@@ -127,7 +97,7 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
     this.dataSource.filterPredicate = (record: Schedule, filter: string) => {
       const formattedDate = this.datePipe.transform(
         record.scheduledAt,
-        this.dateTimeFormat
+        this.app.dateTimeFormat
       );
       const data =
         `${record.image.category}${record.image.title}${record.scheduledAt}${formattedDate}`.toLowerCase();
@@ -175,8 +145,8 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
   openDialog() {
     this.dialog
       .open(DialogScheduleComponent, {
-        width: this.isSmallScreen ? '98%' : '60%',
-        maxWidth: '98vw',
+        width: this.app.modalWidth,
+        maxWidth: this.app.modalMaxWidth,
       })
       .afterClosed()
       .subscribe(() => {
@@ -192,8 +162,8 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
     this.dialog
       .open(DialogScheduleComponent, {
         data: row,
-        width: this.isSmallScreen ? '98%' : '60%',
-        maxWidth: '98vw',
+        width: this.app.modalWidth,
+        maxWidth: this.app.modalMaxWidth,
       })
       .afterClosed()
       .subscribe((value) => {
@@ -236,8 +206,8 @@ export class SchedulesListComponent implements OnInit, OnDestroy {
   openDialogShowImage(imageId: string) {
     this.dialog.open(DialogImageViewComponent, {
       data: { _id: imageId },
-      width: this.isSmallScreen ? '98%' : '80%',
-      maxWidth: '98vw',
+      width: this.app.modalWidth,
+      maxWidth: this.app.modalMaxWidth,
     });
   }
 }

@@ -12,11 +12,11 @@
         <br />
         <mat-icon class="top-vertical-align"> calendar_today </mat-icon>
         <mat-label *ngIf="image.createdAt">Created At: </mat-label>
-        {{ image.createdAt | date : LONG_DATETIME_FORMAT }}
+        {{ image.createdAt | date : app.dateTimeFormat }}
         <span *ngIf="image.createdAt !== image.updatedAt">
           &nbsp;<strong>|</strong>&nbsp;
           <mat-label>Updated At: </mat-label>
-          {{ image.updatedAt | date : LONG_DATETIME_FORMAT }}
+          {{ image.updatedAt | date : app.dateTimeFormat }}
         </span>
       </span>
 

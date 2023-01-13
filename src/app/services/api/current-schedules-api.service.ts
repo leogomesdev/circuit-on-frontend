@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable } from 'rxjs';
-import { CurrentSchedule } from '../../interfaces/api-responses/current-schedule.interface';
+import { CurrentSchedule } from '../../interfaces/api-responses/current-schedules/current-schedule.interface';
 import { environment } from '../../../environments/environment';
 import { ErrorHandling } from '../error-handling.class';
 

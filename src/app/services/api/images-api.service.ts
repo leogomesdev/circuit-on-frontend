@@ -6,8 +6,8 @@ import { OKTA_AUTH } from '@okta/okta-angular';
 import { CreateImageDto } from 'src/app/components/images/dto/create-image.dto';
 import { environment } from '../../../environments/environment';
 import { ErrorHandling } from '../error-handling.class';
-import { Image } from '../../interfaces/api-responses/image.interface';
-import { ImagesByCategory } from 'src/app/interfaces/api-responses/images-by-category.interface';
+import { Image } from '../../interfaces/api-responses/images/image.interface';
+import { ImagesByCategory } from 'src/app/interfaces/api-responses/images/images-by-category.interface';
 import { MessageService } from '../message.service';
 
 @Injectable({

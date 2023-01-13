@@ -3,10 +3,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { CreateImageDto } from '../dto/create-image.dto';
-import { Image } from 'src/app/interfaces/image';
+import { environment } from 'src/environments/environment';
+import { Image } from 'src/app/interfaces/api-responses/images/image.interface';
 import { ImagesApiService } from 'src/app/services/api/images-api.service';
 import { MessageService } from 'src/app/services/message.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-dialog-image',

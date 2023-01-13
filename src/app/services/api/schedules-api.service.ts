@@ -6,7 +6,7 @@ import { OKTA_AUTH } from '@okta/okta-angular';
 import { CreateScheduleDto } from '../../components/schedules/dto/create-schedule.dto';
 import { environment } from '../../../environments/environment';
 import { ErrorHandling } from '../error-handling.class';
-import { Schedule } from '../../interfaces/api-responses/schedule.interface';
+import { Schedule } from '../../interfaces/api-responses/schedules/schedule.interface';
 
 @Injectable({
   providedIn: 'root',

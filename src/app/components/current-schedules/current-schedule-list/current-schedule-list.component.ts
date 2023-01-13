@@ -1,7 +1,8 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { CurrentSchedule } from 'src/app/interfaces/api-responses/current-schedule.interface';
+import { AppPropertiesService } from 'src/app/services/app-properties.service';
+import { CurrentSchedule } from 'src/app/interfaces/api-responses/current-schedules/current-schedule.interface';
 import { CurrentSchedulesApiService } from 'src/app/services/api/current-schedules-api.service';
 import { DialogImageViewComponent } from 'src/app/components/shared/dialog-image-view/dialog-image-view.component';
 import { DialogScheduleComponent } from 'src/app/components//schedules/dialog-schedule/dialog-schedule.component';
@@ -15,18 +16,10 @@ import { SchedulesApiService } from 'src/app/services/api/schedules-api.service'
   styleUrls: ['./current-schedule-list.component.css'],
 })
 export class CurrentScheduleListComponent implements OnInit, OnDestroy {
-  private LONG_DATETIME_FORMAT = 'EEE, MMM d, y h:mm a z';
-  private SHORT_DATETIME_FORMAT = 'EEE, MMM d HH:mm';
-
   private currentSchedulesApiServiceListSubscription!: Subscription;
   private schedulesApiServiceDeleteSubscription!: Subscription;
 
   maxFutureItems = Number(environment.envVar.NG_APP_LIST_PAGE_FUTURE_ITEMS);
-  screenWidth = 0;
-  screenHeight = 0;
-  dateTimeFormat = this.LONG_DATETIME_FORMAT;
-  isSmallScreen = false;
-  isMediumScreen = false;
 
   currentScheduleList: CurrentSchedule[] = [];
 
@@ -34,11 +27,11 @@ export class CurrentScheduleListComponent implements OnInit, OnDestroy {
     private schedulesApiService: SchedulesApiService,
     private currentSchedulesApiService: CurrentSchedulesApiService,
     private dialog: MatDialog,
-    private messageService: MessageService
+    private messageService: MessageService,
+    public app: AppPropertiesService
   ) {}
 
   ngOnInit(): void {
-    this.checkWindowSize();
     this.updateListOfSchedules();
   }
 
@@ -49,26 +42,6 @@ export class CurrentScheduleListComponent implements OnInit, OnDestroy {
     if (this.schedulesApiServiceDeleteSubscription) {
       this.schedulesApiServiceDeleteSubscription.unsubscribe();
     }
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onWindowResize(): void {
-    this.checkWindowSize();
-  }
-
-  /**
-   * If screen is small, this info is useful for formating datetime fields
-   * @returns void
-   */
-  private checkWindowSize(): void {
-    this.screenWidth = window.innerWidth;
-    this.screenHeight = window.innerHeight;
-    this.isSmallScreen = this.screenWidth <= 800;
-    this.isMediumScreen = this.screenWidth > 800 && this.screenWidth < 1200;
-    this.dateTimeFormat =
-      this.isSmallScreen || this.isMediumScreen
-        ? this.SHORT_DATETIME_FORMAT
-        : this.LONG_DATETIME_FORMAT;
   }
 
   /**
@@ -94,8 +67,8 @@ export class CurrentScheduleListComponent implements OnInit, OnDestroy {
   openDialog() {
     this.dialog
       .open(DialogScheduleComponent, {
-        width: this.isSmallScreen ? '98%' : '60%',
-        maxWidth: '98vw',
+        width: this.app.modalWidth,
+        maxWidth: this.app.modalMaxWidth,
       })
       .afterClosed()
       .subscribe(() => {
@@ -142,8 +115,8 @@ export class CurrentScheduleListComponent implements OnInit, OnDestroy {
         backgroundColor: currentSchedule.backgroundColor,
         data: currentSchedule.data,
       },
-      width: this.isSmallScreen ? '98%' : '80%',
-      maxWidth: '98vw',
+      width: this.app.modalWidth,
+      maxWidth: this.app.modalMaxWidth,
     });
   }
 }

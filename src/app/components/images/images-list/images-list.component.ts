@@ -1,21 +1,16 @@
-import {
-  Component,
-  HostListener,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, MatSortable } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
-import { DialogImageViewComponent } from '../../shared/dialog-image-view/dialog-image-view.component';
+import { AppPropertiesService } from 'src/app/services/app-properties.service';
 import { DialogImageComponent } from '../dialog-image/dialog-image.component';
-import { MessageService } from 'src/app/services/message.service';
-import { Image } from 'src/app/interfaces/image';
+import { DialogImageViewComponent } from '../../shared/dialog-image-view/dialog-image-view.component';
+import { Image } from 'src/app/interfaces/api-responses/images/image.interface';
 import { ImagesApiService } from 'src/app/services/api/images-api.service';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-images-list',
@@ -23,9 +18,6 @@ import { ImagesApiService } from 'src/app/services/api/images-api.service';
   styleUrls: ['./images-list.component.css'],
 })
 export class ImagesListComponent implements OnInit, OnDestroy {
-  private LONG_DATETIME_FORMAT = 'EEE, MMM d, y h:mm a z';
-  private SHORT_DATETIME_FORMAT = 'EEE, MMM d HH:mm';
-
   private imagesApiServiceListSubscription!: Subscription;
   private imagesApiServiceDeleteSubscription!: Subscription;
 
@@ -37,11 +29,7 @@ export class ImagesListComponent implements OnInit, OnDestroy {
     'action',
   ];
   pageSize = 10;
-  screenWidth = 0;
-  screenHeight = 0;
   filter = '';
-  dateTimeFormat = this.LONG_DATETIME_FORMAT;
-  isSmallScreen = false;
   dataSource!: MatTableDataSource<Image>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -51,11 +39,11 @@ export class ImagesListComponent implements OnInit, OnDestroy {
     private imagesApiService: ImagesApiService,
     private dialog: MatDialog,
     private datePipe: DatePipe,
-    private messageService: MessageService
+    private messageService: MessageService,
+    public app: AppPropertiesService
   ) {}
 
   ngOnInit(): void {
-    this.checkWindowSize();
     this.updateListOfImages();
   }
 
@@ -66,24 +54,6 @@ export class ImagesListComponent implements OnInit, OnDestroy {
     if (this.imagesApiServiceDeleteSubscription) {
       this.imagesApiServiceDeleteSubscription.unsubscribe();
     }
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onWindowResize(): void {
-    this.checkWindowSize();
-  }
-
-  /**
-   * If screen is small, this info is useful for formating datetime fields
-   * @returns void
-   */
-  private checkWindowSize(): void {
-    this.screenWidth = window.innerWidth;
-    this.screenHeight = window.innerHeight;
-    this.isSmallScreen = this.screenWidth <= 800;
-    this.dateTimeFormat = this.isSmallScreen
-      ? this.SHORT_DATETIME_FORMAT
-      : this.LONG_DATETIME_FORMAT;
   }
 
   /**
@@ -126,7 +96,7 @@ export class ImagesListComponent implements OnInit, OnDestroy {
     this.dataSource.filterPredicate = (record: Image, filter: string) => {
       const formattedDate = this.datePipe.transform(
         record.updatedAt,
-        this.dateTimeFormat
+        this.app.dateTimeFormat
       );
       const data =
         `${record.category}${record.title}${record.updatedAt}${formattedDate}`.toLowerCase();
@@ -155,8 +125,8 @@ export class ImagesListComponent implements OnInit, OnDestroy {
   openDialog() {
     this.dialog
       .open(DialogImageComponent, {
-        width: this.isSmallScreen ? '98%' : '60%',
-        maxWidth: '98vw',
+        width: this.app.modalWidth,
+        maxWidth: this.app.modalMaxWidth,
       })
       .afterClosed()
       .subscribe(() => {
@@ -172,8 +142,8 @@ export class ImagesListComponent implements OnInit, OnDestroy {
     this.dialog
       .open(DialogImageComponent, {
         data: row,
-        width: this.isSmallScreen ? '98%' : '60%',
-        maxWidth: '98vw',
+        width: this.app.modalWidth,
+        maxWidth: this.app.modalMaxWidth,
       })
       .afterClosed()
       .subscribe((value) => {
@@ -215,8 +185,8 @@ export class ImagesListComponent implements OnInit, OnDestroy {
   openDialogShowImage(image: Image) {
     this.dialog.open(DialogImageViewComponent, {
       data: image,
-      width: this.isSmallScreen ? '98%' : '80%',
-      maxWidth: '98vw',
+      width: this.app.modalWidth,
+      maxWidth: this.app.modalMaxWidth,
     });
   }
 }
