@@ -75,7 +75,7 @@ You must create an OKTA Application (for Authentication). Follow [this doc for i
 
 For compatibility with TV browsers, which are very limited, it is required to deploy this app using Server Side Rendering instead of Client Side Rendering.
 
-Follow [this doc for instructions](docs/deploy-aws-runner.md)
+Follow [this doc for instructions](docs/deploy-aws-app-runner.md)
 
 ## 🔗 Usage
 
