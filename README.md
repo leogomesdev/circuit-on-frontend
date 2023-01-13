@@ -20,6 +20,15 @@ The idea for this app is to save time: it would not be required to manually swit
 - [Commitizen command line tool](https://github.com/commitizen/cz-cli)
 - [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/)
 
+### 📝 Lint
+
+This project uses [ng lint](https://angular.io/cli/lint) to ensure code inspection and formatting.
+If you change the code, make sure to run the command below for code inspection:
+
+```bash
+ng lint
+```
+
 ## 💡 Requirements
 
 You must create an OKTA Application (for Authentication). Follow [this doc for instructions](docs/okta.md), to get your **Client Id** and **Domain/Issuer**
@@ -37,6 +46,12 @@ You must create an OKTA Application (for Authentication). Follow [this doc for i
 
   - If you have [nvm - Node Version Manager](https://github.com/nvm-sh/nvm) installed, you could just run `nvm install` and it will install the correct version of Node.js based on file `.nvmrc`
 
+- Install dependencies:
+
+  ```bash
+    npm install
+  ```
+
 - Create enviroment variables.
 
   - If using unix (Linux/MacOS), file below is helpful for creating those:
@@ -49,12 +64,6 @@ You must create an OKTA Application (for Authentication). Follow [this doc for i
       ```bash
         source create-local-envs-unix.sh
       ```
-
-- Install dependencies:
-
-  ```bash
-    npm install
-  ```
 
 - Start the application:
 
