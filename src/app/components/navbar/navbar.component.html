@@ -1,6 +1,6 @@
 <mat-toolbar color="primary" *ngIf="nav.visible">
   <button
-    *ngIf="(app.isAuthenticated$ | async) && app.username"
+    *ngIf="app.isAuthenticated"
     mat-icon-button
     [matMenuTriggerFor]="menu"
   >
@@ -31,10 +31,7 @@
 
   <span>CIRCUIT ON</span>
   <span class="example-spacer"></span>
-  <div
-    *ngIf="(app.isAuthenticated$ | async) && app.username"
-    class="align-items"
-  >
+  <div *ngIf="app.isAuthenticated" class="align-items">
     <span class="username">
       {{ app.username }}
     </span>

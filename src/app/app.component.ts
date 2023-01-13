@@ -12,7 +12,7 @@ import {
   OktaAuth,
   UserClaims,
 } from '@okta/okta-auth-js';
-import { filter, map, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AppPropertiesService } from './services/app-properties.service';
 import { MessageService } from './services/message.service';
 
@@ -33,22 +33,20 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.app.changePropertiesBasedOnSize();
-    this.app.isAuthenticated$ = this.oktaStateService.authState$.pipe(
-      filter((s: AuthState) => !!s),
-      map((s: AuthState) => s.isAuthenticated ?? false)
-    );
-
-    this.oktaStateServiceSubscription = this.app.isAuthenticated$.subscribe(
-      (isAuthenticated) => {
-        if (isAuthenticated) {
-          this.oktaAuth.getUser().then((data: UserClaims<CustomUserClaims>) => {
-            this.app.username = data.given_name;
-          });
-        } else {
-          this.app.username = undefined;
+    this.oktaStateServiceSubscription =
+      this.oktaStateService.authState$.subscribe(
+        async (authState: AuthState) => {
+          if (authState.isAuthenticated) {
+            const userClaims: UserClaims<CustomUserClaims> =
+              await this.oktaAuth.getUser();
+            this.app.username = userClaims.given_name;
+            this.app.isAuthenticated = true;
+          } else {
+            this.app.isAuthenticated = false;
+            this.app.username = undefined;
+          }
         }
-      }
-    );
+      );
   }
 
   ngOnDestroy(): void {

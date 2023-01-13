@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +14,7 @@ export class AppPropertiesService {
   modalWidth = '60%';
   modalMaxWidth = '98vw';
   username!: string | undefined;
-  isAuthenticated$!: Observable<boolean>;
+  isAuthenticated = false;
 
   /**
    * If the screen is small, this info is useful for formatting DateTime fields
