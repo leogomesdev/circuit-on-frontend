@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 import { DialogImageViewComponent } from '../../shared/dialog-image-view/dialog-image-view.component';
 import { DialogScheduleComponent } from '../dialog-schedule/dialog-schedule.component';
 import { MessageService } from 'src/app/services/message.service';
-import { Schedule } from 'src/app/interfaces/schedule';
+import { Schedule } from 'src/app/interfaces/api-responses/schedule.interface';
 import { SchedulesApiService } from 'src/app/services/api/schedules-api.service';
 import { environment } from 'src/environments/environment';
 

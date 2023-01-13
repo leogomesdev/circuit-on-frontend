@@ -1,7 +1,7 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { CurrentSchedule } from 'src/app/interfaces/current-schedule';
+import { CurrentSchedule } from 'src/app/interfaces/api-responses/current-schedule.interface';
 import { CurrentSchedulesApiService } from 'src/app/services/api/current-schedules-api.service';
 import { DialogImageViewComponent } from 'src/app/components/shared/dialog-image-view/dialog-image-view.component';
 import { DialogScheduleComponent } from 'src/app/components//schedules/dialog-schedule/dialog-schedule.component';

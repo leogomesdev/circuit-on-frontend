@@ -45,9 +45,9 @@
                 &nbsp;
               </mat-card-title>
               <img
-                mat-card-lg-image
+                {{ isSmallScreen ? 'mat-card-md-image' : 'mat-card-lg-image' }}
                 src="{{ currentSchedule.data }}"
-                class="padding-5 cursor-pointer"
+                class="padding-5 cursor-pointer card-image"
                 title="View image"
                 (click)="openDialogShowImage(currentSchedule)"
               />

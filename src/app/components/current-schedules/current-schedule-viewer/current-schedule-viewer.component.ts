@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
 import { DatePipe, DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { CurrentSchedule } from 'src/app/interfaces/current-schedule';
+import { CurrentSchedule } from 'src/app/interfaces/api-responses/current-schedule.interface';
 import { CurrentSchedulesApiService } from 'src/app/services/api/current-schedules-api.service';
 import { environment } from 'src/environments/environment';
 import { MessageService } from 'src/app/services/message.service';
 import { NavbarService } from 'src/app/services/navbar.service';
-import { NextSchedule } from 'src/app/interfaces/next-schedule';
+import { NextSchedule } from 'src/app/interfaces/next-schedule.interface';
 
 @Component({
   templateUrl: './current-schedule-viewer.component.html',

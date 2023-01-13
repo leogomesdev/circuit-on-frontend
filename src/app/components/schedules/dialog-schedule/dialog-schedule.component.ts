@@ -4,9 +4,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { CreateScheduleDto } from '../dto/create-schedule.dto';
 import { ImagesApiService } from 'src/app/services/api/images-api.service';
-import { ImagesByCategory } from 'src/app/interfaces/images-by-category';
+import { ImagesByCategory } from 'src/app/interfaces/api-responses/images-by-category.interface';
 import { MessageService } from 'src/app/services/message.service';
-import { Schedule } from '../../../interfaces/schedule';
+import { Schedule } from '../../../interfaces/api-responses/schedule.interface';
 import { SchedulesApiService } from 'src/app/services/api/schedules-api.service';
 
 @Component({

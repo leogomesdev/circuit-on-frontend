@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable } from 'rxjs';
-import { CurrentSchedule } from '../../interfaces/current-schedule';
+import { CurrentSchedule } from '../../interfaces/api-responses/current-schedule.interface';
 import { environment } from '../../../environments/environment';
-import { ErrorHandling } from '../error-handling';
+import { ErrorHandling } from '../error-handling.class';
 
 @Injectable({
   providedIn: 'root',
