@@ -83,3 +83,7 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+.zoom-on-hover:hover {
+  transform: scale(1.1);
+}

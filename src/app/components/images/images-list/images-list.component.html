@@ -65,7 +65,7 @@
         <!-- Background Color Column -->
         <ng-container matColumnDef="backgroundColor">
           <mat-header-cell *matHeaderCellDef class="xs-hidden">
-            {{ isSmallScreen ? "Color" : "BG Color" }}
+            {{ app.isSmallScreen ? "Color" : "BG Color" }}
           </mat-header-cell>
           <mat-cell *matCellDef="let row" class="xs-hidden">
             <mat-icon
@@ -80,10 +80,10 @@
         <!-- Modified At Column -->
         <ng-container matColumnDef="updatedAt">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Modified At
+            {{ app.isSmallScreen ? "Modified" : "Modified At" }}
           </mat-header-cell>
           <mat-cell *matCellDef="let row">
-            {{ row.updatedAt | date : dateTimeFormat }}
+            {{ row.updatedAt | date : app.dateTimeFormat }}
           </mat-cell>
         </ng-container>
 
@@ -99,6 +99,7 @@
               color="primary"
               (click)="openDialogShowImage(row)"
               title="Show image"
+              class="zoom-on-hover"
             >
               <mat-icon>pageview</mat-icon>
             </button>
@@ -107,6 +108,7 @@
               color="warn"
               (click)="deleteImage(row._id)"
               title="Delete item"
+              class="zoom-on-hover"
             >
               <mat-icon>delete</mat-icon>
             </button>

@@ -3,15 +3,15 @@
     <mat-grid-tile [colspan]="1" [rowspan]="1">
       <h1>
         Welcome
-        <span *ngIf="(isAuthenticated$ | async) && username">
-          {{ username }}
+        <span *ngIf="app.isAuthenticated">
+          {{ app.username }}
         </span>
       </h1>
     </mat-grid-tile>
   </mat-grid-list>
 </section>
 
-<ng-container *ngIf="isAuthenticated$ | async; else loginInstructions">
+<ng-container *ngIf="app.isAuthenticated; else loginInstructions">
   <section class="main-container">
     <p class="page-info align-items">
       <mat-icon class="info-icon">info</mat-icon>

@@ -30,7 +30,7 @@
 <section class="cards-container">
   <div class="mat-elevation-z8 list-cards">
     <mat-grid-list
-      cols="{{ isSmallScreen ? 1 : isMediumScreen ? 2 : 4 }}"
+      cols="{{ app.isSmallScreen ? 1 : app.isMediumScreen ? 2 : 4 }}"
       rowHeight="350px"
     >
       <mat-grid-tile
@@ -40,17 +40,27 @@
           <mat-card-header>
             <mat-card-title-group>
               <mat-card-title>
-                {{ index + 1 }}: &nbsp;
+                {{ index + 1 }}:
                 {{ currentSchedule.category.toUpperCase() }}
-                &nbsp;
               </mat-card-title>
-              <img
-                mat-card-lg-image
-                src="{{ currentSchedule.data }}"
-                class="padding-5 cursor-pointer"
-                title="View image"
-                (click)="openDialogShowImage(currentSchedule)"
-              />
+              <ng-container *ngIf="app.isSmallScreen; else regularImage">
+                <img
+                  mat-card-md-image
+                  src="{{ currentSchedule.data }}"
+                  class="padding-5 cursor-pointer zoom-on-hover"
+                  title="View image"
+                  (click)="openDialogShowImage(currentSchedule)"
+                />
+              </ng-container>
+              <ng-template #regularImage>
+                <img
+                  mat-card-lg-image
+                  src="{{ currentSchedule.data }}"
+                  class="padding-5 cursor-pointer zoom-on-hover"
+                  title="View image"
+                  (click)="openDialogShowImage(currentSchedule)"
+                />
+              </ng-template>
             </mat-card-title-group>
           </mat-card-header>
           <mat-card-content>
@@ -58,7 +68,7 @@
               <div class="flex-item">
                 <p class="align-items margin-0">
                   <mat-icon title="Scheduled at">tv</mat-icon>:
-                  {{ currentSchedule.scheduledAt | date : dateTimeFormat }}
+                  {{ currentSchedule.scheduledAt | date : app.dateTimeFormat }}
                 </p>
               </div>
               <div class="flex-item align-items no-padding-right">
@@ -86,19 +96,21 @@
           <mat-card-actions [align]="'end'">
             <button
               mat-icon-button
-              color="warn"
-              (click)="deleteSchedule(currentSchedule.scheduleId)"
-              title="Delete schedule"
-            >
-              <mat-icon>delete</mat-icon>
-            </button>
-            <button
-              mat-icon-button
               color="primary"
               (click)="openDialogShowImage(currentSchedule)"
               title="Show image"
+              class="zoom-on-hover"
             >
               <mat-icon>pageview</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="deleteSchedule(currentSchedule.scheduleId)"
+              title="Delete schedule"
+              class="zoom-on-hover"
+            >
+              <mat-icon>delete</mat-icon>
             </button>
           </mat-card-actions>
         </mat-card>

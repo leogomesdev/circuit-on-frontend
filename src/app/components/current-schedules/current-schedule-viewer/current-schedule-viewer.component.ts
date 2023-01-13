@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
 import { DatePipe, DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { CurrentSchedule } from 'src/app/interfaces/current-schedule';
+import { AppPropertiesService } from 'src/app/services/app-properties.service';
+import { CurrentSchedule } from 'src/app/interfaces/api-responses/current-schedules/current-schedule.interface';
 import { CurrentSchedulesApiService } from 'src/app/services/api/current-schedules-api.service';
 import { environment } from 'src/environments/environment';
 import { MessageService } from 'src/app/services/message.service';
 import { NavbarService } from 'src/app/services/navbar.service';
-import { NextSchedule } from 'src/app/interfaces/next-schedule';
+import { NextSchedule } from 'src/app/interfaces/next-schedule.interface';
 
 @Component({
   templateUrl: './current-schedule-viewer.component.html',
@@ -15,7 +16,6 @@ import { NextSchedule } from 'src/app/interfaces/next-schedule';
 export class CurrentScheduleViewerComponent implements OnInit, OnDestroy {
   private injectScriptType = `text/javascript`;
   private nextSchedules: NextSchedule[] = [];
-  private SHORT_DATETIME_FORMAT = 'EEE, MMM d HH:mm';
   // 86400 seconds in a day
   private msInSevenDays = 86400 * 1000 * 7;
   private currentSchedulesApiServiceSubscription!: Subscription;
@@ -29,7 +29,8 @@ export class CurrentScheduleViewerComponent implements OnInit, OnDestroy {
     private CurrentSchedulesApiService: CurrentSchedulesApiService,
     private messageService: MessageService,
     private datePipe: DatePipe,
-    private nav: NavbarService
+    private nav: NavbarService,
+    private app: AppPropertiesService
   ) {}
 
   ngOnInit(): void {
@@ -114,7 +115,7 @@ export class CurrentScheduleViewerComponent implements OnInit, OnDestroy {
 
     const formattedDate = this.datePipe.transform(
       scheduleData.scheduledAt,
-      this.SHORT_DATETIME_FORMAT
+      this.app.SHORT_DATETIME_FORMAT
     );
     this.messageService.addMessage(
       `At ${formattedDate}: ${scheduleData.category.toUpperCase()}: ${

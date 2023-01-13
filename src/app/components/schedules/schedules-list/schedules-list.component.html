@@ -54,10 +54,10 @@
         <!-- Scheduled At Column -->
         <ng-container matColumnDef="scheduledAt">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ isSmallScreen ? "At" : "Scheduled At" }}
+            {{ app.isSmallScreen ? "At" : "Scheduled At" }}
           </mat-header-cell>
           <mat-cell *matCellDef="let row">
-            {{ row.scheduledAt | date : dateTimeFormat }}
+            {{ row.scheduledAt | date : app.dateTimeFormat }}
           </mat-cell>
         </ng-container>
 
@@ -82,7 +82,7 @@
         <!-- Background Color Column -->
         <ng-container matColumnDef="image.backgroundColor">
           <mat-header-cell *matHeaderCellDef class="xs-hidden">
-            {{ isSmallScreen ? "BG" : "BG Color" }}
+            {{ app.isSmallScreen ? "BG" : "BG Color" }}
           </mat-header-cell>
           <mat-cell *matCellDef="let row" class="xs-hidden">
             <mat-icon
@@ -106,6 +106,7 @@
               color="primary"
               (click)="openDialogShowImage(row.image._id)"
               title="Show image"
+              class="zoom-on-hover"
             >
               <mat-icon>pageview</mat-icon>
             </button>
@@ -115,6 +116,7 @@
               color="warn"
               (click)="deleteSchedule(row._id)"
               title="Delete schedule"
+              class="zoom-on-hover"
             >
               <mat-icon>delete</mat-icon>
             </button>

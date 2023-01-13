@@ -1,6 +1,6 @@
 <mat-toolbar color="primary" *ngIf="nav.visible">
   <button
-    *ngIf="(isAuthenticated$ | async) && username"
+    *ngIf="app.isAuthenticated"
     mat-icon-button
     [matMenuTriggerFor]="menu"
   >
@@ -31,9 +31,9 @@
 
   <span>CIRCUIT ON</span>
   <span class="example-spacer"></span>
-  <div *ngIf="(isAuthenticated$ | async) && username" class="align-items">
+  <div *ngIf="app.isAuthenticated" class="align-items">
     <span class="username">
-      {{ username }}
+      {{ app.username }}
     </span>
     <button mat-mini-fab color="primary" title="Logout" (click)="signOut()">
       <mat-icon>exit_to_app</mat-icon>
