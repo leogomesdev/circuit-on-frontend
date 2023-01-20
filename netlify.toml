@@ -14,8 +14,3 @@
   command = "npm run serve:ssr"
   port = 4000
   publish = "dist/circuit-on/browser"
-
-[context.production]
-  command = "npm run serve:ssr"
-  port = 4000
-  publish = "dist/circuit-on/browser"
