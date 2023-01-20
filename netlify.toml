@@ -18,4 +18,3 @@
 # this specific branch will inherit these settings.
 [context.netlify] # netlify is a branch name
   command = "echo 'staging'"
-  base = "netlify"
