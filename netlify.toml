@@ -1,0 +1,11 @@
+[build]
+  command = "npm run prerender -- --c production && ng run circuit-on:serverless:production"
+  publish = "dist/circuit-on/browser"
+
+[[plugins]]
+  package = "@netlify/plugin-angular-universal"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
