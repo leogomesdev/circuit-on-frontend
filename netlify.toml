@@ -7,10 +7,15 @@
 [[redirects]]
   from = "/*"
   to = "/index.html"
-  force = true
   status = 200
 
 [dev]
   command = "npm run serve:ssr"
   port = 4000
   publish = "dist/circuit-on/browser"
+
+# Specific branch context: all deploys from
+# this specific branch will inherit these settings.
+[context.netlify] # netlify is a branch name
+  command = "echo 'staging'"
+  base = "netlify"
