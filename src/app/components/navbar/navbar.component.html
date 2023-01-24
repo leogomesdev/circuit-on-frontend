@@ -31,8 +31,8 @@
 
   <span>CIRCUIT ON</span>
   <span class="example-spacer"></span>
-  <div *ngIf="app.isAuthenticated" class="align-items">
-    <span class="username">
+  <div class="align-items">
+    <span *ngIf="app.isAuthenticated" class="username">
       {{ app.username }}
     </span>
     <button mat-mini-fab color="primary" title="Logout" (click)="signOut()">
