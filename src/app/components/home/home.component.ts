@@ -20,9 +20,11 @@ export class HomeComponent {
 
   /**
    * Call third-part login integration.
+   * Due SSR limitations, it will try logout in advance
    * In case of error, force user logout
    */
   async signIn(): Promise<void> {
+    await this.oktaAuth.signOut();
     await this.oktaAuth
       .signInWithRedirect()
       .catch(async (error) => {
