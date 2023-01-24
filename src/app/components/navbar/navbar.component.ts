@@ -17,6 +17,6 @@ export class NavbarComponent {
   ) {}
 
   async signOut(): Promise<void> {
-    await this.oktaAuth.signOut();
+    await this.oktaAuth.signOut().catch(() => {});
   }
 }

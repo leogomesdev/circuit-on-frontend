@@ -24,7 +24,7 @@ export class HomeComponent {
    * In case of error, force user logout
    */
   async signIn(): Promise<void> {
-    await this.oktaAuth.signOut();
+    await this.oktaAuth.signOut().catch(() => {});
     await this.oktaAuth
       .signInWithRedirect()
       .catch(async (error) => {
@@ -33,7 +33,7 @@ export class HomeComponent {
           [JSON.stringify(error)],
           30
         );
-        await this.oktaAuth.signOut();
+        await this.oktaAuth.signOut().catch(() => {});
       })
       .then(() => this.router.navigate(['/']));
   }
