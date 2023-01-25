@@ -52,18 +52,13 @@ You must create an OKTA Application (for Authentication). Follow [this doc for i
     npm install
   ```
 
-- Create enviroment variables.
+- Create .env file:
 
-  - If using unix (Linux/MacOS), file below is helpful for creating those:
-    - Copy sh file:
-      ```bash
-        cp -v docs/scripts/create-local-envs-unix.example.sh create-local-envs-unix.sh
-      ```
-    - Edit values for variables at create-local-envs-unix.sh
-    - Execute script
-      ```bash
-        source create-local-envs-unix.sh
-      ```
+  ```bash
+    cp -v .env.example .env
+  ```
+
+- Edit .env file to provide the required environment variables.
 
 - Start the application:
 
