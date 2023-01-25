@@ -22,6 +22,9 @@ export class AppPropertiesService {
    * @returns void
    */
   changePropertiesBasedOnSize(): void {
+    if (typeof window === 'undefined') {
+      return;
+    }
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
     this.isSmallScreen = this.screenWidth <= 800;

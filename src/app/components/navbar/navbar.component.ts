@@ -1,8 +1,7 @@
-import { Component, Inject } from '@angular/core';
-import { OKTA_AUTH } from '@okta/okta-angular';
-import { OktaAuth } from '@okta/okta-auth-js';
+import { Component } from '@angular/core';
 import { AppPropertiesService } from 'src/app/services/app-properties.service';
 import { NavbarService } from 'src/app/services/navbar.service';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,11 +11,7 @@ import { NavbarService } from 'src/app/services/navbar.service';
 export class NavbarComponent {
   constructor(
     public nav: NavbarService,
-    @Inject(OKTA_AUTH) private oktaAuth: OktaAuth,
-    public app: AppPropertiesService
+    public app: AppPropertiesService,
+    public loginService: LoginService
   ) {}
-
-  async signOut(): Promise<void> {
-    await this.oktaAuth.signOut();
-  }
 }

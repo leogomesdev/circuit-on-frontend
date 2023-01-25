@@ -15,10 +15,12 @@
     "lint": "ng lint",
     "dev:ssr": "ng run circuit-on:serve-ssr",
     "serve:ssr": "node dist/circuit-on/server/main.js",
-    "serve:ssr-prod": "node dist/circuit-on/server/main.js",
     "build:ssr": "ng build && ng run circuit-on:server",
-    "build:ssr-prod": "ng build && ng run circuit-on:server",
-    "prerender": "ng run circuit-on:prerender"
+    "prerender": "ng run circuit-on:prerender",
+    "pm2:deploy:app": "npm run build:ssr && pm2 start npm -- run serve:ssr --",
+    "pm2:start:app": "pm2 start npm -- run serve:ssr --",
+    "pm2:stop:app": "pm2 stop deploy/ec2/app.json",
+    "pm2:destroy:app": "pm2 delete deploy/ec2/app.json"
   },
   "private": true,
   "dependencies": {

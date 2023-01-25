@@ -1,8 +1,6 @@
-import { Component, Inject } from '@angular/core';
-import { OKTA_AUTH } from '@okta/okta-angular';
-import { OktaAuth } from '@okta/okta-auth-js';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { AppPropertiesService } from 'src/app/services/app-properties.service';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-home',
@@ -11,14 +9,7 @@ import { AppPropertiesService } from 'src/app/services/app-properties.service';
 })
 export class HomeComponent {
   constructor(
-    private router: Router,
-    @Inject(OKTA_AUTH) private oktaAuth: OktaAuth,
-    public app: AppPropertiesService
+    public app: AppPropertiesService,
+    public loginService: LoginService
   ) {}
-
-  async signIn(): Promise<void> {
-    await this.oktaAuth
-      .signInWithRedirect()
-      .then(() => this.router.navigate(['/']));
-  }
 }
