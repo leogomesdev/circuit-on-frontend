@@ -27,7 +27,10 @@
   When deleting a schedule, it does not delete the related image
 </p>
 
-<section class="cards-container">
+<section
+  class="cards-container"
+  *ngIf="currentScheduleList.length > 0; else emptyMessage"
+>
   <div class="mat-elevation-z8 list-cards">
     <mat-grid-list
       cols="{{ app.isSmallScreen ? 1 : app.isMediumScreen ? 2 : 4 }}"
@@ -118,3 +121,9 @@
     </mat-grid-list>
   </div>
 </section>
+
+<ng-template #emptyMessage>
+  <section class="cards-container">
+    <p>You do not have schedules on the system yet.</p>
+  </section>
+</ng-template>
