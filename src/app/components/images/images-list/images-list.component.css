@@ -6,6 +6,8 @@
 .container {
   max-width: 1200px;
   margin: 0 auto;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 @media screen and (min-width: 992px) {
@@ -26,6 +28,11 @@
   padding-right: 10px;
 }
 
+.page-info {
+  color: #0009;
+  text-align: justify;
+}
+
 @media screen and (max-width: 800px) {
   .info-icon {
     padding-right: 30px;
@@ -42,14 +49,14 @@
   .xs-hidden {
     display: none;
   }
+
+  .page-info {
+    padding-right: 24px;
+  }
 }
 
 .add-item-button {
   margin: 0 0 16px 16px;
-}
-
-.page-info {
-  color: #0009;
 }
 
 .zoom-on-hover:hover {

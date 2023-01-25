@@ -6,12 +6,15 @@
 .container {
   max-width: 1200px;
   margin: 0 auto;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 @media screen and (min-width: 992px) {
   .mat-column-backgroundColor {
     flex: 0 0 10%;
   }
+
   .mat-column-action {
     flex: 0 0 10%;
   }
@@ -24,6 +27,11 @@
 
 .info-icon {
   padding-right: 10px;
+}
+
+.page-info {
+  color: #0009;
+  text-align: justify;
 }
 
 @media screen and (max-width: 800px) {
@@ -42,6 +50,10 @@
   .xs-hidden {
     display: none;
   }
+
+  .page-info {
+    padding-right: 24px;
+  }
 }
 
 .add-item-button {
@@ -50,10 +62,6 @@
 
 .slide-toggle {
   margin-bottom: 20px;
-}
-
-.page-info {
-  color: #0009;
 }
 
 .zoom-on-hover:hover {

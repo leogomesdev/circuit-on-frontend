@@ -17,6 +17,7 @@
 
 .page-info {
   color: #0009;
+  text-align: justify;
 }
 
 .align-items {
@@ -39,6 +40,10 @@
 
   .align-items {
     align-items: flex-start;
+  }
+
+  .page-info {
+    padding-right: 24px;
   }
 }
 
