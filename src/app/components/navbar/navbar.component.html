@@ -35,7 +35,12 @@
     <span *ngIf="app.isAuthenticated" class="username">
       {{ app.username }}
     </span>
-    <button mat-mini-fab color="primary" title="Logout" (click)="signOut()">
+    <button
+      mat-mini-fab
+      color="primary"
+      title="Logout"
+      (click)="loginService.signOut()"
+    >
       <mat-icon>exit_to_app</mat-icon>
     </button>
   </div>
