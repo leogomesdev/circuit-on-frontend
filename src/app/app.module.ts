@@ -12,9 +12,11 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './modules/app-routing.module';
 import { CurrentScheduleListComponent } from './components/current-schedules/current-schedule-list/current-schedule-list.component';
 import { CurrentScheduleViewerComponent } from './components/current-schedules/current-schedule-viewer/current-schedule-viewer.component';
+import { DialogCreationWizardComponent } from './components/current-schedules/dialog-creation-wizard/dialog-creation-wizard.component';
 import { DialogImageComponent } from './components/images/dialog-image/dialog-image.component';
 import { DialogImageViewComponent } from './components/shared/dialog-image-view/dialog-image-view.component';
 import { DialogScheduleComponent } from './components/schedules/dialog-schedule/dialog-schedule.component';
+import { environment } from 'src/environments/environment';
 import { HomeComponent } from './components/home/home.component';
 import { ImagesListComponent } from './components/images/images-list/images-list.component';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
@@ -23,7 +25,6 @@ import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { SchedulesListComponent } from './components/schedules/schedules-list/schedules-list.component';
 import { SnackbarMessageComponent } from './components/shared/snackbar-message/snackbar-message.component';
 import { SpinnerComponent } from './components/shared/spinner/spinner.component';
-import { environment } from 'src/environments/environment';
 
 const config = {
   issuer: environment.envVar.NG_APP_OKTA_ISSUER,
@@ -32,11 +33,14 @@ const config = {
 };
 const oktaAuth = new OktaAuth(config);
 
+console.log(config);
+
 @NgModule({
   declarations: [
     AppComponent,
     CurrentScheduleListComponent,
     CurrentScheduleViewerComponent,
+    DialogCreationWizardComponent,
     DialogImageComponent,
     DialogImageViewComponent,
     DialogScheduleComponent,

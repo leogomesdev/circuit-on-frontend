@@ -1,0 +1,65 @@
+          sudo apt-get update -y
+          sudo apt-get install git -y
+           curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+           sudo apt-get install nodejs -y
+           sudo npm install yarn pm2 -g
+           git clone https://github.com/leogomesdev/circuit-on-frontend
+           cd circuit-on-frontend
+           git checkout feat/LS_0010_AwsEc2Deploy
+           npm install
+           // create .env file
+          echo 'NG_APP_BACKEND_BASE_URL="https://www.circuitonkyback.leogomes.dev"
+NG_APP_IMAGE_CATEGORIES="CrossFit,Zumba,Glute Camp,HIIT Fitness,Other"
+NG_APP_OKTA_ISSUER="https://dev-32478883.okta.com/oauth2/default"
+NG_APP_OKTA_CLIENT_ID="0oa81k105y8cUMUBm5d7"
+NG_APP_OKTA_REDIRECT_URI="https://www.circuitonky.leogomes.dev/login/callback"
+NG_APP_VIEW_PAGE_FUTURE_ITEMS="4"
+NG_APP_LIST_PAGE_FUTURE_ITEMS="15"
+NG_APP_SCHEDULES_LIST_DISPLAY_ONLY_FUTURE="false"' >> .env
+           sudo apt-get install unzip -y
+           // arquivo local precisa do .env maquina local e zipar e subir
+           rm -rf dist
+           // chmod 400 circuit-on-aws-key.pem
+           // npm run build:ssr && zip -r dist.zip dist
+           // scp -i "circuit-on-aws-key.pem" dist.zip ubuntu@ec2-44-211-201-158.compute-1.amazonaws.com:~/circuit-on-frontend
+           rm -rf dist && unzip -o dist.zip
+           pm2 delete all
+           npm run pm2:start:app
+           sudo apt install nginx -y
+           sudo rm /etc/nginx/sites-available/default
+           # esse echo aqui nao rolou
+sudo echo "
+server {
+  if ($host !~ ^www\.) {
+    rewrite ^ $scheme://www.$host$request_uri permanent;
+  }
+  server_name www.circuitonky.leogomes.dev;
+  client_max_body_size 50M;
+  client_header_timeout 120;
+  client_body_timeout 120;
+  keepalive_timeout 120;
+
+  location / {
+    proxy_pass http://localhost:4000; # your app's port
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_cache_bypass $http_upgrade;
+  }
+
+  location /backend {
+    proxy_pass http://localhost:3000; # your app's port
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_cache_bypass $http_upgrade;
+  }
+}
+" >> /etc/nginx/sites-available/default
+           sudo add-apt-repository ppa:certbot/certbot -y
+           sudo apt-get update
+           sudo apt-get install python3-certbot-nginx -y
+           sudo certbot --nginx -d circuitonky.leogomes.dev -d www.circuitonky.leogomes.dev -n -m leogomesdev@gmail.com --agree-tos 
+           sudo service nginx restart

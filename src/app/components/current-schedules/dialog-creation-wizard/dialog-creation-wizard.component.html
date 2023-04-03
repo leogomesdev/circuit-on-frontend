@@ -1,0 +1,106 @@
+<h1 mat-dialog-title>Wizard for creating new schedule</h1>
+<div mat-dialog-content>
+  <mat-stepper
+    class="example-stepper"
+    [orientation]="(stepperOrientation | async)!"
+  >
+    <mat-step
+      [stepControl]="firstFormGroup"
+      [editable]="false"
+      label="Select or upload image"
+    >
+      <form [formGroup]="firstFormGroup">
+        <label id="example-radio-group-label"
+          >Which image do you wanna use?</label
+        >
+        <mat-radio-group
+          aria-labelledby="example-radio-group-label"
+          class="example-radio-group"
+          formControlName="imageSelection"
+        >
+          <mat-radio-button
+            class="example-radio-button"
+            [value]="OPTION_SELECT_OLD"
+          >
+            Select an image previosly uploaded:
+          </mat-radio-button>
+          <ng-container
+            *ngIf="
+              imagesByCategoryList &&
+              firstFormGroup.value['imageSelection'] == OPTION_SELECT_OLD
+            "
+          >
+            <mat-form-field appearance="fill">
+              <mat-label>Image</mat-label>
+              <mat-select formControlName="imageId">
+                <mat-optgroup
+                  *ngFor="let imagesByCategory of imagesByCategoryList"
+                  [label]="imagesByCategory.category.toUpperCase()"
+                >
+                  <mat-option
+                    *ngFor="let image of imagesByCategory.images"
+                    [value]="image._id"
+                  >
+                    {{ image.title }}, Modified At:
+                    {{ image.updatedAt | date : datetimeFormatOnSelectOption }}
+                  </mat-option>
+                </mat-optgroup>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+
+          <mat-radio-button
+            class="example-radio-button"
+            [value]="OPTION_UPLOAD_NEW"
+          >
+            Upload a new image:
+          </mat-radio-button>
+        </mat-radio-group>
+        <div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="secondFormGroup"
+      [editable]="false"
+      label="Select displaying time"
+    >
+      <form [formGroup]="secondFormGroup">
+        <mat-form-field>
+          <input
+            matInput
+            [ngxMatDatetimePicker]="picker"
+            placeholder="Choose a date"
+            formControlName="scheduledAt"
+            [min]="datetimePickerOptions.minDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="$any(picker)"
+          ></mat-datepicker-toggle>
+          <ngx-mat-datetime-picker
+            #picker
+            [touchUi]="datetimePickerOptions.touchUi"
+            [enableMeridian]="datetimePickerOptions.enableMeridian"
+            [defaultTime]="datetimePickerOptions.defaultTime"
+            [stepMinute]="datetimePickerOptions.stepMinute"
+          >
+          </ngx-mat-datetime-picker>
+        </mat-form-field>
+        <div mat-dialog-actions [align]="'end'" class="buttons-row">
+          <button mat-stroked-button mat-dialog-close>Cancel</button>
+
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="addOrUpdateSchedule()"
+          >
+            <mat-icon>save_alt</mat-icon> {{ actionButtonName }} & Close
+          </button>
+        </div>
+      </form>
+    </mat-step>
+  </mat-stepper>
+</div>

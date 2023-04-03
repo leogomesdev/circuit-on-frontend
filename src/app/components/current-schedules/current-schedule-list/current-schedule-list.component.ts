@@ -4,8 +4,8 @@ import { Subscription } from 'rxjs';
 import { AppPropertiesService } from 'src/app/services/app-properties.service';
 import { CurrentSchedule } from 'src/app/interfaces/api-responses/current-schedules/current-schedule.interface';
 import { CurrentSchedulesApiService } from 'src/app/services/api/current-schedules-api.service';
+import { DialogCreationWizardComponent } from '../dialog-creation-wizard/dialog-creation-wizard.component';
 import { DialogImageViewComponent } from 'src/app/components/shared/dialog-image-view/dialog-image-view.component';
-import { DialogScheduleComponent } from 'src/app/components//schedules/dialog-schedule/dialog-schedule.component';
 import { environment } from 'src/environments/environment';
 import { MessageService } from 'src/app/services/message.service';
 import { SchedulesApiService } from 'src/app/services/api/schedules-api.service';
@@ -66,7 +66,7 @@ export class CurrentScheduleListComponent implements OnInit, OnDestroy {
    */
   openDialog() {
     this.dialog
-      .open(DialogScheduleComponent, {
+      .open(DialogCreationWizardComponent, {
         width: this.app.modalWidth,
         maxWidth: this.app.modalMaxWidth,
       })
